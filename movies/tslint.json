@@ -1,4 +1,5 @@
 {
+  "extends": ["tslint-eslint-rules"],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -51,6 +52,7 @@
       "timeEnd",
       "trace"
     ],
+    "no-constant-condition": true,
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
