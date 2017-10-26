@@ -11,11 +11,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserComponent } from './components/user/user.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { MovieListComponent } from './components/movie-list/movie-list.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'movie-list', component: MovieListComponent },
   { path: 'user', component: UserComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -27,7 +29,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     UserComponent,
-    NavBarComponent
+    NavBarComponent,
+    MovieListComponent
   ],
   imports: [
     BrowserModule,
