@@ -1,0 +1,39 @@
+<app-nav-bar></app-nav-bar>
+<div class="list-group wrapper">
+  <a
+    *ngFor="let movie of movies"
+    href=""
+    class="list-group-item list-group-item-action flex-column align-items-start"
+    data-toggle="modal"
+    data-target="#exampleModal"
+    (click)="setMovie(movie)"
+  >
+    <h5 class="mb-1 mt-1">{{movie.title}}</h5>
+    <p class="mb-1">{{movie.genres}}</p>
+  </a>
+</div>
+
+<!-- MODAL -->
+<div *ngIf="selectedMovie" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{selectedMovie.title}}</h5>
+      </div>
+      <div class="d-flex justify-content-between modal-body">
+        <div class="modalBody">
+          <img width="200px" src="https://static.rogerebert.com/uploads/movie/movie_poster/the-shawshank-redemption-1994/large_9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"/>
+        </div>
+        <div class="modalBody">
+          <p><b>Genre: </b>{{selectedMovie.genres}}</p>
+          <p><b>Director: </b>Director here</p>
+          <p><b>Rating: </b>Rating here</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add to watchlist</button>
+      </div>
+    </div>
+  </div>
+</div>

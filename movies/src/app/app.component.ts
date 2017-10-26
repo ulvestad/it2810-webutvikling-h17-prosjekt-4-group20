@@ -15,6 +15,6 @@ export class AppComponent {
     this.dataService.getMovies()
       .subscribe(res => this.movies = res);
   }
-  
+
   title = 'app';
 }
