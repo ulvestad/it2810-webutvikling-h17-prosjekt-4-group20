@@ -6,7 +6,7 @@ const app = express()
 const mongoose = require('mongoose')
 
 mongoose.Promise = require('bluebird')
-mongoose.connect('mongodb://localhost/', {useMongoClient: true,})
+mongoose.connect('mongodb://localhost/dev', {useMongoClient: true,})
 
 // API file for interacting with MongoDB
 const api = require('./server/controllers/index')
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(express.static(path.join(__dirname, 'dist')))
 
 // API location
-app.use('/', api)
+app.use('/api', api)
 
 // Send all other requests to the Angular app
 
