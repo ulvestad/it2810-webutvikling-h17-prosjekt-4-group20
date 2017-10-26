@@ -15,4 +15,9 @@ export class DataService {
       .map(result => this.result = result.json().data)
   }
 
+  getMovieDetails(movieId) {
+    return this._http.get(`/api/movies?movieId=${movieId}`)
+      .map(result => this.result = result.json().data);
+  }
+
 }
