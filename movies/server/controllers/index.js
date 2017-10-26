@@ -8,6 +8,10 @@ router.get('/movies', movie.getAll)
 
 router.post('/login', user.login)
 router.post('/register', user.register)
+
+router.get('/movies', movie.getAll)
+
+
 router.use(user.middleware)
 router.get('/user', user.get)
 
