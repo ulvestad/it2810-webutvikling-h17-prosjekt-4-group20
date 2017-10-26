@@ -22,8 +22,6 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use('/api', api)
 
 // Send all other requests to the Angular app
-
-// Uncomment for serving angular files
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'))
 })
@@ -37,4 +35,4 @@ const server = http.createServer(app)
 
 server.listen(port, () => console.log(`Running on localhost:${port}`))
 
-module.exports = server
+module.exports = serverg
