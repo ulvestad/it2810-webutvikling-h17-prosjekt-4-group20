@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
-import { DataService } from './data.service';
+import { DataService } from './services/data.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';

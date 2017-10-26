@@ -18,30 +18,32 @@ module.exports.success = {
 	correctToken: 'success, correct token'
 }
 
+
 /* Register */
 module.exports.register = (req, res) => {
 	let userid, email, password
 	({userid, email, password} = {...req.body})
 
-	if (!userid) return res.json({ msg: this.errors.noUserid })
-	if (!email) return res.json({ msg: this.errors.noEmail })
-	if (!password) return res.json({ msg: this.errors.noPassword })
+	if (!userid) return res.status(400).json({ msg: this.errors.noUserid })
+	if (!email) return res.status(400).json({ msg: this.errors.noEmail })
+	if (!password) return res.status(400).json({ msg: this.errors.noPassword })
 
 	User.findOne({
 		userid: userid
 	}, (err, user) => {
-		if (err) return res.json({ msg: this.errors.database })
+		if (err) return res.status(500).json({ msg: this.errors.database })
 		if (user) return res.json({ msg: this.errors.userExists })
 		const hash = password + '-hashed!'// HASH PASSWORD
 		let newUser = new User({userid, email, hash}).save(err => {
-			if (err) return res.json({ msg: this.errors.database })
-			else return res.json({ msg: this.success.userRegistered })
+			if (err) return res.status(500).json({ msg: this.errors.database })
+			else return res.status(200).json({ msg: this.success.userRegistered })
 		})
 	})
 }
 
 /* Login */
 module.exports.login = (req, res) => {
+	console.log('login yo')
 	let userid, password
 	({userid, password} = {...req.body})
 
@@ -51,7 +53,7 @@ module.exports.login = (req, res) => {
 	User.findOne({
 		userid: userid
 	}, (err, user) => {
-		if (err) return res.json({msg: this.errors.database })
+		if (err) return res.status(500).json({msg: this.errors.database })
 		if (!user) return res.json({msg: this.errors.noUser })
 		if (user.hash !== (password + '-hashed!')) res.json({ msg: this.errors.wrongPassword })
 		else {
