@@ -1,0 +1,10 @@
+/*Spacing between columns when collapsed*/
+.navbar-collapse{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*Align button with collapse button*/
+.btn-outline-success{
+  margin-right: 0px !important;
+}
