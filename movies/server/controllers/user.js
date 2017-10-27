@@ -29,20 +29,20 @@ module.exports.register = (req, res) => {
 	let userid, email, password
 	({userid, email, password} = {...req.body})
 
-	if (!userid) return res.status(400).json({  ...this.errors.noUserid })
-	if (!email) return res.status(400).json({  ...this.errors.noEmail })
-	if (!password) return res.status(400).json({  ...this.errors.noPassword })
+	if (!userid) return res.json({  ...this.errors.noUserid })
+	if (!email) return res.json({  ...this.errors.noEmail })
+	if (!password) return res.json({  ...this.errors.noPassword })
 
 	User.findOne({
 		userid: userid
 	}, (err, user) => {
-		if (err) return res.status(500).json({  ...this.errors.database }) // error in database
-		if (user) return res.status(400).json({  ...this.errors.userExists }) // user exist
+		if (err) return res.json({  ...this.errors.database }) // error in database
+		if (user) return res.json({  ...this.errors.userExists }) // user exist
 		const hash = bcrypt.hash(password, 10, (err, hash) => { // Hash & Salt
-			if (err) return res.status(500).json({  ...this.errors.crypto}) // crypto error
+			if (err) return res.json({  ...this.errors.crypto}) // crypto error
 			let newUser = new User({userid, email, hash}).save(err => { // create new user
-				if (err) return res.status(500).json({  ...this.errors.database }) // error in database
-				else return res.status(200).json({  ...this.success.userRegistered }) // user registered
+				if (err) return res.json({  ...this.errors.database }) // error in database
+				else return res.json({  ...this.success.userRegistered }) // user registered
 			})
 		}) // hash password
 	})
@@ -53,22 +53,22 @@ module.exports.login = (req, res) => {
 	let userid, password
 	({userid, password} = {...req.body})
 
-	if (!userid) return res.status(400).json({  ...this.errors.noUserid })
-	if (!password) return res.status(400).json({  ...this.errors.noPassword })
+	if (!userid) return res.json({  ...this.errors.noUserid })
+	if (!password) return res.json({  ...this.errors.noPassword })
 
 	User.findOne({ // find user
 		userid: userid
 	}, (err, user) => {
-		if (err) return res.status(500).json({ ...this.errors.database }) // error in database
-		if (!user) return res.status(400).json({ ...this.errors.noUser }) // no user found
+		if (err) return res.json({ ...this.errors.database }) // error in database
+		if (!user) return res.json({ ...this.errors.noUser }) // no user found
 		user.comparePasswords(password, user.hash, (err, result) => { // check if password is correct
-			if (err) res.status(500).json({  ...this.errors.crypto }) // error in crypto
-			if (!result) res.status(400).json({  ...this.errors.wrongPassword }) // wrong password
+			if (err) res.json({  ...this.errors.crypto }) // error in crypto
+			if (!result) res.json({  ...this.errors.wrongPassword }) // wrong password
 			else { // correct password
 				// TODO put in list saved in user object
 				// TODO add expire on token + update the expire date in middleware when doing stuff
 				jwt.sign({userid}, config.secret, /*{ algorithm: 'RS256'} ,*/ (err, token) => { // create token
-					if (err) return res.status(500).json({  ...this.error.crypto }) // error in jwt
+					if (err) return res.json({  ...this.error.crypto }) // error in jwt
 					return res.json({  ...this.success.loggedIn, token: token, userid: userid }) // user logged in
 				})
 			}
@@ -80,9 +80,9 @@ module.exports.login = (req, res) => {
 module.exports.middleware = (req, res, next) => {
 	let token
 	({token} = {...req.body})
-	if (!token) return res.status(400).json({ ...this.errors.noToken }) // no token
+	if (!token) return res.json({ ...this.errors.noToken }) // no token
 	jwt.verify(token.split(' ')[0], config.secret, (err, decode) => { // decode token
-		if (err) return res.status(400).json({ ...this.errors.wrongToken }) // wrong token
+		if (err) return res.json({ ...this.errors.wrongToken }) // wrong token
 		req.user = decode // apply token to request so the next route can use it
 		next() // continue the request
 	})

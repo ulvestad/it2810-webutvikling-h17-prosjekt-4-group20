@@ -10,7 +10,7 @@ router.post('/login', user.login)
 router.post('/register', user.register)
 
 router.get('/movies', movie.getAll)
-
+router.get('/movie', movie.get)
 
 router.use(user.middleware)
 router.get('/user', user.getUser)
