@@ -10,7 +10,7 @@ import { DataService } from '../../services/data.service';
 })
 export class RegisterComponent implements OnInit {
 
-  private results: any
+  private results: any;
 
   constructor(private dataService: DataService, private router: Router) { }
 
@@ -18,9 +18,8 @@ export class RegisterComponent implements OnInit {
 
   register(userid:string, email:string, password:string, confirm:string){
     this.dataService.post('/register', {userid, email, password, confirm}).subscribe(data => {
-    	this.results = data
-    	// TODO find another solution, not so pretty
-    	if (data.msg.substring(0, 7) === 'success') this.router.navigate(['login']);
+    	if (data.success) this.router.navigate(['login']); // success
+      else this.results = data; // fail
     })
   }
 
