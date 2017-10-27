@@ -1,10 +1,18 @@
 /*Spacing between columns when collapsed*/
-.navbar-collapse{
-  margin-top: 10px;
-  margin-bottom: 10px;
+.element{
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-/*Align button with collapse button*/
-.btn-outline-success{
-  margin-right: 0px !important;
+/*Default size for search-input*/
+.form-control{
+  max-width: 195px;
+}
+
+/*Small screen BUG fix in boostrap4 navbar*/
+@media (max-width: 575px) {
+    .container {
+      margin-left: 0;
+      margin-right: 0;
+    }
 }
