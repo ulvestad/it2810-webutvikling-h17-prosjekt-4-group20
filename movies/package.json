@@ -21,10 +21,12 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "bootstrap4": "0.0.1-security",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.12.4",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
