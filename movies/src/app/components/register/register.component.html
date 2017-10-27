@@ -1,11 +1,12 @@
 <div class="container">
   <form class="form-register">
-    <h2 class="form-register-heading">Please register</h2>
+    <p class="form-register-heading">Please register</p>
     <input #userid type="text" class="form-control" placeholder="Username" required="" autofocus="">
-    <input #email type="email" class="form-control" placeholder="Email Address" required="">
+    <input #email type="email" class="form-control" placeholder="Email address" required="">
     <input #password type="password" id="firstPassword" class="form-control" placeholder="Password" required="">
-    <input #confirm type="password" id="lastPassword" class="form-control" placeholder="Confirm Password" required="">
-    <button (click)="register(userid.value, email.value, password.value, confirm.value)" class="btn btn-lg btn-outline-primary btn-block" type="button">Register</button>
+    <input #confirm type="password" id="lastPassword" class="form-control" placeholder="Confirm password" required="">
+    <button (click)="register(userid.value, email.value, password.value, confirm.value)" class="btn btn-lg btn-outline-success btn-block" type="button">Register</button>
+    <p class="already-account">Aready have an accout? <a class="login" routerLink="/login" >Login</a></p>
   </form>
   {{ results | json }}
 </div>

@@ -1,11 +1,10 @@
 <div class="container">
   <form class="form-signin">
-    <h2 class="form-signin-heading">Please sign in</h2>
+    <p class="form-signin-heading">Please sign in<p>
     <input #userid type="text" class="form-control" placeholder="Username" required="" autofocus="">
     <input #password type="password" class="form-control" placeholder="Password" required="">
-    <button (click)="login(userid.value, password.value)" class="btn btn-lg btn-outline-primary btn-block" type="button">Sign in</button>
-    <button routerLink="/register" class="btn btn-lg btn-outline-danger btn-block" type="button">Register</button>
+    <button (click)="login(userid.value, password.value)" class="btn btn-lg btn-outline-success btn-block" type="button">Sign in</button>
+    <p class="no-account">Don't have an accout? <a class="register" routerLink="/register" >Register</a></p>
   </form>
   {{ results | json }}
 </div>
-

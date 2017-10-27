@@ -2,34 +2,40 @@
   max-width: 350px;
   padding: 15px;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 200px;
+  background-color: #292b2c;
 }
-
 .form-register .form-register-heading {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: #5cb85c;
+  text-align: center;
 }
-
 .form-register .form-control {
   position: relative;
   height: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 10px;
-  font-size: 16px;
+  font-size: 13px;
+  background-color: #292b2c;
+  border:0px;
+  border-bottom: 1px solid #eee;
+  color: #fff;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
-
 .form-register .form-control:focus {
   z-index: 2;
+  border-bottom: 1px solid #eee;
+  color: #fff;
 }
 
 .form-register input[type="text"] {
-  margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
 .form-register input[type="email"] {
-  margin-bottom: -1px;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -37,7 +43,6 @@
 }
 
 #firstPassword {
-  margin-bottom: -1px;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -48,4 +53,37 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #d3d3d3;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #d3d3d3;
+}
+.already-account{
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
+.btn-outline-success{
+  margin-top: 40px;
+  font-size: 13px;
+}
+.btn-outline-success:hover{
+  cursor: pointer;
+}
+.already-account{
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 15px;
+}
+.login{
+  margin-top: 15px;
+  color: #5cb85c !important;
+  font-weight: bold;
+}
+.login:hover{
+  cursor: pointer;
 }

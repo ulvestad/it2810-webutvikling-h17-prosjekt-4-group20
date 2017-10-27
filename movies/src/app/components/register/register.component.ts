@@ -12,7 +12,12 @@ export class RegisterComponent implements OnInit {
 
   private results: any;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router) {
+    //TODO: find a better way to change <body> background-color
+    //body{ ... } in the css file does not work
+    document.body.style.backgroundImage = "url('../../assets/img/poster3.png')";
+    document.body.style.backgroundSize = "auto";
+  }
 
   ngOnInit() {}
 

@@ -1,5 +1,40 @@
 <app-nav-bar></app-nav-bar>
-<div class="container top-container">
-  <h1 class="display-3">User!</h1>
-  <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+<div class="banner">
+  <div class="container banner-content">
+    <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
+    <div class="user">
+      <h4>username</h4>
+      <p>Email: user.name@email.com</p>
+    </div>
+    <div class="stats">
+      <div class="ui-widget">
+        <h1 class="ui-value">21</h1>
+        <span class="ui-label">Favorites</span>
+      </div>
+      <div class="ui-widget">
+        <h1 class="ui-value">4</h1>
+        <span class="ui-label">Movie lists</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container tab-panel">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#fav" role="tab"><h6>Favorites</h6></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#list" role="tab"><h6>Movielist</h6></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#history" role="tab"><h6>History</h6></a>
+    </li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="fav" role="tabpanel">favorites</div>
+    <div class="tab-pane" id="list" role="tabpanel">list</div>
+    <div class="tab-pane" id="history" role="tabpanel">content here</div>
+  </div>
 </div>
