@@ -7,13 +7,13 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class DataService {
   private andy: string = 'http://localhost:3000/'
-	private path: string = 'api'
+	private path: string = 'http://localhost:3000/api'
   result:any;
 
   constructor(private http: Http) { }
 
   getMovies() {
-    return this.http.get('api/movies')
+    return this.http.get('http://localhost:3000/api/movies')
       .map(result => this.result = result.json().data)
   }
 
