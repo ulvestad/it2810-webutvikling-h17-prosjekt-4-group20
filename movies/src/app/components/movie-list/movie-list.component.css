@@ -1,0 +1,10 @@
+.wrapper {
+  max-width: 600px;
+  padding: 15px;
+  margin: auto;
+  margin-top: 150px;
+}
+
+.modalBody {
+  margin: 20px;
+}
