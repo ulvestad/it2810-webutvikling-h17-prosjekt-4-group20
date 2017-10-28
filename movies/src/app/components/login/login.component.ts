@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { NgModule, Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
+
+interface User {
+  userid: string,
+  password: string
+}
 
 @Component({
   selector: 'app-login',
@@ -10,7 +16,9 @@ import { DataService } from '../../services/data.service';
 })
 export class LoginComponent implements OnInit {
 
-  private results: any
+  private result: any; // result from server
+  private user: User; // input data
+  @ViewChild('f') form: any; // the form
 
   constructor(private dataService: DataService, private router: Router) {
     //TODO: find a better way to change <body> background-color
@@ -19,13 +27,23 @@ export class LoginComponent implements OnInit {
     document.body.style.backgroundSize = "auto";
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = {
+      userid: '',
+      password: ''
+    }
+  }
 
-  login(userid:string, password:string){
-    this.dataService.post('/login', {userid, password}).subscribe(data => {
-    	this.results = data
-    	// TODO find another solution, make pretty
-    	if (data.msg.substring(0, 7) === 'success') this.router.navigate(['']);
+  onSubmit(form: any): void {
+    this.user = {...form};
+    this.dataService.post('/login', this.user).subscribe(data => {
+      console.log(data);
+      if (data.success) { // success
+        this.router.navigate(['']);
+        this.form.reset();
+      } else { // fail
+        this.result = 'Invalid username or password'
+      }
     })
   }
 }
