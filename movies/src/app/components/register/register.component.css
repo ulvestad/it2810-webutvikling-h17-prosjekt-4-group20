@@ -49,3 +49,12 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+/*
+.ng-valid[required], .ng-valid.required  {
+  border-left: 4px solid #42A948; 
+}
+
+.ng-invalid:not(form)  {
+  border-left: 4px solid #a94442; 
+}
+*/
