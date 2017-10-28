@@ -1,14 +1,14 @@
 <div class="container">
   <form novalidate="novalidate"
     #f="ngForm"
-    (ngSubmit)="onSubmit(f.value)" 
+    (ngSubmit)="onSubmit(f.value)"
     class="form-register">
-    <p class="form-signin-heading"> Please sign in </p>
+    <p class="form-register-heading"> Please register</p>
     <!-- userid -->
     <div class="" [ngClass]="{
       'has-danger': userid.invalid && (userid.dirty || userid.touched),
       'has-success': userid.valid && (userid.dirty || userid.touched)}">
-      <input required autofocus
+      <input required
         [(ngModel)]="user.userid"
         #userid="ngModel"
         name="userid"
@@ -75,12 +75,12 @@
         class="form-control"
         placeholder="Confirm Password">
       <div class="form-control-feedback" *ngIf="(confirm.value !== password.value) && (email.dirty || email.touched) && (confirm.dirty || confirm.touched)">
-        <p> Passwords dont match </p>
+        <p> Passwords don't match!</p>
       </div>
     </div>
     <div>
       <button
-        class="btn btn-lg btn-outline-primary btn-block" 
+        class="btn btn-lg btn-outline-success btn-block"
         type="submit"
         [disabled]="!form.valid">
         Register

@@ -1,3 +1,7 @@
+.required{
+  font-size: 13px;
+  color: #d9534f;
+}
 .form-signin {
   max-width: 350px;
   padding: 15px;
@@ -41,10 +45,6 @@
   margin-top: 40px;
   font-size: 13px;
 }
-.btn-outline-success:hover{
-  cursor: pointer;
-}
-
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   color: #d3d3d3;
 }
