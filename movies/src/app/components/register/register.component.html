@@ -3,8 +3,7 @@
     #f="ngForm"
     (ngSubmit)="onSubmit(f.value)" 
     class="form-register">
-    <h2 class="form-register-heading">Please register</h2>
-
+    <p class="form-signin-heading"> Please sign in </p>
     <!-- userid -->
     <div class="" [ngClass]="{
       'has-danger': userid.invalid && (userid.dirty || userid.touched),
@@ -90,5 +89,6 @@
     <div class="">
       <p class="text-danger"> {{ result | json }}</p>
     </div>
+    <p class="already-account">Aready have an accout? <a class="login" routerLink="/login" >Login</a></p>
   </form>
 </div>

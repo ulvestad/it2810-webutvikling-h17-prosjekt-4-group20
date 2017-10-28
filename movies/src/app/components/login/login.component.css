@@ -3,33 +3,63 @@
   padding: 15px;
   margin: auto;
   margin-top: 150px;
+  background-color: #292b2c;
 }
-
 .form-signin .form-signin-heading {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: #5cb85c;
+  text-align: center;
 }
-
 .form-signin .form-control {
   position: relative;
   height: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 10px;
-  font-size: 16px;
+  font-size: 13px;
+  background-color: #292b2c;
+  border:0px;
+  border-bottom: 1px solid #eee;
+  color: #fff;
 }
-
 .form-signin .form-control:focus {
   z-index: 2;
+  border-bottom: 1px solid #eee;
+  color: #fff;
 }
-
 .form-signin input[type="text"] {
-  margin-bottom: -1px;
+  margin-bottom: 0px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+.btn-outline-success{
+  margin-top: 40px;
+  font-size: 13px;
+}
+.btn-outline-success:hover{
+  cursor: pointer;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #d3d3d3;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #d3d3d3;
+}
+.no-account{
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
+.register{
+  color: #5cb85c !important;
+  font-weight: bold;
+}
+.register:hover{
+  cursor: pointer;
 }

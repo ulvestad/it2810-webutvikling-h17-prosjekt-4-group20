@@ -3,7 +3,7 @@
   	#f="ngForm"
   	(ngSubmit)="onSubmit(f.value)"
   	class="form-signin">
-    <h2 class="form-signin-heading">Please sign in</h2>
+    <p class="form-signin-heading">Please sign in<p>
 
     <!-- userid -->
 
@@ -52,7 +52,6 @@
     <div class="">
       <p class="text-danger"> {{ result | json }}</p>
     </div>
+    <p class="no-account">Don't have an accout? <a class="register" routerLink="/register" >Register</a></p>
   </form>
-  {{ results | json }}
 </div>
-

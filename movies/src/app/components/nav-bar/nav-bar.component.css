@@ -1,0 +1,18 @@
+/*Spacing between columns when collapsed*/
+.element{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/*Default size for search-input*/
+.form-control{
+  max-width: 195px;
+}
+
+/*Small screen BUG fix in boostrap4 navbar*/
+@media (max-width: 575px) {
+    .container {
+      margin-left: 0;
+      margin-right: 0;
+    }
+}
