@@ -6,9 +6,9 @@ Intro
 2. Install node v8+ and npm v5+
 3. Start mongodb: `mongod`
 4. Import movies: `cd ml-latest-small` -> `sh import.sh`
-  1. If Windows!: `cd C:\Program Files\MongoDB\Server\3.4\bin`
-  2. Copy `importWindows.sh, movies.csv and links.csv` to the `bin` directory.
-  3. Open a new termial and run `sh importWindows.sh`
+    1. If Windows!: `cd C:\Program Files\MongoDB\Server\3.4\bin`
+    2. Copy `importWindows.sh, movies.csv and links.csv` to the `bin` directory.
+    3. Open a new termial and run `sh importWindows.sh`
 5. Install modules: `cd ..` -> `cd movies` -> `npm install`
 6. Start server: `node server` (can change to npm start if wanted)
 7. Start client build: `ng serve`
