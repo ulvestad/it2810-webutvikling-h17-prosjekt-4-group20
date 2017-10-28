@@ -1,11 +1,94 @@
 <div class="container">
-  <form class="form-register">
+  <form novalidate="novalidate" #f="ngForm" (ngSubmit)="onSubmit(f.value)" class="form-register">
     <h2 class="form-register-heading">Please register</h2>
-    <input #userid type="text" class="form-control" placeholder="Username" required="" autofocus="">
-    <input #email type="email" class="form-control" placeholder="Email Address" required="">
-    <input #password type="password" id="firstPassword" class="form-control" placeholder="Password" required="">
-    <input #confirm type="password" id="lastPassword" class="form-control" placeholder="Confirm Password" required="">
-    <button (click)="register(userid.value, email.value, password.value, confirm.value)" class="btn btn-lg btn-outline-primary btn-block" type="button">Register</button>
+
+    <!-- userid -->
+    <div class="" [ngClass]="{
+      'has-danger': userid.invalid && (userid.dirty || userid.touched),
+      'has-success': userid.valid && (userid.dirty || userid.touched)}">
+      <input required autofocus
+        [(ngModel)]="user.userid"
+        #userid="ngModel"
+        name="userid"
+        type="text"
+        class="form-control"
+        pattern="[a-zA-Z0-9-]*"
+        placeholder="Username">
+      <div class="form-control-feedback"
+        *ngIf="userid.errors && (userid.dirty || userid.touched)">
+        <p *ngIf="userid.errors.required"> Username is required</p>
+        <p *ngIf="userid.errors.pattern"> Bad </p>
+      </div>
+    </div>
+
+    <!-- email -->
+    <div class="" [ngClass]="{
+      'has-danger': email.invalid && (email.dirty || email.touched),
+      'has-success': email.valid && (email.dirty || userid.touched)}">
+      <input required
+        [(ngModel)]="user.email"
+        #email="ngModel"
+        pattern="[^ @]*@[^ @]*"
+        name="email"
+        class="form-control"
+        placeholder="Email Address">
+      <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+        <p *ngIf="email.errors.required"> Email is required </p>
+        <p *ngIf="email.errors.pattern"> Not a valid email </p>
+      </div>
+    </div>
+
+    <!-- password -->
+    <div class="" [ngClass]="{
+      'has-danger': password.invalid && (password.dirty || password.touched),
+      'has-success': password.valid && (password.dirty || password.touched)}">
+      <input required
+        [(ngModel)]="user.password"
+        #password="ngModel"
+        validateEqual="confirm"
+        reverse="true"
+        name="password"
+        type="password"
+        minlength="8"
+        class="form-control"
+        placeholder="Password">
+      <div class="form-control-feedback" [hidden]="password.valid || (password.pristine && !f.submitted)">
+        <p> Password is required </p>
+      </div>
+    </div>
+
+    <!-- confirm -->
+    <div class="" [ngClass]="{
+      'has-danger': error && (confirm.dirty || confirm.touched),
+      'has-success': error && (confirm.dirty || confirm.touched)}">
+      <input required
+        [(ngModel)]="user.confirm"
+        #confirm="ngModel"
+        validateEqual="password"
+        reverse="false"
+        name="confirm"
+        type="password"
+        class="form-control"
+        placeholder="Confirm Password">
+      <div class="form-control-feedback" [hidden]="confirm.valid || (confirm.pristine && !f.submitted)">
+        <p> Passwords not equal </p>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-lg btn-outline-primary btn-block" 
+        type="submit"
+        [disabled]="!form.valid">
+        Register
+      </button>
+     </div>
+    <div class="has-warning" *ngIf="error">
+      <div class="form-control-feedback">
+        {{ error }}
+      </div>
+    </div>
+    {{ userid.errors | json }}
+    {{ userid.value }}
   </form>
   {{ results | json }}
 </div>
