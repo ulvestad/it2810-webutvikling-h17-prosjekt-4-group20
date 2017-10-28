@@ -1,5 +1,8 @@
 <div class="container">
-  <form novalidate="novalidate" #f="ngForm" (ngSubmit)="onSubmit(f.value)" class="form-register">
+  <form novalidate="novalidate"
+    #f="ngForm"
+    (ngSubmit)="onSubmit(f.value)" 
+    class="form-register">
     <h2 class="form-register-heading">Please register</h2>
 
     <!-- userid -->
@@ -17,7 +20,7 @@
       <div class="form-control-feedback"
         *ngIf="userid.errors && (userid.dirty || userid.touched)">
         <p *ngIf="userid.errors.required"> Username is required</p>
-        <p *ngIf="userid.errors.pattern"> Bad </p>
+        <p *ngIf="userid.errors.pattern"> Not a valid username </p>
       </div>
     </div>
 
@@ -52,15 +55,16 @@
         minlength="8"
         class="form-control"
         placeholder="Password">
-      <div class="form-control-feedback" [hidden]="password.valid || (password.pristine && !f.submitted)">
-        <p> Password is required </p>
+      <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+        <p *ngIf="password.errors.required"> Password is required </p>
+        <p *ngIf="password.errors.minlength"> Too short password </p>
       </div>
     </div>
 
     <!-- confirm -->
     <div class="" [ngClass]="{
-      'has-danger': error && (confirm.dirty || confirm.touched),
-      'has-success': error && (confirm.dirty || confirm.touched)}">
+      'has-danger': (confirm.value !== password.value) && (confirm.dirty || confirm.touched),
+      'has-success': (confirm.value === password.value) && (confirm.dirty || confirm.touched)}">
       <input required
         [(ngModel)]="user.confirm"
         #confirm="ngModel"
@@ -68,10 +72,11 @@
         reverse="false"
         name="confirm"
         type="password"
+        minlength="8"
         class="form-control"
         placeholder="Confirm Password">
-      <div class="form-control-feedback" [hidden]="confirm.valid || (confirm.pristine && !f.submitted)">
-        <p> Passwords not equal </p>
+      <div class="form-control-feedback" *ngIf="(confirm.value !== password.value) && (email.dirty || email.touched) && (confirm.dirty || confirm.touched)">
+        <p> Passwords dont match </p>
       </div>
     </div>
     <div>
@@ -81,14 +86,9 @@
         [disabled]="!form.valid">
         Register
       </button>
-     </div>
-    <div class="has-warning" *ngIf="error">
-      <div class="form-control-feedback">
-        {{ error }}
-      </div>
     </div>
-    {{ userid.errors | json }}
-    {{ userid.value }}
+    <div class="">
+      <p class="text-danger"> {{ result | json }}</p>
+    </div>
   </form>
-  {{ results | json }}
 </div>

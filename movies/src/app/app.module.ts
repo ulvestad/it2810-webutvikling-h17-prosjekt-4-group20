@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 
 import { DataService } from './services/data.service';
-import { PasswordValidatorDirective } from './directive/password-validator.directive';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -33,8 +32,7 @@ const appRoutes: Routes = [
     HomeComponent,
     UserComponent,
     NavBarComponent,
-    MovieListComponent,
-    PasswordValidatorDirective
+    MovieListComponent
   ],
   imports: [
     BrowserModule,
