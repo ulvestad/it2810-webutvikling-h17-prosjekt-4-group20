@@ -1,3 +1,32 @@
 .top-container{
   margin-top: 100px;
 }
+.large-img{
+  width: 260px;
+  height: 380px;
+  margin: auto;
+}
+.small-img{
+  width: 120px;
+  height: 170px;
+  margin: auto;
+  margin-top: 40px;
+}
+.wrap-large{
+  display: -webkit-flex; /* Safari */
+  -webkit-justify-content: space-between; /* Safari 6.1+ */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+  max-height: 380px; /*Must be same as large-img -> heigth*/
+}
+.wrap-small{
+  display: -webkit-flex; /* Safari */
+  -webkit-justify-content: space-between; /* Safari 6.1+ */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /*overflow-y: hidden;
+  max-height: 210px;*/
+}
