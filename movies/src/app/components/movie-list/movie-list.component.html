@@ -22,12 +22,15 @@
       </div>
       <div class="d-flex justify-content-between modal-body">
         <div class="modalBody">
-          <img width="200px" src="https://static.rogerebert.com/uploads/movie/movie_poster/the-shawshank-redemption-1994/large_9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"/>
+          <img width="200px" [src]="selectedMovie.image"/>
         </div>
         <div class="modalBody">
-          <p><b>Genre: </b>{{selectedMovie.genres}}</p>
-          <p><b>Director: </b>Director here</p>
-          <p><b>Rating: </b>Rating here</p>
+          <p><b>Genres: </b>
+            <ul>
+              <li *ngFor="let genre of selectedMovie.genres ">{{genre.name}}</li>
+            </ul>
+          <p><b>Rating: </b>{{ selectedMovie.rating }}</p>  
+          <p><b>Description: </b>{{ selectedMovie.description }}</p>
         </div>
       </div>
       <div class="modal-footer">

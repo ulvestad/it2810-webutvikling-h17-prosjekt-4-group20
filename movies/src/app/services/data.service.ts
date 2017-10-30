@@ -16,6 +16,10 @@ export class DataService {
     return this.http.get('http://localhost:3000/api/movies').map(result => this.result = result.json().data);
   }
 
+  getMovieDetails(movieId:number) {
+    return this.get(`/movie?movieId=${movieId}`).map(res => res.data);
+  }
+
   get(url: string): Observable<any> {
     return this.http.get(this.path + url).map(res => res.json());
   }
