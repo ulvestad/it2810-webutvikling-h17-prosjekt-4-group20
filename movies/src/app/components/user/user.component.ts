@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 
-interface User{
+interface User {
   username: string;
   email: string;
   favorites: number;
@@ -15,7 +15,7 @@ interface User{
 })
 export class UserComponent implements OnInit {
 
-  user:User;
+  user: User;
   usr: Array<any>;
 
   constructor(private dataService: DataService) {
@@ -23,13 +23,13 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.usr)
+    console.log(this.usr);
   }
 
-  getUser(){
+  getUser() {
     return this.dataService.get('/user').subscribe(data => {
-    	//TODO: fetch userdata
-    })
+    // TODO: fetch userdata
+    });
   }
 
 }
