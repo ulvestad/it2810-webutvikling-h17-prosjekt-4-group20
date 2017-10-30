@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UserComponent } from './components/user/user.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MovieListComponent } from './components/movie-list/movie-list.component';
+import { HistoryComponent } from './components/history/history.component';
 
 
 const appRoutes: Routes = [
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     HomeComponent,
     UserComponent,
     NavBarComponent,
-    MovieListComponent
+    MovieListComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

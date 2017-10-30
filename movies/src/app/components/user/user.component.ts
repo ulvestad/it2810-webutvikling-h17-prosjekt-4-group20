@@ -15,21 +15,22 @@ interface User {
 })
 export class UserComponent implements OnInit {
 
-  user: User;
-  usr: Array<any>;
+  user:User;
 
   constructor(private dataService: DataService) {
     this.user = {username: '', email: '', favorites: 21, watchlists: 4};
+    this.getUser();
   }
 
   ngOnInit() {
-    console.log(this.usr);
   }
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-    // TODO: fetch userdata
-    });
+    	//TODO: this response yields 'success:false'
+      this.user = {username: data.username, email: data.email, favorites: 21, watchlists: 4};
+      console.log(data);
+    })
   }
 
 }
