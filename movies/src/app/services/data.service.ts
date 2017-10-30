@@ -17,6 +17,10 @@ export class DataService {
       .map(result => this.result = result.json().data)
   }
 
+  getMovieDetails(movieId:number) {
+    return this.get(`/movie?movieId=${movieId}`).map(res => res.data);
+  }
+
   get(url:string):Observable<any> {
     return this.http.get(this.path + url).map(res => res.json())
   }
