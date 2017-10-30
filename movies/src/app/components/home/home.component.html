@@ -1,19 +1,9 @@
 <app-nav-bar></app-nav-bar>
 <div class="container top-container">
   <div class="justify-content-between wrap-large">
-    <img class="large-img" src="" />
-    <img class="large-img" src=""/>
-    <img class="large-img" src=""/>
-    <img class="large-img" src=""/>
+    <img *ngFor="let img of moviePosters; let i = index" class="large-img" src={{moviePosters[12+i]}} />
   </div>
   <div class="justify-content-between wrap-small">
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
-    <img class="small-img" src="" />
+    <img *ngFor="let img of moviePosters; let i = index" class="small-img" src={{moviePosters[i]}} />
   </div>
 </div>

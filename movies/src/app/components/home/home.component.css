@@ -1,5 +1,5 @@
 .top-container{
-  margin-top: 100px;
+  margin-top: 40px;
 }
 .large-img{
   width: 260px;
@@ -11,6 +11,8 @@
   height: 170px;
   margin: auto;
   margin-top: 40px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 .wrap-large{
   display: -webkit-flex; /* Safari */
