@@ -13,10 +13,10 @@ import { DataService } from '../../services/data.service';
   }
 }*/
 interface User {
-  userid: string,
-  email: string,
-  password: string,
-  confirm: string
+  userid: string;
+  email: string;
+  password: string;
+  confirm: string;
 }
 
 @Component({
@@ -27,23 +27,23 @@ interface User {
 export class RegisterComponent implements OnInit {
 
   private result: any; // result from server
-  private user: User;// input data
+  private user: User; // input data
   @ViewChild('f') form: any; // the form
 
   constructor(private dataService: DataService, private router: Router) {
-    //TODO: find a better way to change <body> background-color
-    //body{ ... } in the css file does not work
-    document.body.style.backgroundImage = "url('../../assets/img/poster3.png')";
-    document.body.style.backgroundSize = "auto";
+    // TODO: find a better way to change <body> background-color
+    // body{ ... } in the css file does not work
+    document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
+    document.body.style.backgroundSize = 'auto';
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.user = {
       userid: '',
       email: '',
       password: '',
       confirm: ''
-    }
+    };
   }
 
   onSubmit(form: any): void {
@@ -60,6 +60,6 @@ export class RegisterComponent implements OnInit {
           this.user.email = '';
         }
       }
-    })
+    });
   }
 }

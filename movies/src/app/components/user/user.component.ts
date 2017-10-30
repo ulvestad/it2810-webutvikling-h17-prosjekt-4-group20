@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 
-interface User{
+interface User {
   username: string;
   email: string;
   favorites: number;
@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
   }
 
-  getUser(){
+  getUser() {
     return this.dataService.get('/user').subscribe(data => {
     	//TODO: this response yields 'success:false'
       this.user = {username: data.username, email: data.email, favorites: 21, watchlists: 4};
