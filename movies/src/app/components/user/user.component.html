@@ -3,16 +3,16 @@
   <div class="container banner-content">
     <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
     <div class="user">
-      <h4>username</h4>
-      <p>Email: user.name@email.com</p>
+      <h4>Username:{{user.username}}</h4>
+      <p>Email: {{user.email}}</p>
     </div>
     <div class="stats">
       <div class="ui-widget">
-        <h1 class="ui-value">21</h1>
+        <h1 class="ui-value">{{user.favorites}}</h1>
         <span class="ui-label">Favorites</span>
       </div>
       <div class="ui-widget">
-        <h1 class="ui-value">4</h1>
+        <h1 class="ui-value">{{user.watchlists}}</h1>
         <span class="ui-label">Movie lists</span>
       </div>
     </div>
@@ -35,6 +35,6 @@
   <div class="tab-content">
     <div class="tab-pane active" id="fav" role="tabpanel">favorites</div>
     <div class="tab-pane" id="list" role="tabpanel">list</div>
-    <div class="tab-pane" id="history" role="tabpanel">content here</div>
+    <div class="tab-pane" id="history" role="tabpanel"><app-history></app-history></div>
   </div>
 </div>
