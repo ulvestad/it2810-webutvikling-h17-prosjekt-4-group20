@@ -1,5 +1,6 @@
  import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { CookieService } from 'ngx-cookie-service';
 
 interface SelectedMovie {
   title: string;
@@ -21,7 +22,7 @@ export class MovieListComponent implements OnInit {
   movies: Array<any>;
   selectedMovie: SelectedMovie;
 
-  constructor(private _dataService: DataService) {
+  constructor(private _dataService: DataService, private cookieService: CookieService) {
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -59,6 +60,7 @@ export class MovieListComponent implements OnInit {
 
   addToMovieList(){
     this._dataService.post('/user/add', {title: this.selectedMovie.title}).subscribe(res => {
+      this.cookieService.set('token', res.token );
       console.log(res)
     })
   }
