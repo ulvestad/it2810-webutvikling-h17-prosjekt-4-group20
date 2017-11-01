@@ -69,10 +69,8 @@ module.exports.login = (req, res) => {
       else { // correct password
         // TODO put in list saved in user object
         // TODO add expire on token + update the expire date in middleware when doing stuff
-        jwt.sign({
-          data: user,
-          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7) // Token expire after one week
-          }, config.secret, /*{ algorithm: 'RS256'} ,*/ (err, token) => { // create token
+
+        createToken(user, (err, token) => {
           if (err) return res.json(this.error.crypto) // error in jwt
           return res.json({...this.success.loggedIn, token: token, username: username }) // user logged in
         })
@@ -80,6 +78,16 @@ module.exports.login = (req, res) => {
     })
   })
 }
+/* Creates a new token, signing with secret in config */
+// TODO put in list saved in user object
+// TODO add expire on token + update the expire date in middleware when doing stuff
+const createToken = (user, callback) => {
+  jwt.sign({ 
+    data: user, 
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7) 
+  }, config.secret, callback)
+}
+
 
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
@@ -104,18 +112,19 @@ module.exports.get = (req, res) => {
 // TODO cleanup <3
 // TODO write tests <3<3
 module.exports.addToMovieList = (req, res) => {
-  let {movieid, username} = {...req.body, ...req.user.data}
-  if (!movieid || !username) return res.json() // missing data
+  let {title, username} = {...req.body, ...req.user.data}
+  if (!title || !username) return res.json({msg: 'err'}) // missing data
   // Make it faster by just adding the id string into user, skip searching for the movie.
+
   Movie.findOne({
-    _id: movieid // TODO change to id, or what we want to use
+    title: title // TODO change to id, or what we want to use
   }, (err, movie) => {
-    if (err) return res.json() // no movie by that title
+    if (err) return res.json({msg: 'err'}) // no movie by that title
     User.findOne({ // no username
       username: username
     }, (err, user) => {
-      if (err) return res.json() // no user
-      if (user.movielist.find(id => id.equals(movie._id))) return res.json() // already in list
+      if (err) return res.json({msg: 'err'}) // no user
+      if (user.movielist.find(id => id.equals(movie._id))) return res.json({msg: 'err'}) // already in list
       user.movielist.push(movie) // add
       user.save() // save
       res.json({msg: 'succsess'})
