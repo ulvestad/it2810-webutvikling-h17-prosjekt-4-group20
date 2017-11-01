@@ -1,12 +1,12 @@
-var http = require('http');
+const http = require('http');
+const config = require('../config')
 
-const API_KEY = process.env.API_KEY;
 const BASE_URI = "http://api.themoviedb.org/3";
 const IMAGES_URI = "http://image.tmdb.org/t/p";
 const TIMEOUT = 5000;
 
 module.exports.get = (tmdbId, callback) => {
-    const query_str = `/movie/${tmdbId}?api_key=${API_KEY}`;
+    const query_str = `/movie/${tmdbId}?api_key=${config.api_key}`;
     const options = {
         host: BASE_URI,
         path: query_str

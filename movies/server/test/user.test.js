@@ -18,7 +18,7 @@ const dumpDatabase = callback => User.remove({}, callback)
 /* Integration tests for servers user api */
 describe('user', () => {
   let server
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYW5keSIsImV4cCI6MTUwOTczNzYwNSwiaWF0IjoxNTA5MzkyMDA1fQ.4KAp7pruawAan8ng9W7_R_TdBg6JjhJtdCCTevzYswo'
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjU5ZjliYTI1YzczNTllMGE1NDYyNjgxZiIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwibW92aWVsaXN0IjpbXX0sImV4cCI6MTUxMDE0MzE0MSwiaWF0IjoxNTA5NTM4MzQxfQ.8Sv-THH-wGGa20W3WNtCJ5UjPBUVuPD_8mm-P4uWUD8'
   const decoded = { username: 'andy', iat: 1509045962 }
   const data = {
     username: 'andy', 
@@ -170,10 +170,28 @@ describe('user', () => {
   // TODO test token exp date?
 
   describe('movielist', () => {
+    const first = '59f9ba90f5ca1a8b15c4cc12'
+    const second = '59f9ba90f5ca1a8b15c4cc09'
+
+
     it('success', done => {
       get(request(server), '/api/user', {token: token}, (err, res) => {
         res.body.msg.should.equal(user.success.correctToken.msg)
         done()
+      })
+    })
+
+    it('should ..', done => {
+      post(request(server), '/api/user/add', {token: token, movieid: first}, (err, res) => {
+        post(request(server), '/api/user/add', {token: token, movieid: first}, (err, res) => {
+          post(request(server), '/api/user/add', {token: token, movieid: second}, (err, res) => {
+            post(request(server), '/api/user/remove', {token: token, movieid: first}, (err, res) => {
+              post(request(server), '/api/user/remove', {token: token, movieid: second}, (err, res) => {
+                done()
+              })
+            })
+          })
+        })
       })
     })
   })

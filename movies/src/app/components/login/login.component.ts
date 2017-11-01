@@ -6,8 +6,8 @@ import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
 
 interface User {
-  username: string,
-  password: string
+  username: string;
+  password: string;
 }
 
 @Component({

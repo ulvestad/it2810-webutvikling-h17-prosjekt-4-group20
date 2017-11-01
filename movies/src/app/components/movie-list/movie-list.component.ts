@@ -17,6 +17,7 @@ const IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent implements OnInit {
+  next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
 
@@ -29,23 +30,30 @@ export class MovieListComponent implements OnInit {
       image: '',
     };
 
-    this._dataService.getMovies()
-      .subscribe(res => this.movies = res);
+    this.next = 0;
+
+    this._dataService.getMovies().subscribe(res => this.movies = res);
   }
 
   ngOnInit() {
   }
 
   setMovie(movie: any) {
-    this._dataService.getMovieDetails(movie['movieId'])
-      .subscribe(res => {
-        this.selectedMovie = {
-          title: movie.title,
-          genres: res.genres,
-          description: res.overview,
-          rating: res.vote_average,
-          image: IMAGE_URL + res.poster_path,
-        }
-      });
+    this._dataService.getMovieDetails(movie['movieId']).subscribe(res => {
+      this.selectedMovie = {
+        title: movie.title,
+        genres: res.genres,
+        description: res.overview,
+        rating: res.vote_average,
+        image: IMAGE_URL + res.poster_path,
+      };
+    });
+  }
+
+  onScroll() {
+    this.next = this.next + 1;
+    this._dataService.post('/lazyMovies', {nextNumber: this.next}).subscribe(res => {
+      this.movies = [...this.movies, ...res.data];
+    });
   }
 }

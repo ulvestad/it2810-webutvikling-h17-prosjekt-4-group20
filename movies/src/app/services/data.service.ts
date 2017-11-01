@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -18,7 +18,7 @@ export class DataService {
     return this.http.get('http://localhost:3000/api/movies').map(result => this.result = result.json().data);
   }
 
-  getMovieDetails(movieId:number) {
+  getMovieDetails(movieId: number) {
     return this.get(`/movie?movieId=${movieId}`).map(res => res.data);
   }
 
