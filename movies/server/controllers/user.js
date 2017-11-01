@@ -92,12 +92,12 @@ const createToken = (user, callback) => {
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
   let token = req.get('token') || req.body.token
-  console.log(req.body)
   if (!token) return res.json(this.errors.noToken)// no token
 
   jwt.verify(token.split(' ')[0], config.secret, (err, decode) => { // decode token
     if (err) return res.json(this.errors.wrongToken) // wrong token
     req.user = decode // apply token to request so the next route can use it
+    console.log(decode)
     next() // continue the request
   })
 }
@@ -128,7 +128,10 @@ module.exports.addToMovieList = (req, res) => {
       if (user.movielist.find(id => id.equals(movie._id))) return res.json({msg: 'err'}) // already in list
       user.movielist.push(movie) // add
       user.save() // save
-      res.json({msg: 'succsess'})
+      createToken(user, (err, token) => { // create new token
+        if (err) return res.json(this.error.crypto) // error in jwt
+        return res.json({...this.success.loggedIn, token: token}) // return new token
+      })
     })
   })
 }
