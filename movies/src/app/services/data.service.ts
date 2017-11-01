@@ -30,7 +30,7 @@ export class DataService {
   }
 
   post(url: string, data: any): Observable<any> {
-    return this.http.post(this.path + url, data).map(res => res.json());
+    return this.http.post(this.path + url, {...data, token:this.cookieService.get('token')},).map(res => res.json());
   }
 
 }
