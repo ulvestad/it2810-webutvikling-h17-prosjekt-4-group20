@@ -82,9 +82,8 @@ module.exports.login = (req, res) => {
 
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
-  let {token} = {...req.body}
-
-  if (!token) return res.json(this.errors.noToken) // no token
+  let token = req.get('token')
+  if (!token) return res.json(this.errors.noToken)// no token
 
   jwt.verify(token.split(' ')[0], config.secret, (err, decode) => { // decode token
     if (err) return res.json(this.errors.wrongToken) // wrong token
@@ -105,4 +104,3 @@ module.exports.removeFromMovieList = () => {}
 
 // Change password?
 // Reset password?
-

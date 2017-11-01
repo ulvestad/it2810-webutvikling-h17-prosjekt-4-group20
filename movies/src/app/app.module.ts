@@ -14,6 +14,7 @@ import { UserComponent } from './components/user/user.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MovieListComponent } from './components/movie-list/movie-list.component';
 import { HistoryComponent } from './components/history/history.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 const appRoutes: Routes = [
@@ -45,7 +46,10 @@ const appRoutes: Routes = [
       { enableTracing: false } // <-- True for debugging
     )
   ],
-  providers: [DataService],
+  providers: [
+    DataService,
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
