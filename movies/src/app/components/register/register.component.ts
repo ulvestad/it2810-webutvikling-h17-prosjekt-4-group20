@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 interface User {
-  username: string, // chars or numbers - "[a-zA-Z0-9-]*"
-  email: string, // email - "[^ @]*@[^ @]*"
-  password: string, // minlength=8
-  confirm: string // minlenght=8
+  username: string; // chars or numbers - "[a-zA-Z0-9-]*"
+  email: string; // email - "[^ @]*@[^ @]*"
+  password: string; // minlength=8
+  confirm: string; // minlenght=8
 }
 
 @Component({

@@ -37,15 +37,14 @@ export class MovieListComponent implements OnInit {
   }
 
   setMovie(movie: any) {
-    this._dataService.getMovieDetails(movie['movieId'])
-      .subscribe(res => {
-        this.selectedMovie = {
-          title: movie.title,
-          genres: res.genres,
-          description: res.overview,
-          rating: res.vote_average,
-          image: IMAGE_URL + res.poster_path,
-        }
-      });
+    this._dataService.getMovieDetails(movie['movieId']).subscribe(res => {
+      this.selectedMovie = {
+        title: movie.title,
+        genres: res.genres,
+        description: res.overview,
+        rating: res.vote_average,
+        image: IMAGE_URL + res.poster_path,
+      };
+    });
   }
 }

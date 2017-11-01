@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 interface User {
-  username: string,
-  password: string
+  username: string;
+  password: string;
 }
 
 @Component({

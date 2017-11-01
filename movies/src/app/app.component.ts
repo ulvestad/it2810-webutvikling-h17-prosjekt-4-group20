@@ -13,8 +13,7 @@ export class AppComponent {
   movies: Array<any>;
 
   constructor(private dataService: DataService) {
-    this.dataService.getMovies()
-      .subscribe(res => this.movies = res);
+    this.dataService.getMovies().subscribe(res => this.movies = res);
   }
 
   title = 'app';
