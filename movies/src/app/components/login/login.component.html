@@ -5,17 +5,18 @@
   	class="form-signin">
     <p class="form-signin-heading">Please sign in<p>
 
-    <!-- userid -->
-    <input required 
-      [(ngModel)]="user.userid"
-      #userid="ngModel"
-      name="userid"
+    <!-- username -->
+
+    <input required autofocus
+      [(ngModel)]="user.username"
+      #username="ngModel"
+      name="username"
       type="text"
       class="form-control"
       placeholder="Username">
     <div class="form-control-feedback"
-      *ngIf="userid.errors && (userid.dirty || userid.touched)">
-      <p *ngIf="userid.errors.required" class="required"> Username is required</p>
+      *ngIf="username.errors && (username.dirty || username.touched)">
+      <p *ngIf="username.errors.required"> Username is required</p>
     </div>
 
     <!-- password -->

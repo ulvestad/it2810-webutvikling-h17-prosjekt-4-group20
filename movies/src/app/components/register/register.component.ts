@@ -4,19 +4,11 @@ import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
 
-/*class User {
-  constructor(
-    public userid: string = '',
-    public email: string = '',
-    public password: string = '',
-    public confirm: string = '') {
-  }
-}*/
 interface User {
-  userid: string;
-  email: string;
-  password: string;
-  confirm: string;
+  username: string, // chars or numbers - "[a-zA-Z0-9-]*"
+  email: string, // email - "[^ @]*@[^ @]*"
+  password: string, // minlength=8
+  confirm: string // minlenght=8
 }
 
 @Component({
@@ -39,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.user = {
-      userid: '',
+      username: '',
       email: '',
       password: '',
       confirm: ''
@@ -55,7 +47,7 @@ export class RegisterComponent implements OnInit {
       } else { // fail
         this.result = data.msg;
         if (data.msg === 'err, user exists') { // TODO change error msg
-          this.user.userid = '';
+          this.user.username = '';
         } else if (data.msg === 'Email taken') { // TODO fix this on server
           this.user.email = '';
         }
