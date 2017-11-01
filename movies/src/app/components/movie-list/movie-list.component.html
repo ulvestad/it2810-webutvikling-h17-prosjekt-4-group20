@@ -1,5 +1,9 @@
 <app-nav-bar></app-nav-bar>
-<div class="list-group wrapper">
+<div
+  class="list-group wrapper"
+  infiniteScroll
+  (scrolled)="onScroll()"
+  >
   <a
     *ngFor="let movie of movies"
     href=""
@@ -29,7 +33,7 @@
             <ul>
               <li *ngFor="let genre of selectedMovie.genres ">{{genre.name}}</li>
             </ul>
-          <p><b>Rating: </b>{{ selectedMovie.rating }}</p>  
+          <p><b>Rating: </b>{{ selectedMovie.rating }}</p>
           <p><b>Description: </b>{{ selectedMovie.description }}</p>
         </div>
       </div>
