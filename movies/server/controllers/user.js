@@ -82,9 +82,9 @@ module.exports.login = (req, res) => {
 // TODO put in list saved in user object
 // TODO add expire on token + update the expire date in middleware when doing stuff
 const createToken = (user, callback) => {
-  jwt.sign({ 
-    data: user, 
-    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7) 
+  jwt.sign({
+    data: user,
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7)
   }, config.secret, callback)
 }
 
@@ -92,12 +92,12 @@ const createToken = (user, callback) => {
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
   let token = req.get('token') || req.body.token
-  console.log(req.body)
   if (!token) return res.json(this.errors.noToken)// no token
 
   jwt.verify(token.split(' ')[0], config.secret, (err, decode) => { // decode token
     if (err) return res.json(this.errors.wrongToken) // wrong token
     req.user = decode // apply token to request so the next route can use it
+    console.log(decode)
     next() // continue the request
   })
 }
