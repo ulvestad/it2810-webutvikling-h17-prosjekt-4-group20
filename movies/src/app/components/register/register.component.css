@@ -2,6 +2,11 @@
   font-size: 13px;
   color: #d9534f;
 }
+.text-danger{
+  font-size: 13px;
+  color: #d9534f;
+  text-align: center;
+}
 .form-register {
   max-width: 350px;
   padding: 15px;
@@ -9,7 +14,7 @@
   margin-top: 150px;
   background-color: #292b2c;
 }
-.form-register .form-register-heading {
+.form-register .form-signin-heading {
   margin-bottom: 15px;
   color: #5cb85c;
   text-align: center;
