@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class DataService {
-  private andy: 'http://localhost:3000/';
-  private path: 'http://localhost:3000/api';
+  private path: string;
   result: any;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.path = 'http://localhost:3000/api';
+  }
 
   getMovies() {
     return this.http.get('http://localhost:3000/api/movies').map(result => this.result = result.json().data);
   }
 
-  getMovieDetails(movieId:number) {
+  getMovieDetails(movieId: number) {
     return this.get(`/movie?movieId=${movieId}`).map(res => res.data);
   }
 
