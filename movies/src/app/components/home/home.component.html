@@ -2,10 +2,10 @@
 <div class="container top-container">
   <kbd>Top movies</kbd>
   <div class="justify-content-between wrap-large">
-    <img *ngFor="let img of moviePostersTop4; let i = index" class="large-img" src={{moviePostersTop4[i]}} />
+    <img *ngFor="let img of top_movies_big; let i = index" class="large-img" src="{{IMAGE_URL}}{{top_movies_big[i].poster_path}}" />
   </div>
   <div class="justify-content-between wrap-small">
-    <img *ngFor="let img of moviePostersTop4_12; let i = index" class="small-img" src={{moviePostersTop4_12[i]}} />
-    <img *ngFor="let img of moviePostersTop12_20; let i = index" class="small-img" src={{moviePostersTop12_20[i]}} />
+    <img *ngFor="let img of top_movies_small1; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small1[i].poster_path}}" />
+    <img *ngFor="let img of top_movies_small2; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small2[i].poster_path}}" />
   </div>
 </div>

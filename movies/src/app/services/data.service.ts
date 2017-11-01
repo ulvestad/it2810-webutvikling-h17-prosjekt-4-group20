@@ -33,4 +33,8 @@ export class DataService {
     return this.http.post(this.path + url, {...data, token:this.cookieService.get('token')},).map(res => res.json());
   }
 
+  getPopular() {
+    return this.http.get('https://api.themoviedb.org/3/movie/popular?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page=1').map(result => this.result = result.json().results);
+  }
+
 }
