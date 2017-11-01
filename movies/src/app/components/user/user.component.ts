@@ -15,7 +15,7 @@ interface User {
 })
 export class UserComponent implements OnInit {
 
-  user:User;
+  user: User;
 
   constructor(private dataService: DataService) {
     this.user = {username: '', email: '', favorites: 21, watchlists: 4};
@@ -27,10 +27,8 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-    	//TODO: this response yields 'success:false'
-      this.user = {username: data.username, email: data.email, favorites: 21, watchlists: 4};
-      console.log(data);
-    })
+      this.user = {username: data.user.data, email: data.email, favorites: 21, watchlists: 4};
+    });
   }
 
 }

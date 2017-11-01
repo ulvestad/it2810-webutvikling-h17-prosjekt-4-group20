@@ -1,5 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <div class="container top-container">
-  <h1 class="display-3">Home!</h1>
-  <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+  <kbd>Top movies</kbd>
+  <div class="justify-content-between wrap-large">
+    <img *ngFor="let img of moviePostersTop4; let i = index" class="large-img" src={{moviePostersTop4[i]}} />
+  </div>
+  <div class="justify-content-between wrap-small">
+    <img *ngFor="let img of moviePostersTop4_12; let i = index" class="small-img" src={{moviePostersTop4_12[i]}} />
+    <img *ngFor="let img of moviePostersTop12_20; let i = index" class="small-img" src={{moviePostersTop12_20[i]}} />
+  </div>
 </div>

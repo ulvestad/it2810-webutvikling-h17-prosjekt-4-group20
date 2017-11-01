@@ -3,6 +3,7 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
+import { CookieService } from 'ngx-cookie-service';
 
 interface User {
   username: string;
@@ -19,8 +20,9 @@ export class LoginComponent implements OnInit {
   private result: any; // result from server
   private user: User; // input data
   @ViewChild('f') form: any; // the form
+  cookieValue = 'UNKNOWN';
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
     // TODO: find a better way to change <body> background-color
     // body{ ... } in the css file does not work
     document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
@@ -41,6 +43,8 @@ export class LoginComponent implements OnInit {
       if (data.success) { // success
         this.router.navigate(['']);
         this.form.reset();
+        this.cookieService.set('token', data.token );
+        this.cookieValue = this.cookieService.get(data.username);
       } else { // fail
         this.result = 'Invalid username or password';
       }

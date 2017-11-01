@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class DataService {
   private path: string;
   result: any;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private cookieService: CookieService) {
     this.path = 'http://localhost:3000/api';
   }
 
@@ -22,7 +23,10 @@ export class DataService {
   }
 
   get(url: string): Observable<any> {
-    return this.http.get(this.path + url).map(res => res.json());
+    let headers = new Headers({ "content-type": "text/html", });
+    headers.append('token', this.cookieService.get('token'));
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(this.path + url, options).map(res => res.json());
   }
 
   post(url: string, data: any): Observable<any> {
