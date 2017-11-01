@@ -4,8 +4,8 @@ const server = require('./../../server.js')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const response = require('../response')
 
-const user = require('../controllers/user')
 const User = mongoose.model('User')
 
 // Methods from modules
@@ -55,46 +55,47 @@ describe('user', () => {
       done()
     })
   })
+
   /* Register tests */
   describe('register', () => {
     it('fail no username', done => {
       post(request(server), '/api/register', {}, {...data, username:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUsername.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no email', done => {
       post(request(server), '/api/register', {}, {...data, email:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noEmail.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no password', done => {
       post(request(server), '/api/register', {}, {...data, password:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noPassword.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail user exist', done => {
       post(request(server), '/api/register', {}, {...data}, (err, res) => {
-        res.body.msg.should.equal(user.errors.userExists.msg)
+        res.body.msg.should.equal(response.errors.userExists.msg)
         done()
       })
     })
 
     it('fail email exist', done => {
       post(request(server), '/api/register', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.emailExists.msg)
+        res.body.msg.should.equal(response.errors.emailExists.msg)
         done()
       })
     })
 
     it('success', done => {
       post(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'it@a.t'}, (err, res) => {
-        res.body.msg.should.equal(user.success.userRegistered.msg)
+        res.body.msg.should.equal(response.success.userRegistered.msg)
         done()
       })
     })
@@ -112,35 +113,35 @@ describe('user', () => {
   describe('login', () => {
     it('fail no username', done => {
       post(request(server), '/api/login', {}, {...data, username:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUsername.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no password', done => {
       post(request(server), '/api/login', {}, {...data, password:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noPassword.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no user', done => {
       post(request(server), '/api/login', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUser.msg)
+        res.body.msg.should.equal(response.errors.noUser.msg)
         done()
       })
     })
 
     it('fail wrong password', done => {
       post(request(server), '/api/login', {}, {...data, password: 'wrong'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.wrongPassword.msg)
+        res.body.msg.should.equal(response.errors.wrongPassword.msg)
         done()
       })
     })
 
     it('success logged in', done => {
       post(request(server), '/api/login', {}, {...data}, (err, res) => {
-        res.body.msg.should.equal(user.success.loggedIn.msg)
+        res.body.msg.should.equal(response.success.loggedIn.msg)
         done()
       })
     })
@@ -150,39 +151,29 @@ describe('user', () => {
   describe('middleware', () => {
     it('fail no token', done => {
       get(request(server), '/api/user', {}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noToken.msg)
+        res.body.msg.should.equal(response.errors.noToken.msg)
         done()
       })
     })
 
     it('fail wrong token', done => {
       get(request(server), '/api/user', {token: 'wrong'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.wrongToken.msg)
+        res.body.msg.should.equal(response.errors.wrongToken.msg)
         done()
       })
     })
 
     it('success', done => {
       get(request(server), '/api/user', {token: token}, (err, res) => {
-        res.body.msg.should.equal(user.success.correctToken.msg)
+        res.body.msg.should.equal(response.success.correctToken.msg)
         done()
       })
     })
   })
 
-  // TODO test token exp date?
-
   describe('movielist', () => {
     const first = 'Balto (1995)'
     const second = 'Nixon (1995)'
-
-
-    it('success', done => {
-      get(request(server), '/api/user', {token: token}, (err, res) => {
-        res.body.msg.should.equal(user.success.correctToken.msg)
-        done()
-      })
-    })
 
     it('should add movie to list', done => {
       post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
@@ -216,7 +207,5 @@ describe('user', () => {
         })
       })
     })
-
-
   })
 })
