@@ -17,11 +17,14 @@ module.exports.errors = {
 }
 
 module.exports.getAll = (req, res) => {
-    Movie.find({}, (err, movies) => {
-        if (err) return console.error('err:', err);
-        response.data = movies;
-        res.json(response);
-    })
+    Movie
+        .find({})
+        .limit(10)
+        .exec((err, movies) => {
+            if (err) return console.error('err:', err);
+            response.data = movies;
+            res.json(response);
+        })
 }
 
 module.exports.get = (req, res) => {
