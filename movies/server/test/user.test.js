@@ -2,13 +2,16 @@ const request = require('supertest')
 const should = require('should')
 const server = require('./../../server.js')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 const user = require('../controllers/user')
 const User = mongoose.model('User')
 
-// supertest request for get and post calls
-const get = (agent, url, token, callback) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(callback)
-const post = (agent, url, token, data, callback) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(callback)
+// Methods from modules
+const get = (agent, url, token, cb) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(cb)
+const post = (agent, url, token, data, cb) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(cb)
+const decode = (token, cb) => jwt.verify(token.split(' ')[0], config.secret, cb)
 
 // database methods
 const saveUser = (user, callback) => user.save(callback)
@@ -181,14 +184,39 @@ describe('user', () => {
       })
     })
 
-    it('should ..', done => {
+    it('should add movie to list', done => {
       post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
-        post(request(server), '/api/user/add', {token: token}, { title: first}, (err, res) => {
-          post(request(server), '/api/user/add', {token: token}, { title: second}, (err, res) => {
+        decode(res.body.token, (err, user) => {
+          user.data.movielist.length.should.equal(1)
+          done()
+        })
+      })
+    })
+
+    it('should not add multiple of same movie', done => {
+      let changabletoken = token
+      post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
+        changabletoken = res.body.token
+        post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
+          changabletoken = res.body.token || changabletoken
+          decode(changabletoken, (err, user) => {
+            user.data.movielist.length.should.equal(1)
             done()
           })
         })
       })
     })
+
+    it('should delete token', done => {
+      let anothertoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjU5ZmEyNmI3NDFjMTI3MGY3OTBiNjljMCIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwibW92aWVsaXN0IjpbeyJpZCI6IjU5ZjlmN2RhOWRjNWM1MTNiOTNkMDFkMiIsInRpdGxlIjoiQmFsdG8gKDE5OTUpIiwiX2lkIjoiNTlmYTI2Yjc0MWMxMjcwZjc5MGI2OWMxIn1dfSwiZXhwIjoxNTEwMTcwOTM1LCJpYXQiOjE1MDk1NjYxMzV9.rGHfxGf3YScAtQ3UllYx15yzTp7rL48PsVJQQWC3C80'
+      post(request(server), '/api/user/remove', {token: anothertoken}, {title: first}, (err, res) => {
+        decode(res.body.token, (err, user) => {
+          user.data.movielist.length.should.equal(0)
+          done()
+        })
+      })
+    })
+
+
   })
 })

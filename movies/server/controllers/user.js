@@ -17,7 +17,8 @@ module.exports.errors = {
   wrongPassword:{ success: false, msg: 'Wrong password' },
   noUser:       { success: false, msg: 'No user found' },
   noToken:      { success: false, msg: 'No token' },
-  wrongToken:   { success: false, msg: 'Wrong token' }
+  wrongToken:   { success: false, msg: 'Wrong token' },
+  lazy:         { success: false, msg: 'Something wrong, too lazy to write error msg'}
 }
 
 /* Success messages */
@@ -106,53 +107,43 @@ module.exports.get = (req, res) => {
 }
 
 /* Add a movie to the list, unique elements */
-// TODO use id instead of title, miight not need this
-// TODO fix return msg
-// TODO cleanup <3
-// TODO write tests <3<3
 module.exports.addToMovieList = (req, res) => {
   let {title, username} = {...req.body, ...req.user.data}
-  if (!title || !username) return res.json({msg: 'err'}) // missing data
-  // Make it faster by just adding the id string into user, skip searching for the movie.
+  if (!title || !username) return res.json(this.errors.lazy) // missing data
 
   Movie.findOne({
-    title: title // TODO change to id, or what we want to use
+    title: title
   }, (err, movie) => {
-    if (err) return res.json({msg: 'err'}) // no movie by that title
-    User.findOne({ // no username
+    if (err) return res.json(this.errors.lazy) // no movie
+    User.findOne({
       username: username
     }, (err, user) => {
-      if (err) return res.json({msg: 'err'}) // no user
-      // TODO fix multiple entries
-      //if (user.movielist.find(m => m.equals(movie._id))) return res.json({msg: 'err'}) // already in list
-      user.movielist.push({id: movie._id, title: movie.title})
-      user.save()
+      if (err) return res.json(this.errors.lazy) // no user
+      if (user.movielist.find(m => m.title === title)) return res.json(this.errors.lazy) // already in list
+      user.movielist.push({id: movie._id, title: movie.title}) // add element
+      user.save() // save user
       createToken(user, (err, token) => { // create new token
         if (err) return res.json(this.error.crypto) // error in jwt
-        return res.json({...this.success.loggedIn, token: token}) // return new token
+        return res.json({...this.success.correctToken, token: token}) // return new token
       })
     })
   })
 }
 
 /* Removes a movie from the list */
-// TODO same as the method
 module.exports.removeFromMovieList = (req, res) => {
-  let {movieid, username} = {...req.body, ...req.user.data}
-  if (!movieid || !username) return res.json() // missing data
+  let {title, username} = {...req.body, ...req.user.data}
+  if (!title || !username) return res.json(this.errors.lazy) // missing data
 
   User.findOne({
     username: username
   }, (err, user) => {
-    if (err) return res.json()
-    user.movielist = user.movielist.filter(id => !id.equals(movieid))
-    user.save()
+    if (err) return res.json(this.errors.lazy) // no user
+    user.movielist = user.movielist.filter(m => m.title !== title) // remove the element
+    user.save() // save
     createToken(user, (err, token) => { // create new token
       if (err) return res.json(this.error.crypto) // error in jwt
-      return res.json({...this.success.loggedIn, token: token}) // return new token
+      return res.json({...this.success.correctToken, token: token}) // return new token
     })
   })
 }
-
-// Change password?
-// Reset password?
