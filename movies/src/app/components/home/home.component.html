@@ -1,9 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <div class="container top-container">
+  <kbd>Top movies</kbd>
   <div class="justify-content-between wrap-large">
-    <img *ngFor="let img of moviePosters; let i = index" class="large-img" src={{moviePosters[12+i]}} />
+    <img *ngFor="let img of moviePostersTop4; let i = index" class="large-img" src={{moviePostersTop4[i]}} />
   </div>
   <div class="justify-content-between wrap-small">
-    <img *ngFor="let img of moviePosters; let i = index" class="small-img" src={{moviePosters[i]}} />
+    <img *ngFor="let img of moviePostersTop4_12; let i = index" class="small-img" src={{moviePostersTop4_12[i]}} />
+    <img *ngFor="let img of moviePostersTop12_20; let i = index" class="small-img" src={{moviePostersTop12_20[i]}} />
   </div>
 </div>
