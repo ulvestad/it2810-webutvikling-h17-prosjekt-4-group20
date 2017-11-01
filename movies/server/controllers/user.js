@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+var Movie = require('../models/movie') // todo change movie model to same as user
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const bcrypt = require('bcrypt')
@@ -69,7 +70,7 @@ module.exports.login = (req, res) => {
         // TODO put in list saved in user object
         // TODO add expire on token + update the expire date in middleware when doing stuff
         jwt.sign({
-          data: username,
+          data: user,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7) // Token expire after one week
           }, config.secret, /*{ algorithm: 'RS256'} ,*/ (err, token) => { // create token
           if (err) return res.json(this.error.crypto) // error in jwt
@@ -94,15 +95,50 @@ module.exports.middleware = (req, res, next) => {
 }
 
 /* Get user info, rather be decoded from middleware */
-module.exports.getUser = (req, res) => {
+module.exports.get = (req, res) => {
   res.json({ ...this.success.correctToken, user: req.user })
 }
 
-// TODO
-module.exports.getMovieList = () => {}
-module.exports.addToMovieList = () => {}
-module.exports.removeFromMovieList = () => {}
+/* Add a movie to the list, unique elements */
+// TODO use id instead of title
+// TODO fix return msg
+// TODO cleanup <3
+// TODO write tests <3<3
+module.exports.addToMovieList = (req, res) => {
+  let {movieid, username} = {...req.body, ...req.user.data}
+  if (!movieid || !username) return res.json() // missing data
+  // Make it faster by just adding the id string into user, skip searching for the movie.
+  Movie.findOne({
+    _id: movieid // TODO change to id, or what we want to use
+  }, (err, movie) => {
+    if (err) return res.json() // no movie by that title
+    User.findOne({ // no username
+      username: username
+    }, (err, user) => {
+      if (err) return res.json() // no user
+      if (user.movielist.find(id => id.equals(movie._id))) return res.json() // already in list
+      user.movielist.push(movie) // add
+      user.save() // save
+      res.json({msg: 'succsess'})
+    })
+  })
+}
+
+/* Removes a movie from the list */
+// TODO same as the method
+module.exports.removeFromMovieList = (req, res) => {
+  let {movieid, username} = {...req.body, ...req.user.data}
+  if (!movieid || !username) return res.json() // missing data
+
+  User.findOne({
+    username: username
+  }, (err, user) => {
+    if (err) return res.json()
+    user.movielist = user.movielist.filter(id => !id.equals(movieid))
+    user.save()
+    res.json({msg: 'success i think'})
+  })
+}
 
 // Change password?
 // Reset password?
-
