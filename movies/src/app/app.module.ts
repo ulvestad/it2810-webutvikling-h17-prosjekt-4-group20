@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { DataService } from './services/data.service';
 
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpModule,
     FormsModule,
+    InfiniteScrollModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- True for debugging

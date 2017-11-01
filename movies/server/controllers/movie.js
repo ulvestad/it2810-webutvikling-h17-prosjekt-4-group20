@@ -10,30 +10,36 @@ let response = {
 
 module.exports.errors = {
     noMovieId: 'err, no movieId',
-    noMovie: 'err, no movie found',    
+    noMovie: 'err, no movie found',
 	database: 'err, database',
 	noToken: 'err, no token',
 	wrongToken: 'err, wrong token'
 }
 
 module.exports.getAll = (req, res) => {
-    Movie
-        .find({})
-        .limit(10)
-        .exec((err, movies) => {
-            if (err) return console.error('err:', err);
-            response.data = movies;
-            res.json(response);
-        })
+  Movie.find({}).limit(10).exec((err, movies) => {
+    if (err) return console.error('err:', err);
+    response.data = movies;
+    res.json(response);
+  })
+}
+
+module.exports.getMore = (req, res) => {
+  let next = req.body.nextNumber;
+  Movie.find({}).skip(10 * next).limit(10).exec((err, movies) => {
+    if (err) return console.error('err:', err);
+    response.data = movies;
+    res.json(response);
+  })
 }
 
 module.exports.get = (req, res) => {
     let movieId = req.query.movieId;
 
     if (!movieId) return res.json({ msg: this.errors.noMovieId });
-        
-    Link.findOne({ 
-        movieId: movieId  
+
+    Link.findOne({
+        movieId: movieId
     }, (err, link) => {
         if (err) console.error(err);
         if (!link) return console.error(link,this.errors.noMovie);
