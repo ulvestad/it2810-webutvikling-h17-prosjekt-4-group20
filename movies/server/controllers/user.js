@@ -83,7 +83,8 @@ module.exports.login = (req, res) => {
 
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
-  let token = req.get('token')
+  let token = req.get('token') || req.body.token
+  console.log(req.body)
   if (!token) return res.json(this.errors.noToken)// no token
 
   jwt.verify(token.split(' ')[0], config.secret, (err, decode) => { // decode token

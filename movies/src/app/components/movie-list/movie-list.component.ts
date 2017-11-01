@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 
 interface SelectedMovie {
@@ -55,5 +55,11 @@ export class MovieListComponent implements OnInit {
     this._dataService.post('/lazyMovies', {nextNumber: this.next}).subscribe(res => {
       this.movies = [...this.movies, ...res.data];
     });
+  }
+
+  addToMovieList(){
+    this._dataService.post('/user/add', {title: this.selectedMovie.title}).subscribe(res => {
+      console.log(res)
+    })
   }
 }
