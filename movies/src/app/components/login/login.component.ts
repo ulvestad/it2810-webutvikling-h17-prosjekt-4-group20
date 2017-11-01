@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 interface User {
-  userid: string;
-  password: string;
+  username: string,
+  password: string
 }
 
 @Component({
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.user = {
-      userid: '',
+      username: '',
       password: ''
     };
   }

@@ -15,15 +15,16 @@ const saveUser = (user, callback) => user.save(callback)
 const findUsers = callback => User.find({}, callback)
 const dumpDatabase = callback => User.remove({}, callback)
 
-/* Integration tests for server api */
+/* Integration tests for servers user api */
 describe('user', () => {
   let server
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiJhbmR5IiwiaWF0IjoxNTA5MDQ1OTYyfQ.jB3972Y_e1amizf-jexj5ZA97rkbJIej63XfvktbwpI'
-  const decoded = { userid: 'andy', iat: 1509045962 }
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYW5keSIsImV4cCI6MTUwOTczNzYwNSwiaWF0IjoxNTA5MzkyMDA1fQ.4KAp7pruawAan8ng9W7_R_TdBg6JjhJtdCCTevzYswo'
+  const decoded = { username: 'andy', iat: 1509045962 }
   const data = {
-    userid: 'andy', 
+    username: 'andy', 
     email: 'at@a.t', 
-    password: '123', 
+    password: '123',
+    confirm: '123',
     hash: '$2a$10$S.QJsnORXMLsVnyqT./sOOgrKYj5KUw4h.04fFyf8aLiIlB8SSR8.'
   }
 
@@ -51,11 +52,11 @@ describe('user', () => {
       done()
     })
   })
-
+  /* Register tests */
   describe('register', () => {
-    it('fail no userid', done => {
-      post(request(server), '/api/register', {...data, userid:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUserid.msg)
+    it('fail no username', done => {
+      post(request(server), '/api/register', {...data, username:''}, (err, res) => {
+        res.body.msg.should.equal(user.errors.noUsername.msg)
         done()
       })
     })
@@ -81,19 +82,34 @@ describe('user', () => {
       })
     })
 
+    it('fail email exist', done => {
+      post(request(server), '/api/register', {...data, username: 'johan'}, (err, res) => {
+        res.body.msg.should.equal(user.errors.emailExists.msg)
+        done()
+      })
+    })
+
     it('success', done => {
-      post(request(server), '/api/register', {...data, userid: 'johan'}, (err, res) => {
+      post(request(server), '/api/register', { ...data, username: 'johan', email: 'it@a.t'}, (err, res) => {
         res.body.msg.should.equal(user.success.userRegistered.msg)
         done()
       })
     })
 
+    // TODO test for invalid username
+    // TODO test for invalid email
+    // TODO test for invalid password
+    // TODO test for invalid confirm
+
+    // TODO test for sanitaztion ??
+
   })
 
+  /* Login tests */
   describe('login', () => {
-    it('fail no userid', done => {
-      post(request(server), '/api/login', {...data, userid:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUserid.msg)
+    it('fail no username', done => {
+      post(request(server), '/api/login', {...data, username:''}, (err, res) => {
+        res.body.msg.should.equal(user.errors.noUsername.msg)
         done()
       })
     })
@@ -106,7 +122,7 @@ describe('user', () => {
     })
 
     it('fail no user', done => {
-      post(request(server), '/api/login', {...data, userid: 'johan'}, (err, res) => {
+      post(request(server), '/api/login', {...data, username: 'johan'}, (err, res) => {
         res.body.msg.should.equal(user.errors.noUser.msg)
         done()
       })
@@ -127,6 +143,7 @@ describe('user', () => {
     })
   })
 
+  /* Middleware tests */
   describe('middleware', () => {
     it('fail no token', done => {
       get(request(server), '/api/user', {}, (err, res) => {
@@ -149,6 +166,8 @@ describe('user', () => {
       })
     })
   })
+
+  // TODO test token exp date?
 
   describe('movielist', () => {
     it('success', done => {

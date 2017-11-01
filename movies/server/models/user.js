@@ -5,20 +5,21 @@ const Schema = mongoose.Schema
 
 /* User schema */
 let UserSchema = new Schema({
-  userid: {
-  	type: String,
-  	unique: true,
-  	trim: true,
-  	required: true
+  username: {
+    type: String,
+    unique: true,
+    trim: true,
+    required: true
   },
   email: {
-  	type: String,
-  	trim: true,
-  	required: true
+    type: String,
+    trim: true,
+    unique: true,
+    required: true
   },
   hash: {
-  	type: String,
-  	required: true
+    type: String,
+    required: true
   }
 })
 
@@ -26,7 +27,7 @@ let UserSchema = new Schema({
 
 /* Compare given password with saved hash*/
 UserSchema.methods.comparePasswords = (password, hash, callback) => {
-	bcrypt.compare(password, hash, callback)
+  bcrypt.compare(password, hash, callback)
 }
 
 mongoose.model('User', UserSchema)

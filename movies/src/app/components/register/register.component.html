@@ -3,30 +3,31 @@
     #f="ngForm"
     (ngSubmit)="onSubmit(f.value)"
     class="form-register">
-    <p class="form-register-heading"> Please register</p>
-    <!-- userid -->
+    <p class="form-signin-heading"> Please sign in </p>
+    
+    <!-- username -->
     <div class="" [ngClass]="{
-      'has-danger': userid.invalid && (userid.dirty || userid.touched),
-      'has-success': userid.valid && (userid.dirty || userid.touched)}">
-      <input required
-        [(ngModel)]="user.userid"
-        #userid="ngModel"
-        name="userid"
+      'has-danger': username.invalid && (username.dirty || username.touched),
+      'has-success': username.valid && (username.dirty || username.touched)}">
+      <input required autofocus
+        [(ngModel)]="user.username"
+        #username="ngModel"
+        name="username"
         type="text"
         class="form-control"
         pattern="[a-zA-Z0-9-]*"
         placeholder="Username">
       <div class="form-control-feedback"
-        *ngIf="userid.errors && (userid.dirty || userid.touched)">
-        <p *ngIf="userid.errors.required"> Username is required</p>
-        <p *ngIf="userid.errors.pattern"> Not a valid username </p>
+        *ngIf="username.errors && (username.dirty || username.touched)">
+        <p *ngIf="username.errors.required"> Username is required</p>
+        <p *ngIf="username.errors.pattern"> Not a valid username </p>
       </div>
     </div>
 
     <!-- email -->
     <div class="" [ngClass]="{
       'has-danger': email.invalid && (email.dirty || email.touched),
-      'has-success': email.valid && (email.dirty || userid.touched)}">
+      'has-success': email.valid && (email.dirty || email.touched)}">
       <input required
         [(ngModel)]="user.email"
         #email="ngModel"
