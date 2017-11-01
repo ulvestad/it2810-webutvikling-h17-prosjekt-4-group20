@@ -128,7 +128,10 @@ module.exports.addToMovieList = (req, res) => {
       if (user.movielist.find(id => id.equals(movie._id))) return res.json({msg: 'err'}) // already in list
       user.movielist.push(movie) // add
       user.save() // save
-      res.json({msg: 'succsess'})
+      createToken(user, (err, token) => { // create new token
+        if (err) return res.json(this.error.crypto) // error in jwt
+        return res.json({...this.success.loggedIn, token: token}) // return new token
+      })
     })
   })
 }
