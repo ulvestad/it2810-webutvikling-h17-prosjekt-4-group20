@@ -185,11 +185,7 @@ describe('user', () => {
       post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
         post(request(server), '/api/user/add', {token: token}, { title: first}, (err, res) => {
           post(request(server), '/api/user/add', {token: token}, { title: second}, (err, res) => {
-            post(request(server), '/api/user/remove', {token: token}, { title: first}, (err, res) => {
-              post(request(server), '/api/user/remove', {token: token}, { title: second}, (err, res) => {
-                done()
-              })
-            })
+            done()
           })
         })
       })

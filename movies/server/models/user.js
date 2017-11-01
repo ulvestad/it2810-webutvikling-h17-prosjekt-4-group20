@@ -21,9 +21,11 @@ let UserSchema = new Schema({
     type: String,
     required: true
   },
-  movielist: [Schema.Types.ObjectId]
+  movielist: [{
+    id: String,
+    title: String
+  }]
 })
-
 // XXX put in userschme.pre for hasing? instead of keeping it the controller?
 
 /* Compare given password with saved hash*/
