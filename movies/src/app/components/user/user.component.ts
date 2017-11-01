@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-      this.user = {username: data.user.data, email: data.email, favorites: 21, watchlists: 4};
+      this.user = {username: data.user.data.username, email: data.user.data.email, favorites: 21, watchlists: 4};
     });
   }
 
