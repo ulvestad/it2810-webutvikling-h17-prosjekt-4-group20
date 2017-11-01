@@ -88,7 +88,6 @@ const createToken = (user, callback) => {
   }, config.secret, callback)
 }
 
-
 /* Middleware */
 module.exports.middleware = (req, res, next) => {
   let token = req.get('token') || req.body.token
@@ -107,7 +106,7 @@ module.exports.get = (req, res) => {
 }
 
 /* Add a movie to the list, unique elements */
-// TODO use id instead of title
+// TODO use id instead of title, miight not need this
 // TODO fix return msg
 // TODO cleanup <3
 // TODO write tests <3<3
@@ -124,10 +123,11 @@ module.exports.addToMovieList = (req, res) => {
       username: username
     }, (err, user) => {
       if (err) return res.json({msg: 'err'}) // no user
-      if (user.movielist.find(id => id.equals(movie._id))) return res.json({msg: 'err'}) // already in list
-      user.movielist.push(movie) // add
-      user.save() // save
-      createToken(user  , (err, token) => { // create new token
+      // TODO fix multiple entries
+      //if (user.movielist.find(m => m.equals(movie._id))) return res.json({msg: 'err'}) // already in list
+      user.movielist.push({id: movie._id, title: movie.title})
+      user.save()
+      createToken(user, (err, token) => { // create new token
         if (err) return res.json(this.error.crypto) // error in jwt
         return res.json({...this.success.loggedIn, token: token}) // return new token
       })
@@ -147,7 +147,10 @@ module.exports.removeFromMovieList = (req, res) => {
     if (err) return res.json()
     user.movielist = user.movielist.filter(id => !id.equals(movieid))
     user.save()
-    res.json({msg: 'success i think'})
+    createToken(user, (err, token) => { // create new token
+      if (err) return res.json(this.error.crypto) // error in jwt
+      return res.json({...this.success.loggedIn, token: token}) // return new token
+    })
   })
 }
 
