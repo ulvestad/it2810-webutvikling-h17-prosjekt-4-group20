@@ -20,7 +20,8 @@ let UserSchema = new Schema({
   hash: {
     type: String,
     required: true
-  }
+  },
+  movielist: [Schema.Types.ObjectId]
 })
 
 // XXX put in userschme.pre for hasing? instead of keeping it the controller?
