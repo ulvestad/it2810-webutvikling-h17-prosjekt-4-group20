@@ -2,6 +2,15 @@
   font-size: 13px;
   color: #d9534f;
 }
+.form-control-feedback{
+  font-size: 13px;
+  color: #d9534f;
+}
+.text-danger{
+  text-align: center;
+  color: #d9534f;
+  font-size: 15px;
+}
 .form-signin {
   max-width: 350px;
   padding: 15px;
