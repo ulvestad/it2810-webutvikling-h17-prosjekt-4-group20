@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
     this.dataService.getGenreList()
       .subscribe((res) => {
         this.genreList = res;
-        console.log(res);
     });
   }
 
@@ -52,7 +51,6 @@ export class HomeComponent implements OnInit {
   }
 
   addToMovieList(movie: any){
-    console.log(movie.title)
     this.dataService.post('/user/add', {title: movie.title}).subscribe(res => {
       this.cookieService.set('token', res.token );
       console.log(res)
