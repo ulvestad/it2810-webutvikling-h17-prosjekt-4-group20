@@ -3,6 +3,7 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
+import { CookieService } from 'ngx-cookie-service';
 
 interface User {
   username: string; // chars or numbers - "[a-zA-Z0-9-]*"
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
   private user: User; // input data
   @ViewChild('f') form: any; // the form
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
     // TODO: find a better way to change <body> background-color
     // body{ ... } in the css file does not work
     document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
       if (data.success) { // success
         this.router.navigate(['login']); // success
         this.form.reset();
+        this.cookieService.set('new_user', 'true');
       } else { // fail
         this.result = data.msg;
         if (data.msg === 'err, user exists') { // TODO change error msg

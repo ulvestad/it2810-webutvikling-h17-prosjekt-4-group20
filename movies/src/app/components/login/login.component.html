@@ -1,26 +1,26 @@
 <div class="container">
-  <form novalidate="novalidate"
+  <form #f novalidate="novalidate"
   	#f="ngForm"
   	(ngSubmit)="onSubmit(f.value)"
   	class="form-signin">
     <p class="form-signin-heading">Please sign in<p>
 
     <!-- username -->
-
-    <input required autofocus
+    <input #usr required autofocus
       [(ngModel)]="user.username"
       #username="ngModel"
       name="username"
       type="text"
       class="form-control"
-      placeholder="Username">
+      placeholder="Username"
+      id="username">
     <div class="form-control-feedback"
       *ngIf="username.errors && (username.dirty || username.touched)">
       <p *ngIf="username.errors.required"> Username is required</p>
     </div>
 
     <!-- password -->
-    <input required
+    <input #psw required
       [(ngModel)]="user.password"
       #password="ngModel"
       validateEqual="confirm"
@@ -28,7 +28,8 @@
       name="password"
       type="password"
       class="form-control"
-      placeholder="Password">
+      placeholder="Password"
+      id="password">
     <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
       <p *ngIf="password.errors.required" class="required"> Password is required </p>
     </div>
@@ -36,8 +37,7 @@
     <div>
       <button
         class="btn btn-lg btn-outline-success btn-block"
-        type="submit"
-        [disabled]="!form.valid">
+        type="submit">
         Login
       </button>
     </div>

@@ -14,6 +14,10 @@
   color: #5cb85c;
   text-align: center;
 }
+.form-control-feedback{
+  font-size: 13px;
+  color: #d9534f;
+}
 .form-signin .form-control {
   position: relative;
   height: auto;
