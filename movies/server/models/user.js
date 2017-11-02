@@ -26,12 +26,6 @@ let UserSchema = new Schema({
     title: String
   }]
 })
-// XXX put in userschme.pre for hasing? instead of keeping it the controller?
-
-/* Compare given password with saved hash*/
-UserSchema.methods.comparePasswords = (password, hash, callback) => {
-  bcrypt.compare(password, hash, callback)
-}
 
 mongoose.model('User', UserSchema)
 
