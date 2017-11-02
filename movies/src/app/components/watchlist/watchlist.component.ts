@@ -13,6 +13,7 @@ export class WatchlistComponent implements OnInit {
   constructor(private dataService: DataService) {
     this.dataService.get('/user').subscribe(res => {
       this.moviesList = res.user.data.movielist;
+      console.log(this.moviesList)
     })
   }
 
