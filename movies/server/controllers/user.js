@@ -30,7 +30,6 @@ module.exports.addToMovieList = (req, res) => {
       user.save() // save user
       wrapper.createToken(user, (err, token) => { // create new token
         if (err) return res.json(response.errors.crypto) // error in jwt
-        console.log('add', user.movielist)
         return res.json({...response.success.correctToken, token: token}) // return new token
       })
     })
@@ -50,7 +49,6 @@ module.exports.removeFromMovieList = (req, res) => {
     user.save() // save
     wrapper.createToken(user, (err, token) => { // create new token
       if (err) return res.json(response.errors.crypto) // error in jwt
-      console.log('del', user.movielist)
       return res.json({...response.success.correctToken, token: token}) // return new token
     })
   })

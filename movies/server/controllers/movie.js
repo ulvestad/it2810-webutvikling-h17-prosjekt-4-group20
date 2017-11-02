@@ -26,64 +26,30 @@ module.exports.getMore = (req, res) => {
 }
 
 /* Get movie from database*/
-
-// todo change name. movieId -> movieid
 module.exports.get = (req, res) => {
-  let movieId = req.query.movieId
-  let {title, username} = {...req.query}
-  console.log(title)
+  let {id} = {...req.query}
+  if (!id) return res.json(response.errors.lazy)
 
-  if (!movieId && !title) return res.json(response.errors.lazy)
-
-  // Se om den finnes i NewMovie
-  // if true send det objektet
-  // if false må fetche ny data og lagre det og sende til client
-
-  NewMovie.find({
-
-  })
-
-  Link.findOne({
-    movieId: movieId
-  }, (err, link) => {
-    if (err) console.error(err)
-    if (!link) return console.error(link,this.errors.noMovie)
-
-    tmdb.get(link['tmdbId'], (err, movieDetails) => {
-      response.data = movieDetails
-      res.json(response)
-    })
+  NewMovie.find({id: id}).exec((err, movie) => {
+    if (err) return res.json(response.errors.lazy)
+    if (!movie) return res.json(response.errors.lazy) // todo fetch new info from tmdb
+    return res.json({...response.success.lazy, data: movie})
   })
 }
 
-// todo if there is more than one page
-// need to fetch everything
-
+// todo consider if there is more than one page. or maybe not? tmdb is maybe sorting them
 module.exports.search = (req, res) => {
   const {query} = {...req.body}
-
-  let result = []
 
   const regex = new RegExp(query, 'i')
   NewMovie.find({title: regex}).exec((err, movies) => { // try regex the database
     if (movies.length > 10) return res.json({result: movies}) // if low result, check tmdb for moremovies
-    tmdb.search(query, (err, moremovies) => {
-      saveMany(moremovies.results, (err, x) => {
-        if (err) return console.log(err)
-        return res.json({result: [...moremovies.results, ...movies]}) // send it all
+    tmdb.search(query, (err, moreMovies) => { // find more results
+      NewMovie.insertMany(moreMovies.results, (err, x) => { // save them
+        if (err) return console.log(err) // blabla
+        // can do this step earlier i think...
+        return res.json({result: [...moreMovies.results, ...movies]}) // send it all back to client
       })
     })
   })
-
-  /* Add this aswell
-  var regex = new RegExp(query, 'i')
-  Movie.find({title: regex}, { 'title': 1 }).limit(20).exec((err, movies) => {
-    res.json({result: movies})
-  })
-  */
 }
-
-
-const saveMany = (array, callback) => NewMovie.insertMany(array, callback)
-const find = (id, callback) => NewMovie.find({id: id}, callback)
-const save = (data, callback) => new NewMovie(data).save(callback)
