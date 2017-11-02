@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-
 
 export class HomeComponent implements OnInit {
 
@@ -13,8 +13,10 @@ export class HomeComponent implements OnInit {
   top_movies_small1: Array<any>;
   top_movies_small2: Array<any>;
   IMAGE_URL: string;
+  selectedMovie: Array<any>;
+  genreList: Array<any>;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private cookieService: CookieService) {
 
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
@@ -30,10 +32,31 @@ export class HomeComponent implements OnInit {
         this.top_movies_small1 = res.slice(4,12);
         this.top_movies_small2 = res.slice(12,);
     });
+
+    this.dataService.getGenreList()
+      .subscribe((res) => {
+        this.genreList = res;
+        console.log(res);
+    });
   }
 
   ngOnInit() {
   }
 
+  setMovie(movie: any) {
+    this.selectedMovie = movie;
+  }
+
+  getGenre(genre_id: any){
+    return this.genreList.find(e => e.id === genre_id).name
+  }
+
+  addToMovieList(movie: any){
+    console.log(movie.title)
+    this.dataService.post('/user/add', {title: movie.title}).subscribe(res => {
+      this.cookieService.set('token', res.token );
+      console.log(res)
+    })
+  }
 
 }

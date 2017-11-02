@@ -37,4 +37,8 @@ export class DataService {
     return this.http.get('https://api.themoviedb.org/3/movie/popular?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page=1').map(result => this.result = result.json().results);
   }
 
+  getGenreList() {
+    return this.http.get('https://api.themoviedb.org/3/genre/movie/list?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US').map(result => this.result = result.json().genres);
+  }
+
 }
