@@ -13,6 +13,7 @@ router.post('/register', auth.register)
 router.get('/movies', movie.getAll)
 router.get('/movie', movie.get)
 router.post('/lazyMovies', movie.getMore)
+router.post('/search', movie.search)
 
 router.use(auth.middleware)
 router.get('/user', user.get)
