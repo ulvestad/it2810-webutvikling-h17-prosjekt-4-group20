@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const User = mongoose.model('User')
-var Movie = require('../models/movie') // todo change movie model to same as user
+const User = require('../models/user')
+const Movie = require('../models/movie')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const bcrypt = require('bcrypt')
@@ -14,22 +14,23 @@ module.exports.get = (req, res) => {
 
 /* Add a movie to the list, unique elements */
 module.exports.addToMovieList = (req, res) => {
-  let {title, username} = {...req.body, ...req.user.data}
-  if (!title || !username) return res.json(response.errors.lazy) // missing data
+  let {id, username} = {...req.body, ...req.user.data}
+  if (!id || !username) return res.json(response.errors.lazy) // missing data
 
   Movie.findOne({
-    title: title
+    id: id
   }, (err, movie) => {
     if (err) return res.json(response.errors.lazy) // no movie
     User.findOne({
       username: username
     }, (err, user) => {
       if (err) return res.json(response.errors.lazy) // no user
-      if (user.movielist.find(m => m.title === title)) return res.json(response.errors.lazy) // already in list
-      user.movielist.push({id: movie._id, title: movie.title}) // add element
+      if (user.movielist.find(m => m.id === id)) return res.json(response.errors.lazy) // already in list
+      user.movielist.push({...movie}) // add element
       user.save() // save user
       wrapper.createToken(user, (err, token) => { // create new token
-        if (err) return res.json(response.error.crypto) // error in jwt
+        if (err) return res.json(response.errors.crypto) // error in jwt
+        console.log('add', user.movielist)
         return res.json({...response.success.correctToken, token: token}) // return new token
       })
     })
@@ -38,17 +39,18 @@ module.exports.addToMovieList = (req, res) => {
 
 /* Removes a movie from the list */
 module.exports.removeFromMovieList = (req, res) => {
-  let {title, username} = {...req.body, ...req.user.data}
-  if (!title || !username) return res.json(this.errors.lazy) // missing data
+  let {id, username} = {...req.body, ...req.user.data}
+  if (!id || !username) return res.json(response.errors.lazy) // missing data
 
   User.findOne({
     username: username
   }, (err, user) => {
     if (err) return res.json(this.errors.lazy) // no user
-    user.movielist = user.movielist.filter(m => m.title !== title) // remove the element
+    user.movielist = user.movielist.filter(m => m.id !== id) // remove the element
     user.save() // save
     wrapper.createToken(user, (err, token) => { // create new token
-      if (err) return res.json(this.error.crypto) // error in jwt
+      if (err) return res.json(response.errors.crypto) // error in jwt
+      console.log('del', user.movielist)
       return res.json({...response.success.correctToken, token: token}) // return new token
     })
   })

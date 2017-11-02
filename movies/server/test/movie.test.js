@@ -1,24 +1,36 @@
 const request = require('supertest')
 const should = require('should')
-const server = require('./../../server.js')
+
+const NewMovie = require('../models/newMovie')
 
 // supertest request for get and post calls
 const get = (agent, url, token, callback) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(callback)
 const post = (agent, url, token, data, callback) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(callback)
 
 // database methods
-const saveMovie = (movie, callback) => movie.save(callback)
-const dumpDatabase = callback => Movie.remove({}, callback)
-
+const find = (id, callback) => NewMovie.find({id: id}, callback)
+const dumpDatabase = callback => NewMovie.remove({}, callback)
 
 /* Integration tests for server api */
 describe('movie', () => {
 
+  before(done => {
+    server = require('../../server')
+    dumpDatabase(err => done())
+  })
+
+  after(done => {
+    server.close()
+    dumpDatabase(err => done())
+  })
+
   it('Should return search results', done => {
-    post(request(server), '/api/search', {}, {query: 'Batman'}, (err, res) => {
-      res.body.result.length.should.be.above(0)
-      console.log(res.body.result)
-      done()
+    post(request(server), '/api/search', {}, {query: 'avatar'}, (err, res) => {
+      res.body.result.length.should.be.above(1)
+      NewMovie.find({}, (err, movies) => {
+        movies.length.should.be.above(0)
+        done()
+      })
     })
   })
 
