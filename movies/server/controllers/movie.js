@@ -50,3 +50,14 @@ module.exports.get = (req, res) => {
         });
     });
 }
+
+module.exports.search = (req, res) => {
+    const {query} = {...req.body}
+
+    var regex = new RegExp(query, 'i');
+    Movie.find({title: regex}, { 'title': 1 }).limit(20).exec((err, users) => {
+        res.json({result: users})
+    })
+            
+
+}
