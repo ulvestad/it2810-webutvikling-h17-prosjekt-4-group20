@@ -2,13 +2,16 @@ const request = require('supertest')
 const should = require('should')
 const server = require('./../../server.js')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
+const response = require('../response')
 
-const user = require('../controllers/user')
 const User = mongoose.model('User')
 
-// supertest request for get and post calls
-const get = (agent, url, token, callback) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(callback)
-const post = (agent, url, token, data, callback) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(callback)
+// Methods from modules
+const get = (agent, url, token, cb) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(cb)
+const post = (agent, url, token, data, cb) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(cb)
+const decode = (token, cb) => jwt.verify(token.split(' ')[0], config.secret, cb)
 
 // database methods
 const saveUser = (user, callback) => user.save(callback)
@@ -52,46 +55,47 @@ describe('user', () => {
       done()
     })
   })
+
   /* Register tests */
   describe('register', () => {
     it('fail no username', done => {
       post(request(server), '/api/register', {}, {...data, username:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUsername.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no email', done => {
       post(request(server), '/api/register', {}, {...data, email:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noEmail.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no password', done => {
       post(request(server), '/api/register', {}, {...data, password:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noPassword.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail user exist', done => {
       post(request(server), '/api/register', {}, {...data}, (err, res) => {
-        res.body.msg.should.equal(user.errors.userExists.msg)
+        res.body.msg.should.equal(response.errors.userExists.msg)
         done()
       })
     })
 
     it('fail email exist', done => {
       post(request(server), '/api/register', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.emailExists.msg)
+        res.body.msg.should.equal(response.errors.emailExists.msg)
         done()
       })
     })
 
     it('success', done => {
       post(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'it@a.t'}, (err, res) => {
-        res.body.msg.should.equal(user.success.userRegistered.msg)
+        res.body.msg.should.equal(response.success.userRegistered.msg)
         done()
       })
     })
@@ -109,35 +113,35 @@ describe('user', () => {
   describe('login', () => {
     it('fail no username', done => {
       post(request(server), '/api/login', {}, {...data, username:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUsername.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no password', done => {
       post(request(server), '/api/login', {}, {...data, password:''}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noPassword.msg)
+        res.body.msg.should.equal(response.errors.missing.msg)
         done()
       })
     })
 
     it('fail no user', done => {
       post(request(server), '/api/login', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noUser.msg)
+        res.body.msg.should.equal(response.errors.noUser.msg)
         done()
       })
     })
 
     it('fail wrong password', done => {
       post(request(server), '/api/login', {}, {...data, password: 'wrong'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.wrongPassword.msg)
+        res.body.msg.should.equal(response.errors.wrongPassword.msg)
         done()
       })
     })
 
     it('success logged in', done => {
       post(request(server), '/api/login', {}, {...data}, (err, res) => {
-        res.body.msg.should.equal(user.success.loggedIn.msg)
+        res.body.msg.should.equal(response.success.loggedIn.msg)
         done()
       })
     })
@@ -147,46 +151,59 @@ describe('user', () => {
   describe('middleware', () => {
     it('fail no token', done => {
       get(request(server), '/api/user', {}, (err, res) => {
-        res.body.msg.should.equal(user.errors.noToken.msg)
+        res.body.msg.should.equal(response.errors.noToken.msg)
         done()
       })
     })
 
     it('fail wrong token', done => {
       get(request(server), '/api/user', {token: 'wrong'}, (err, res) => {
-        res.body.msg.should.equal(user.errors.wrongToken.msg)
+        res.body.msg.should.equal(response.errors.wrongToken.msg)
         done()
       })
     })
 
     it('success', done => {
       get(request(server), '/api/user', {token: token}, (err, res) => {
-        res.body.msg.should.equal(user.success.correctToken.msg)
+        res.body.msg.should.equal(response.success.correctToken.msg)
         done()
       })
     })
   })
 
-  // TODO test token exp date?
-
   describe('movielist', () => {
     const first = 'Balto (1995)'
     const second = 'Nixon (1995)'
 
-
-    it('success', done => {
-      get(request(server), '/api/user', {token: token}, (err, res) => {
-        res.body.msg.should.equal(user.success.correctToken.msg)
-        done()
+    it('should add movie to list', done => {
+      post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
+        decode(res.body.token, (err, user) => {
+          user.data.movielist.length.should.equal(1)
+          done()
+        })
       })
     })
 
-    it('should ..', done => {
+    it('should not add multiple of same movie', done => {
+      let changabletoken = token
       post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
-        post(request(server), '/api/user/add', {token: token}, { title: first}, (err, res) => {
-          post(request(server), '/api/user/add', {token: token}, { title: second}, (err, res) => {
+        changabletoken = res.body.token
+        post(request(server), '/api/user/add', {token: token}, {title: first}, (err, res) => {
+          changabletoken = res.body.token || changabletoken
+          decode(changabletoken, (err, user) => {
+            user.data.movielist.length.should.equal(1)
             done()
           })
+        })
+      })
+    })
+
+    it('should delete token', done => {
+      let anothertoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjU5ZmEyNmI3NDFjMTI3MGY3OTBiNjljMCIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwibW92aWVsaXN0IjpbeyJpZCI6IjU5ZjlmN2RhOWRjNWM1MTNiOTNkMDFkMiIsInRpdGxlIjoiQmFsdG8gKDE5OTUpIiwiX2lkIjoiNTlmYTI2Yjc0MWMxMjcwZjc5MGI2OWMxIn1dfSwiZXhwIjoxNTEwMTcwOTM1LCJpYXQiOjE1MDk1NjYxMzV9.rGHfxGf3YScAtQ3UllYx15yzTp7rL48PsVJQQWC3C80'
+      post(request(server), '/api/user/remove', {token: anothertoken}, {title: first}, (err, res) => {
+        decode(res.body.token, (err, user) => {
+          user.data.movielist.length.should.equal(0)
+          done()
         })
       })
     })
