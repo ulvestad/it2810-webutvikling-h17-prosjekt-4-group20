@@ -58,10 +58,9 @@ export class MovieListComponent implements OnInit {
     });
   }
 
-  addToMovieList(){
+  addToMovieList() {
     this._dataService.post('/user/add', {title: this.selectedMovie.title}).subscribe(res => {
-      this.cookieService.set('token', res.token );
-      console.log(res)
-    })
+      this.cookieService.set('token', res.token);
+    });
   }
 }
