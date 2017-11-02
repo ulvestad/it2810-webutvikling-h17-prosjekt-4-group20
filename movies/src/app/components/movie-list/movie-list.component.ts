@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SearchService } from '../../services/search.service';
 import { Observable } from 'rxjs';
 
 interface SelectedMovie {
@@ -19,13 +20,11 @@ const IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent implements OnInit {
-  query: string;
   next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
 
-  constructor(private dataService: DataService, private cookieService: CookieService) {
-    this.query = ''
+  constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -35,23 +34,10 @@ export class MovieListComponent implements OnInit {
     };
 
     this.next = 0;
-    //this.dataService.getMovies().subscribe(res => this.movies = res);
+    this.dataService.getMovies().subscribe(res => this.movies = res);
   }
 
   ngOnInit() {
-  }
-
-  onChange(query: string) {
-    // TODO set limit somehow
-    if (query.length >= 2) {
-      this.query = query;
-      this.search(query);
-    }
-  }
-
-  /* Returns the results for search string query */
-  search(query: string) {
-    this.dataService.post('/search', {query: query}).subscribe(res => this.movies = res.result)
   }
 
   /* TODO må sammarbeide med search. */

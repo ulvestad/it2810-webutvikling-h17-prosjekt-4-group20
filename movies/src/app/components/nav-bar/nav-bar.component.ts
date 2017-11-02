@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { SearchService } from '../../services/search.service';
 
 
 @Component({
@@ -8,10 +8,17 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+	private query: string;
 
-  constructor(private dataService: DataService) { }
+  constructor(private searchService: SearchService) { 
+  }
 
   ngOnInit() {
+  }
+
+  onChange(query: string) {
+  	this.query = query;
+    this.searchService.search(query);
   }
 
 }
