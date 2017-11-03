@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   IMAGE_URL: string;
   selectedMovie: Array<any>;
   genreList: Array<any>;
+  isLoggedIn: boolean = false; //assume worst
 
   constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
 
@@ -25,7 +26,8 @@ export class HomeComponent implements OnInit {
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#fff';
 
-    this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320'
+    this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
+    this.isLoggedIn = this.dataService.isLoggedIn();
 
     this.dataService.getPopular().subscribe(movies => this.update(movies));
 
@@ -46,6 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   setMovie(movie: any) {
+    console.log(movie)
     this.selectedMovie = movie;
   }
 

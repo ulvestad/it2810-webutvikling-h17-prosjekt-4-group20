@@ -25,7 +25,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{selectedMovie.title}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{selectedMovie.title}} ({{selectedMovie.release_date.substring(0,4)}})</h5>
       </div>
       <div class="d-flex justify-content-between modal-body">
         <div class="modalBody">
@@ -42,7 +42,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addToMovieList(selectedMovie)">Add to watchlist</button>
+        <div *ngIf="isLoggedIn;else login">
+          <button type="button" data-dismiss="modal" class="btn btn-primary" (click)="addToMovieList()">Add to watchlist</button>
+        </div>
+        <ng-template #login><button type="button" data-dismiss="modal" class="btn btn-primary" routerLink="/login" routerLinkActive="active">Add to watchlist</button></ng-template>
       </div>
     </div>
   </div>

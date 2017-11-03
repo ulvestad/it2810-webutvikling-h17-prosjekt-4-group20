@@ -12,9 +12,11 @@ export class WatchlistComponent implements OnInit {
   private IMAGE_URL:string = 'https://image.tmdb.org/t/p/w320/';
 
   constructor(private dataService: DataService) {
-    this.dataService.get('/user').subscribe(res => {
-      this.movieslist = res.user.data.movielist;
-    })
+    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+      this.dataService.get('/user').subscribe(res => {
+        this.movieslist = res.user.data.movielist;
+      })
+    }
   }
 
   ngOnInit() {

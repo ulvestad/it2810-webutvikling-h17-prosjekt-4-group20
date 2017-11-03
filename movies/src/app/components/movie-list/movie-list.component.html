@@ -38,7 +38,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button"  data-dismiss="modal" class="btn btn-primary" (click)="addToMovieList()">Add to watchlist</button>
+        <div *ngIf="isLoggedIn;else login">
+          <button type="button" data-dismiss="modal" class="btn btn-primary" (click)="addToMovieList()">Add to watchlist</button>
+        </div>
+        <ng-template #login><button type="button" data-dismiss="modal" class="btn btn-primary" routerLink="/login" routerLinkActive="active" >Add to watchlist</button></ng-template>
       </div>
     </div>
   </div>

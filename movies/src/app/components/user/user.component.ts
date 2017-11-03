@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { RouterModule, Routes} from '@angular/router';
+import { Router } from '@angular/router';
 
 interface User {
   username: string;
@@ -16,10 +18,16 @@ interface User {
 export class UserComponent implements OnInit {
 
   user: User;
+  isLoggedIn: boolean = false; //assume worst
 
-  constructor(private dataService: DataService) {
-    this.user = {username: '', email: '', favorites: 21, watchlists: 4};
-    this.getUser();
+  constructor(private dataService: DataService, private router: Router) {
+    this.isLoggedIn = this.dataService.isLoggedIn();
+    if(!this.isLoggedIn) { //user is not logged in -> redirect to /login
+      this.router.navigate(['/login']);
+    }else{
+      this.user = {username: '', email: '', favorites: 21, watchlists: 4};
+      this.getUser();
+    }
   }
 
   ngOnInit() {

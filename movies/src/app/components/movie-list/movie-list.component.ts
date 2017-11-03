@@ -23,8 +23,11 @@ export class MovieListComponent implements OnInit {
   next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
+  isLoggedIn: boolean = false; //assume worst
 
   constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
+    this.isLoggedIn = this.dataService.isLoggedIn()
+    this.query = ''
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -32,7 +35,6 @@ export class MovieListComponent implements OnInit {
       rating: -1,
       image: '',
     };
-
     this.next = 0;
     this.dataService.getMovies().subscribe(res => this.movies = res);
   }
@@ -69,4 +71,5 @@ export class MovieListComponent implements OnInit {
       console.log(res)
     })
   }
+  
 }
