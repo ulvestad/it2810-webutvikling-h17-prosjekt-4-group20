@@ -11,9 +11,11 @@ export class WatchlistComponent implements OnInit {
   moviesList: Array<any>;
 
   constructor(private dataService: DataService) {
-    this.dataService.get('/user').subscribe(res => {
-      this.moviesList = res.user.data.movielist;
-    })
+    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+      this.dataService.get('/user').subscribe(res => {
+        this.moviesList = res.user.data.movielist;
+      })
+    }
   }
 
   ngOnInit() {

@@ -23,8 +23,12 @@ export class MovieListComponent implements OnInit {
   next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
+  isLoggedIn: boolean = false; //assume worst
 
   constructor(private dataService: DataService, private cookieService: CookieService) {
+
+    this.isLoggedIn = this.dataService.isLoggedIn()
+
     this.query = ''
     this.selectedMovie = {
       title: '',
@@ -83,4 +87,5 @@ export class MovieListComponent implements OnInit {
       console.log(res)
     })
   }
+  
 }

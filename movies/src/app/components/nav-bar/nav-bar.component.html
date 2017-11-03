@@ -11,7 +11,7 @@
         <input class="form-control mr-2" type="text" placeholder="Search...">
         <button routerLink="/movie-list" class="btn btn-outline-success mr-2" type="submit">Search</button>
       </form>
-      <a class="navbar-brand element" routerLink="/user" routerLinkActive="active">
+      <a class="navbar-brand element" [routerLink]="isLoggedIn ? '/user': '/login'" routerLinkActive="active">
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>
     </div>
