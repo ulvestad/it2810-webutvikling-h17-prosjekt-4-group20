@@ -24,7 +24,7 @@ describe('movie', () => {
     dumpDatabase(err => done())
   })
 
-  it('Should return search results', done => {
+  xit('Should return search results', done => {
     post(request(server), '/api/search', {}, {query: 'avatar'}, (err, res) => {
       res.body.result.length.should.be.above(1)
       NewMovie.find({}, (err, movies) => {
@@ -34,7 +34,7 @@ describe('movie', () => {
     })
   })
 
-  it('Should return empty search results', done => {
+  xit('Should return empty search results', done => {
     post(request(server), '/api/search', {}, {query: 'do not find anything please'}, (err, res) => {
     	res.body.result.length.should.be.equal(0)
       done()

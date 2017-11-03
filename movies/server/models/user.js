@@ -21,7 +21,7 @@ module.exports = mongoose.model('User', new Schema({
     required: true
   },
   movielist: [{
-    id: String,
+    id: Number,
     title: String,
     release_date: String,
     poster_path: String

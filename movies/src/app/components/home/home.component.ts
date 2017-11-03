@@ -56,7 +56,14 @@ export class HomeComponent implements OnInit {
   addToMovieList(movie: any){
     this.dataService.post('/user/add', {id: movie.id}).subscribe(res => {
       if (res.success) this.cookieService.set('token', res.token );
-      console.log(res);
+      console.log('added', res);
+    })
+  }
+
+  removeFromMovieList(movie: any){
+    this.dataService.post('/user/remove', {id: movie.id}).subscribe(res => {
+      if (res.success) this.cookieService.set('token', res.token)
+      console.log('removed', res)
     })
   }
 

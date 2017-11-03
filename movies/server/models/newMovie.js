@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema   = mongoose.Schema
 
 module.exports = mongoose.model('NewMovie', new Schema({
-	id: { type: String, unique: true, require: true },
+	id: { type: Number, unique: true, require: true },
 	title: String,
 	overview: String,
 	popularity: Number,

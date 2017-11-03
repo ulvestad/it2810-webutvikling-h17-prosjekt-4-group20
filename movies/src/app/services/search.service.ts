@@ -7,15 +7,20 @@ import { Router } from '@angular/router';
 export class SearchService {
   results: Array<any>;
   change: Subject<any> = new Subject<any>();
+  private lastUpdate: number;
 
   constructor(private dataService: DataService, private router: Router) {
-
+    this.lastUpdate = + new Date();
   }
 
   /* Returns the results for search string query */
-  // Limit number of requests per second?
+  // maybe handle this another way??
+
+  // bug - if you write the whole query in under a second fast it wont fetch.
   search(query: string) {
-    if (query.length >= 3) {
+    // string minlength 3, second between each request
+    if (query.length >= 3 && (+ new Date() - this.lastUpdate > 1000)) {
+      this.lastUpdate = + new Date();
       this.dataService.post('/search', {query: query}).subscribe(res => {
         //this.router.navigateByUrl('/movie-list');
         this.results = res.result;
