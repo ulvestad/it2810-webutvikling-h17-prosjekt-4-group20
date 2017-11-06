@@ -11,7 +11,7 @@ export class NavBarComponent implements OnInit {
 	private query: string;
   isLoggedIn: boolean = false; //assume worst
   
-  constructor(private searchService: SearchService, private route: Router) { 
+  constructor(private searchService: SearchService, private route: Router, private dataService: DataService) { 
     this.isLoggedIn = this.dataService.isLoggedIn()
   }
 
