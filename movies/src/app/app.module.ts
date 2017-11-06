@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { DataService } from './services/data.service';
+import { SearchService } from './services/search.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     DataService,
+    SearchService,
     CookieService
   ],
   bootstrap: [AppComponent]

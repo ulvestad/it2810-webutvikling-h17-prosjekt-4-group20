@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SearchService } from '../../services/search.service';
 import { Observable } from 'rxjs';
 
 interface SelectedMovie {
@@ -19,17 +20,14 @@ const IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent implements OnInit {
-  query: string;
   next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
   isLoggedIn: boolean = false; //assume worst
 
-  constructor(private dataService: DataService, private cookieService: CookieService) {
-
+  constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
     this.isLoggedIn = this.dataService.isLoggedIn()
-
-    this.query = ''
+    //this.query = '' //query is not set anywhere, commenting out
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -37,25 +35,11 @@ export class MovieListComponent implements OnInit {
       rating: -1,
       image: '',
     };
-
     this.next = 0;
-    //this.dataService.getMovies().subscribe(res => this.movies = res);
+    this.dataService.getMovies().subscribe(res => this.movies = res);
   }
 
   ngOnInit() {
-  }
-
-  onChange(query: string) {
-    // TODO set limit somehow
-    if (query.length >= 2) {
-      this.query = query;
-      this.search(query);
-    }
-  }
-
-  /* Returns the results for search string query */
-  search(query: string) {
-    this.dataService.post('/search', {query: query}).subscribe(res => this.movies = res.result)
   }
 
   /* TODO må sammarbeide med search. */

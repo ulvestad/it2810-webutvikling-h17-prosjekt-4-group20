@@ -1,63 +1,64 @@
-var Movie = require('../models/movie');
-var Link = require('../models/link');
-var tmdb = require('./tmdb');
+const Movie = require('../models/movie')
+const NewMovie = require('../models/newMovie')
+const Link = require('../models/link')
+const tmdb = require('./tmdb')
+const response = require('../response')
 
-let response = {
-    status: 200,
-    data: [],
-    message: null
-};
-
-module.exports.errors = {
-    noMovieId: 'err, no movieId',
-    noMovie: 'err, no movie found',
-	database: 'err, database',
-	noToken: 'err, no token',
-	wrongToken: 'err, wrong token'
-}
-
+/* Get all movie elements */
+// remove I guess
 module.exports.getAll = (req, res) => {
   Movie.find({}).limit(10).exec((err, movies) => {
-    if (err) return console.error('err:', err);
-    response.data = movies;
-    res.json(response);
+    if (err) return res.json(response.errors.lazy)
+    return res.json({...response.success.lazy, data: movies})
   })
 }
 
+/* Lazy loads more movies from all */
+// change to query get more
 module.exports.getMore = (req, res) => {
-  let next = req.body.nextNumber;
+  let next = req.body.nextNumber
+  if (!next) return res.json(response.errors.lazy)
+
   Movie.find({}).skip(10 * next).limit(10).exec((err, movies) => {
-    if (err) return console.error('err:', err);
-    response.data = movies;
-    res.json(response);
+    if (err) return res.json(response.errors.lazy)
+    return res.json({...response.success.lazy, data: movies})
   })
 }
 
+/* Get movie from database*/
 module.exports.get = (req, res) => {
-    let movieId = req.query.movieId;
+  let {id} = {...req.query}
+  if (!id) return res.json(response.errors.missing)
 
-    if (!movieId) return res.json({ msg: this.errors.noMovieId });
-
-    Link.findOne({
-        movieId: movieId
-    }, (err, link) => {
-        if (err) console.error(err);
-        if (!link) return console.error(link,this.errors.noMovie);
-
-        tmdb.get(link['tmdbId'], (err, movieDetails) => {
-            response.data = movieDetails;
-            res.json(response);
-        });
-    });
+  NewMovie.find({id: id}).exec((err, movie) => {
+    if (err) return res.json(response.errors.database)
+    if (!movie) return res.json(response.errors.noMovie) // todo fetch new info from tmdb
+    return res.json({...response.success.success, data: movie})
+  })
 }
 
+// todo consider if there is more than one page. or maybe not? tmdb is maybe sorting them
+// only send a few results bsed on popularity? rating? ...
 module.exports.search = (req, res) => {
-    const {query} = {...req.body}
-
-    var regex = new RegExp(query, 'i');
-    Movie.find({title: regex}, { 'title': 1 }).limit(20).exec((err, users) => {
-        res.json({result: users})
+  const {query} = {...req.body}
+  if (!query) return res.json(response.errors.missing)
+  const regex = new RegExp(query, 'i')
+  NewMovie.find({title: regex}).sort('rating').exec((err, movies) => { // try regex the database
+    if (movies.length > 10) return res.json({...response.success.success, result: movies}) // if low result, check tmdb for moremovies
+    tmdb.search(query, (err, moreMovies) => { // find more results
+      saveMany(moreMovies.results) // save movies
+      return res.json({...response.success.success, result: [...moreMovies.results, ...movies]}) // send it all back to client
     })
-            
+  })
+}
 
+/* Saves all movies in array */
+const saveMany = array => {
+  if (!array) return console.log('empty array')
+  array.map(o => {
+    new NewMovie(o).save(err => {
+      if (err) console.log('duplicate key, not saved', o.title)
+      else console.log('saved ', o.title)
+    }) 
+  })
 }

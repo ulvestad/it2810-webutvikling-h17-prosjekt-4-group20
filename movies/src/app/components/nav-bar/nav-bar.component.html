@@ -7,11 +7,11 @@
     <a class="navbar-brand" routerLink="/home"><img src="../../assets/img/logo.png" class="logo"/></a>
 
     <div class="collapse navbar-collapse" id="navbarsExampleContainer">
-      <form class="form-inline mx-auto flex-nowrap flex-row element">
-        <input class="form-control mr-2" type="text" placeholder="Search...">
-        <button routerLink="/movie-list" class="btn btn-outline-success mr-2" type="submit">Search</button>
-      </form>
+      
+      <input class="form-control mr-2" type="text" [ngModel]="query" (ngModelChange)="onChange($event)" placeholder="Search...">
+      <button routerLink="/" class="btn btn-outline-success mr-2" type="submit">Search</button>
       <a class="navbar-brand element" [routerLink]="isLoggedIn ? '/user': '/login'" routerLinkActive="active">
+
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>
     </div>

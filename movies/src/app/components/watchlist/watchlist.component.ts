@@ -8,17 +8,22 @@ import { DataService } from '../../services/data.service';
 })
 export class WatchlistComponent implements OnInit {
 
-  moviesList: Array<any>;
+  movieslist: Array<any>;
+  private IMAGE_URL:string = 'https://image.tmdb.org/t/p/w320/';
 
   constructor(private dataService: DataService) {
     if(this.dataService.isLoggedIn()){ //user is logged in -> get data
       this.dataService.get('/user').subscribe(res => {
-        this.moviesList = res.user.data.movielist;
+        this.movieslist = res.user.data.movielist;
       })
     }
   }
 
   ngOnInit() {
+  }
+
+  remove(movie: any) {
+    console.log('todo: remove me', movie)
   }
 
 }

@@ -1,50 +1,31 @@
-const http = require('http');
-const config = require('../config')
+const request = require('request')
 
-const BASE_URI = "http://api.themoviedb.org/3";
+const base = "https://api.themoviedb.org/3/";
+const key = '?api_key=' + require('../config').api_key
 const IMAGES_URI = "http://image.tmdb.org/t/p";
-const TIMEOUT = 5000;
 
-module.exports.get = (tmdbId, callback) => {
-    const query_str = `/movie/${tmdbId}?api_key=${config.api_key}`;
-    const options = {
-        host: BASE_URI,
-        path: query_str
-    };
+module.exports.searchRequest = (query, callback) => request(base + `search/movie${key}&query=${query}`, callback)
 
-    http.get(BASE_URI+query_str, (res) => {
-        const { statusCode } = res;
-        const contentType = res.headers['content-type'];
-      
-        let error;
-        if (statusCode !== 200) {
-          error = new Error('Request Failed.\n' +
-                            `Status Code: ${statusCode}`);
-        } else if (!/^application\/json/.test(contentType)) {
-          error = new Error('Invalid content-type.\n' +
-                            `Expected application/json but received ${contentType}`);
-        }
-        if (error) {
-          console.error(error.message);
-          // consume response data to free up memory
-          res.resume();
+module.exports.findRequest = (id, callback) => request(base + `movie/${id}${key}`, callback)
 
-          callback(e, null);
-          return;
-        }
-      
-        res.setEncoding('utf8');
-        let rawData = '';
-        res.on('data', (chunk) => { rawData += chunk; });
-        res.on('end', () => {
-          try {
-            const parsedData = JSON.parse(rawData);
-            callback(null, parsedData);
-          } catch (e) {
-            callback(e, null);
-          }
-        });
-      }).on('error', (e) => {
-        callback(e, null);
-      });
-}   
+
+// not using
+// can edit this to handle json error
+const read = string => JSON.parse(string)
+
+
+// todo add handler for response 401 and 404
+module.exports.getInfo = (id, callback) => {
+	this.findRequest(id, (err, res, body) => {
+		if (err) return callback(err)
+		callback(null, JSON.parse(body))
+  })
+}
+
+// handler 401 404. tror de går gjennom error msg
+module.exports.search = (query, callback) => {
+	this.searchRequest(query, (err, res, body) => {
+		if (err) return callback(err)
+		callback(null, JSON.parse(body))
+	})
+}

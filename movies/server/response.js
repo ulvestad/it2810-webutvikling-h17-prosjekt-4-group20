@@ -12,12 +12,17 @@ module.exports.errors = {
   noToken:      { success: false, msg: 'No token' },
   wrongToken:   { success: false, msg: 'Wrong token' },
   lazy:         { success: false, msg: 'Something wrong, too lazy to write error msg'},
-  missing:      { success: false, msg: 'Missing data'}
+  missing:      { success: false, msg: 'Missing data'},
+  noMovieId:    { success: false, msg: 'No movieId'},
+  noMovie:      { success: false, msg: 'No movie found'},
+  exists:       { success: false, msg: 'No duplicates'}
 }
 
 /* Success messages */
 module.exports.success = {
-  userRegistered: { success: true, msg: 'success, user registered' },
-  loggedIn:       { success: true, msg: 'success, user logged in' },
-  correctToken:   { success: true, msg: 'success, correct token' }
+  userRegistered: { success: true, msg: 'user registered' },
+  loggedIn:       { success: true, msg: 'user logged in' },
+  correctToken:   { success: true, msg: 'correct token' },
+  lazy:           { success: true, msg: 'works' },
+  success:        { success: true, msg: 'yay'}
 }

@@ -1,10 +1,9 @@
 'use strict'
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema   = mongoose.Schema;
 
 /* User schema */
-let UserSchema = new Schema({
+module.exports = mongoose.model('User', new Schema({
   username: {
     type: String,
     unique: true,
@@ -22,11 +21,9 @@ let UserSchema = new Schema({
     required: true
   },
   movielist: [{
-    id: String,
-    title: String
+    id: Number,
+    title: String,
+    release_date: String,
+    poster_path: String
   }]
-})
-
-mongoose.model('User', UserSchema)
-
-
+}))
