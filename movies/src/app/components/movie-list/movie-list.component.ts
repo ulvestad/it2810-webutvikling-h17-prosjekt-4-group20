@@ -71,5 +71,5 @@ export class MovieListComponent implements OnInit {
       console.log(res)
     })
   }
-  
+
 }
