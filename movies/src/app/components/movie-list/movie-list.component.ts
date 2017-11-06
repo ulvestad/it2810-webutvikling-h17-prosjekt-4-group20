@@ -27,7 +27,7 @@ export class MovieListComponent implements OnInit {
 
   constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
     this.isLoggedIn = this.dataService.isLoggedIn()
-    this.query = ''
+    //this.query = ''
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -71,5 +71,5 @@ export class MovieListComponent implements OnInit {
       console.log(res)
     })
   }
-  
+
 }
