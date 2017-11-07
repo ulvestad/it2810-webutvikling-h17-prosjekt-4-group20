@@ -52,6 +52,25 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  /*Update movies according to selector*/
+  selectorUpdate(option: string){
+    switch(option){
+      case 'Popular':
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
+        break;
+      case 'Upcoming':
+        this.dataService.getLatest().subscribe(movies => this.update(movies));
+
+        break;
+      case 'Top_Rated':
+        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
+        break;
+      default:
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
+        break;
+    }
+  }
+
   /* Slices up the list into movies */
   update(movies: any) {
     this.top_movies_big = movies.slice(0,4);

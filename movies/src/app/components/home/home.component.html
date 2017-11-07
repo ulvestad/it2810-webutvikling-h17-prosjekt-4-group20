@@ -1,8 +1,8 @@
 <div class="container top-container">
-  <select>
-    <option value="popular">Top movies</option>
-    <option value="newest">Newest movies</option>
-    <option value="best_rating">Best rated</option>
+  <select  (change)="selectorUpdate($event.target.value)">
+    <option value="Popular">Top movies</option>
+    <option value="Upcoming">Upcoming movies</option>
+    <option value="Top_Rated">Best rated</option>
   </select>
   <div class="justify-content-between wrap-large">
     <img  *ngFor="let movie of top_movies_big; let i = index" class="large-img" src="{{IMAGE_URL}}{{top_movies_big[i].poster_path}}"
