@@ -1,3 +1,5 @@
-<a *ngFor="let movie of movieslist" class="justify-content-between" (click)="remove(movie)">
-  <span><img src="{{IMAGE_URL}}{{movie.poster_path}}" class="small-img"> </span>
-</a>
+<li *ngFor="let movie of moviesList" class=" list-group-item">
+  <span><img src="{{IMAGE_URL}}{{movie.poster_path}}" class="small-img"></span>
+  <span class="title"><h6>{{movie.title}}</h6></span>
+  <i class="fa fa-trash-o fa-lg trash" (click)="remove(movie)"></i>
+</li>

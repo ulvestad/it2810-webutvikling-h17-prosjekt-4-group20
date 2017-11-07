@@ -3,16 +3,24 @@
   color: #5cb85c;
   background-color: #292b2c;
 }
-
+i:hover{
+  cursor: pointer;
+  color: #5cb85c;
+}
+.title{
+  margin-left: 30px;
+}
+.trash{
+  margin-left: 96%;
+  margin-top: -115px;
+}
 .small-img{
-  width: 120px;
-  height: 170px;
+  width: 75px;
+  height: 110px;
   margin: auto;
-  margin-top: 40px;
   margin-right: 5px;
   margin-left: 5px;
 }
-
 .wrap-small{
   display: -webkit-flex; /* Safari */
   -webkit-justify-content: space-between; /* Safari 6.1+ */
@@ -22,7 +30,7 @@
   /*overflow-y: hidden;
   max-height: 210px;*/
 }
-
-/*image grow effect*/
+/*image grow effect
 .small-img { transition: all .2s ease-in-out; }
-.small-img:hover { transform: scale(1.1); cursor: pointer;}
+.small-img:hover { transform: scale(1.2); cursor: pointer;}
+*/
