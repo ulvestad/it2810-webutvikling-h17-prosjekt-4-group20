@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   private result: any; // result from server
   private user: User; // input data
   @ViewChild('f') form: any; // the form
-  cookieValue = 'UNKNOWN';
+  private cookieValue: string;
 
   constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
     // TODO: find a better way to change <body> background-color
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['']);
         this.form.reset();
         this.cookieService.set('token', data.token );
-        this.cookieValue = this.cookieService.get(data.username);
+        this.cookieValue = this.cookieService.get('token');
       } else { // fail
         this.result = 'Invalid username or password';
       }

@@ -17,6 +17,7 @@ export class WatchlistComponent implements OnInit {
         this.movieslist = res.user.data.movielist;
       })
     }
+    console.log(this.movieslist)
   }
 
   ngOnInit() {
