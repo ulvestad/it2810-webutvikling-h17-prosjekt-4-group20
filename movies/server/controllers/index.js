@@ -20,5 +20,6 @@ router.get('/user', user.get)
 
 router.post('/user/add', user.addToMovieList)
 router.post('/user/remove', user.removeFromMovieList)
+router.post('/user/add/history', user.addToHistory)
 
 module.exports = router

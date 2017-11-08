@@ -2,21 +2,9 @@
   <li class="list-group-item justify-content-between first">
     <span>Timestamp</span>
     <span>Search text</span>
-    <span>User</span>
   </li>
-  <li class="list-group-item justify-content-between">
-    <kbd>12:32</kbd>
-    <span>james bond 007</span>
-    <span>ola</span>
-  </li>
-  <li class="list-group-item justify-content-between">
-    <kbd>10:52</kbd>
-    <span>toy story 2004</span>
-    <span>ola</span>
-  </li>
-  <li class="list-group-item justify-content-between">
-    <kbd>23:09</kbd>
-    <span>shawshank</span>
-    <span>ola</span>
+  <li class="list-group-item justify-content-between" *ngFor="let search of history">
+    <kbd>{{search.timestamp}}</kbd>
+    <span>{{search.search_text}}</span>
   </li>
 </ul>

@@ -5,13 +5,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" routerLink="/home"><img src="../../assets/img/logo.png" class="logo"/></a>
-
     <div class="collapse navbar-collapse" id="navbarsExampleContainer">
 
-      <div class="form-inline mx-auto flex-nowrap flex-row element">
-        <input class="form-control mr-2" type="text" [ngModel]="query" (ngModelChange)="onChange($event)" placeholder="Search...">
-        <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
+    <div class="form-inline mx-auto flex-nowrap flex-row element">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+          <input class="form-control mr-2" type="text" placeholder="Search..." name="query" ngModel>
+          <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
+        </form>
       </div>
+
       <a class="navbar-brand element" [routerLink]=" isLoggedIn() ? '/user': '/login'" routerLinkActive="active">
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>

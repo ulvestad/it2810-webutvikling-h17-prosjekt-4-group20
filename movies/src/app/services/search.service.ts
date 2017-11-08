@@ -18,8 +18,8 @@ export class SearchService {
 
   // bug - if you write the whole query in under a second fast it wont fetch.
   search(query: string) {
-    // string minlength 3, second between each request
-    if (query.length >= 3 && (+ new Date() - this.lastUpdate > 1000)) {
+    // second between each request
+    if ((+ new Date() - this.lastUpdate > 1000)) {
       this.lastUpdate = + new Date();
       this.dataService.post('/search', {query: query}).subscribe(res => {
         //this.router.navigateByUrl('/movie-list');
