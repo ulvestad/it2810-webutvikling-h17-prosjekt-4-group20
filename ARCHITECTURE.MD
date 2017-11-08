@@ -1,9 +1,4 @@
 ## Architecture
-### Functional requirements
-* User login, register and management
-* Search for movie given title
-* Filter movies by genre, year, popularity, etc
-* MovieList for each users - add/remove
 
 ### Functional requirements
 * User login, register and management
@@ -36,20 +31,3 @@
 * Observer (angular4 async handler get/post requests)
 * Module pattern (express controller split up)
 * Pipes and Filters pattern (search functionality, angular4s pipes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
