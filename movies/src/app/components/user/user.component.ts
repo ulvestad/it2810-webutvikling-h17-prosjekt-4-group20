@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
       //TODO: update number of searches with real data
-      this.user = {username: data.user.data.username, email: data.user.data.email, searches: 765, watchlists: data.user.data.movielist.length};
+      this.user = {username: data.user.data.username, email: data.user.data.email, searches: data.user.data.history.length, watchlists: data.user.data.movielist.length};
     });
   }
 

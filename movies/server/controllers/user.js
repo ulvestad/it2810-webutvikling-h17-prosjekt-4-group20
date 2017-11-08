@@ -48,10 +48,31 @@ module.exports.removeFromMovieList = (req, res) => {
   User.findOne({
     username: username
   }, (err, user) => {
-    if (err) return res.json(response.errors.database) // err 
+    if (err) return res.json(response.errors.database) // err
     if (!user) return res.json(response.errors.noUser) // no user
     user.movielist = user.movielist.filter(m => m.id !== id) // remove the element
     user.save() // save
+    wrapper.createToken(user, (err, token) => { // create new token
+      if (err) return res.json(response.errors.crypto) // error in jwt
+      return res.json({...response.success.success, token: token}) // return new token
+    })
+  })
+}
+
+
+/* Add a search to history*/
+module.exports.addToHistory = (req, res) => {
+  //console.log('go to user controller')
+  let {query, username} = {...req.body, ...req.user.data}
+  if (!query || !username) return res.json(response.errors.missing) // missing data
+  User.findOne({
+    username: username
+  }, (err, user) => {
+    if (err) return res.json(response.errors.database) //err
+    if (!user) return res.json(response.errors.noUser) // no user
+    const s = {timestamp: new Date().toLocaleString() , search_text: query}
+    user.history.unshift(s) // add element to beginning
+    user.save() // save user
     wrapper.createToken(user, (err, token) => { // create new token
       if (err) return res.json(response.errors.crypto) // error in jwt
       return res.json({...response.success.success, token: token}) // return new token

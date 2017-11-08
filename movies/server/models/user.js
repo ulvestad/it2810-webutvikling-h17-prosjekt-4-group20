@@ -25,5 +25,9 @@ module.exports = mongoose.model('User', new Schema({
     title: String,
     release_date: String,
     poster_path: String
+  }],
+  history: [{
+    timestamp: String,
+    search_text: String
   }]
 }))
