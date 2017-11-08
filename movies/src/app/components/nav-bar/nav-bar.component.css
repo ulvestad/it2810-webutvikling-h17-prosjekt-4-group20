@@ -21,3 +21,8 @@
 .logo{
   width: 120px;
 }
+
+/*Change cursour when hover over button*/
+.searchBtn{
+  cursor: pointer;
+}

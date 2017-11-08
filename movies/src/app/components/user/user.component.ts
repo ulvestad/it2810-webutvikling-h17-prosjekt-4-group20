@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 interface User {
   username: string;
   email: string;
-  favorites: number;
+  searches: number;
   watchlists: number;
 }
 
@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
     if(!this.isLoggedIn) { //user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
     }else{
-      this.user = {username: '', email: '', favorites: 21, watchlists: 4};
+      this.user = {username: '', email: '', searches: 0, watchlists: 0};
       this.getUser();
     }
   }
@@ -35,8 +35,13 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-      this.user = {username: data.user.data.username, email: data.user.data.email, favorites: 21, watchlists: 4};
+      //TODO: update number of searches with real data
+      this.user = {username: data.user.data.username, email: data.user.data.email, searches: 765, watchlists: data.user.data.movielist.length};
     });
+  }
+
+  signOut(){
+    console.log('TODO: sign out user')
   }
 
 }

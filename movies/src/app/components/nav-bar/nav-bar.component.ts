@@ -10,13 +10,15 @@ import { DataService } from '../../services/data.service';
 })
 export class NavBarComponent implements OnInit {
 	private query: string;
-  isLoggedIn: boolean = false; //assume worst
 
   constructor(private searchService: SearchService, private route: Router, private dataService: DataService) {
-    this.isLoggedIn = this.dataService.isLoggedIn()
   }
 
   ngOnInit() {
+  }
+
+  isLoggedIn(){
+    return this.dataService.isLoggedIn()
   }
 
   onChange(query: string) {

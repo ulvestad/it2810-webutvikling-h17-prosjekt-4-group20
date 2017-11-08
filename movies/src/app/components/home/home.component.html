@@ -1,5 +1,9 @@
 <div class="container top-container">
-  <kbd>Top movies</kbd>
+  <select  (change)="selectorUpdate($event.target.value)">
+    <option value="Popular">Top movies</option>
+    <option value="Upcoming">Upcoming movies</option>
+    <option value="Top_Rated">Best rated</option>
+  </select>
   <div class="justify-content-between wrap-large">
     <img  *ngFor="let movie of top_movies_big; let i = index" class="large-img" src="{{IMAGE_URL}}{{top_movies_big[i].poster_path}}"
     (click)="setMovie(movie)"
@@ -33,19 +37,19 @@
         </div>
         <div class="modalBody">
           <p><b>Genres: </b>
-            <ul>
-              <li *ngFor="let genre of selectedMovie.genre_ids ">{{getGenre(genre)}}</li>
+            <ul class="genres">
+              <li class="genre"*ngFor="let genre of selectedMovie.genre_ids ">&bull; {{getGenre(genre)}}</li>
             </ul>
           <p><b>Rating: </b>{{selectedMovie.vote_average}}</p>
           <p><b>Description: </b>{{selectedMovie.overview}}</p>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal">Close</button>
         <div *ngIf="isLoggedIn;else login">
-          <button type="button" data-dismiss="modal" class="btn btn-primary" (click)="addToMovieList()">Add to watchlist</button>
+          <button type="button" data-dismiss="modal" class="btn btn-outline-success mr-2 addBtn" (click)="addToMovieList()">Add to watchlist</button>
         </div>
-        <ng-template #login><button type="button" data-dismiss="modal" class="btn btn-primary" routerLink="/login" routerLinkActive="active">Add to watchlist</button></ng-template>
+        <ng-template #login><button type="button" data-dismiss="modal" class="btn btn-success mr-2 addBtn" routerLink="/login" routerLinkActive="active">Add to watchlist</button></ng-template>
       </div>
     </div>
   </div>

@@ -1,19 +1,26 @@
 <div class="banner">
   <div class="container banner-content">
-    <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
-    <div class="user">
-      <h4>{{user.username}}</h4>
-      <p>Email: {{user.email}}</p>
+    <div class="user-container">
+      <div class="user-icon">
+        <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
+      </div>
+      <div class="user">
+        <h4>{{user.username}}</h4>
+        <p>Email: {{user.email}}</p>
+      </div>
     </div>
     <div class="stats">
       <div class="ui-widget">
-        <h1 class="ui-value">{{user.favorites}}</h1>
-        <span class="ui-label">Favorites</span>
+        <h1 class="ui-value">{{user.searches}}</h1>
+        <span class="ui-label">Searches</span>
       </div>
       <div class="ui-widget">
         <h1 class="ui-value">{{user.watchlists}}</h1>
-        <span class="ui-label">Movie lists</span>
+        <span class="ui-label">Movies in list</span>
       </div>
+    </div>
+    <div class="signOut">
+      <button class="btn btn-outline-secondary" (click)="signOut()">Sign out &nbsp; <i class="fa fa-sign-out" aria-hidden="true"></i></button>
     </div>
   </div>
 </div>
@@ -21,10 +28,7 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#fav" role="tab"><h6>Favorites</h6></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#list" role="tab"><h6>Movielist</h6></a>
+      <a class="nav-link active" data-toggle="tab" href="#list" role="tab"><h6>Movielist</h6></a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#history" role="tab"><h6>History</h6></a>
@@ -32,8 +36,7 @@
   </ul>
   <!-- Tab panes -->
   <div class="tab-content">
-    <div class="tab-pane active" id="fav" role="tabpanel">favorites</div>
-    <div class="tab-pane" id="list" role="tabpanel"><app-watchlist></app-watchlist></div>
+    <div class="tab-pane active" id="list" role="tabpanel"><app-watchlist></app-watchlist></div>
     <div class="tab-pane" id="history" role="tabpanel"><app-history></app-history></div>
   </div>
 </div>

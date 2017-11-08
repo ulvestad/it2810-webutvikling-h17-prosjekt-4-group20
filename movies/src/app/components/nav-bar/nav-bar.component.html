@@ -10,10 +10,9 @@
 
       <div class="form-inline mx-auto flex-nowrap flex-row element">
         <input class="form-control mr-2" type="text" [ngModel]="query" (ngModelChange)="onChange($event)" placeholder="Search...">
-        <button routerLink="/" class="btn btn-outline-success mr-2" type="submit">Search</button>
+        <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
       </div>
-      <a class="navbar-brand element" [routerLink]="isLoggedIn ? '/user': '/login'" routerLinkActive="active">
-
+      <a class="navbar-brand element" [routerLink]=" isLoggedIn() ? '/user': '/login'" routerLinkActive="active">
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>
     </div>

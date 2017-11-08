@@ -2,6 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
+
+interface SelectedMovie {
+  id: number;
+  title: string;
+  genre_ids: any;
+  overview: string;
+  vote_average: number;
+  release_date: string;
+  poster_path: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,7 +25,7 @@ export class HomeComponent implements OnInit {
   top_movies_small1: Array<any>;
   top_movies_small2: Array<any>;
   IMAGE_URL: string;
-  selectedMovie: Array<any>;
+  selectedMovie: SelectedMovie;
   genreList: Array<any>;
   isLoggedIn: boolean = false; //assume worst
 
@@ -35,9 +46,29 @@ export class HomeComponent implements OnInit {
     searchService.change.subscribe(movies => this.update(movies));
 
     this.dataService.getGenreList().subscribe(res => this.genreList = res);
+
   }
 
   ngOnInit() {
+  }
+
+  /*Update movies according to selector*/
+  selectorUpdate(option: string){
+    switch(option){
+      case 'Popular':
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
+        break;
+      case 'Upcoming':
+        this.dataService.getLatest().subscribe(movies => this.update(movies));
+
+        break;
+      case 'Top_Rated':
+        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
+        break;
+      default:
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
+        break;
+    }
   }
 
   /* Slices up the list into movies */
@@ -49,7 +80,15 @@ export class HomeComponent implements OnInit {
 
   setMovie(movie: any) {
     console.log(movie)
-    this.selectedMovie = movie;
+    this.selectedMovie = {
+      id: movie.id,
+      title: movie.title,
+      genre_ids: movie.genre_ids,
+      overview: movie.overview,
+      vote_average: movie.vote_average,
+      release_date: movie.release_date,
+      poster_path: movie.poster_path,
+    };
   }
 
   getGenre(genre_id: any){
@@ -57,9 +96,9 @@ export class HomeComponent implements OnInit {
   }
 
   addToMovieList(movie: any){
-    this.dataService.post('/user/add', {id: movie.id}).subscribe(res => {
+    this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
       if (res.success) this.cookieService.set('token', res.token );
-      console.log('added', res);
+      console.log(this.selectedMovie.id, 'added', res);
     })
   }
 
