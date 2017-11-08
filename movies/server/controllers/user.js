@@ -71,7 +71,7 @@ module.exports.addToHistory = (req, res) => {
     if (err) return res.json(response.errors.database) //err
     if (!user) return res.json(response.errors.noUser) // no user
     const s = {timestamp: new Date().toLocaleString() , search_text: query}
-    user.history.push(s) // add element
+    user.history.unshift(s) // add element to beginning
     user.save() // save user
     wrapper.createToken(user, (err, token) => { // create new token
       if (err) return res.json(response.errors.crypto) // error in jwt
