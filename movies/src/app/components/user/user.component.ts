@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { RouterModule, Routes} from '@angular/router';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { EventService } from '../../services/event.service';
 
 interface User {
   username: string;
@@ -20,7 +22,8 @@ export class UserComponent implements OnInit {
   user: User;
   isLoggedIn: boolean;
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private eventService: EventService,
+    private dataService: DataService, private router: Router, private cookieService: CookieService) {
     this.isLoggedIn = this.dataService.isLoggedIn();
     if (!this.isLoggedIn) { // user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
@@ -28,6 +31,9 @@ export class UserComponent implements OnInit {
       this.user = {username: '', email: '', searches: 0, watchlists: 0};
       this.getUser();
     }
+    eventService.event.subscribe((data) => {
+      this.user.watchlists = data;  // update movielist length
+    });
   }
 
   ngOnInit() {
@@ -35,7 +41,6 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-      // TODO: update number of searches with real data
       this.user = {
         username: data.user.data.username,
         email: data.user.data.email,
@@ -46,7 +51,8 @@ export class UserComponent implements OnInit {
   }
 
   signOut() {
-    console.log('TODO: sign out user');
+    this.cookieService.delete('token');
+    this.router.navigate(['/']);
   }
 
 }

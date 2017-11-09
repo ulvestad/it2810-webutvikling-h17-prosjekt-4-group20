@@ -1,11 +1,48 @@
 # it2810-webutvikling-h17-prosjekt-4-group20
-Intro
+
+## Architecture
+
+### Functional requirements
+* User login, register and management (token based session)
+* Search for movie given title (Autocomplete suggestions in search field, lazy load of content)
+* Filter movies by genre, year, popularity, etc
+* MovieList for each users - add/remove
+
+### Quality requirements
+* Modifiability (loose coupling, high cohesion) 
+* Security (token based auth with middleware)
+* Usability (Support user initiative and feedback)
+
+### COTS, frameworks and services
+* MongoDB - A document-oriented database program.
+* Mongoose - A straightforward, schema-based solution to model your data.
+* NodeJS - A JavaScript runtime built on Chrome's V8 JavaScript engine.
+* Express - Fast, unopinionated, minimalist web framework for Node.js
+* Angular 4 - A structural framework for dynamic web apps.
+* Bootstrap 4 - A front-end component library.
+* themoviedb.org - A user editable database for movies and TV shows.
+
+### Architecture tactics
+* Server - Client
+* Multitier architecture (mongodb (data) - express (logic) - api (presentation))
+* Module architecture (angular4s way)
+
+### Design patterns
+* Templates (angular4 views)
+* Dependency Injection (angular4 controllers/services)
+* Observer (angular4 async handler get/post requests)
+* Module pattern (express controller split up)
+* Pipes and Filters pattern (search functionality, angular4s pipes)
+
+### Data Models
+* User (userid, email, passwordhash, movielist)
+* Movie (title, overview, popularity, poster_path, backdrop_path, genre_ids, release_date, runtime, tagline, vote_average, vote_count, tag)
 
 ## Instructions
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 2. Install node v8+ and npm v5+
 3. Start mongodb: `mongod`
-4. Import movies: `cd ml-latest-small` -> `sh import.sh`
+4. (SKIP THAT PART, OPTIONAL) Import movies: `cd ml-latest-small` -> `sh import.sh`
     1. If Windows!: `cd C:\Program Files\MongoDB\Server\3.4\bin`
     2. Copy `importWindows.sh, movies.csv and links.csv` to the `bin` directory.
     3. Open a new termial and run `sh importWindows.sh`

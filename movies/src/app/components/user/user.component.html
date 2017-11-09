@@ -24,7 +24,7 @@
     </div>
   </div>
 </div>
-<div class="container tab-panel">
+<div class="container tab-panel" >
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
@@ -36,7 +36,7 @@
   </ul>
   <!-- Tab panes -->
   <div class="tab-content">
-    <div class="tab-pane active" id="list" role="tabpanel"><app-watchlist></app-watchlist></div>
+    <div class="tab-pane active" id="list" role="tabpanel" (change)="getUser()"><app-watchlist></app-watchlist></div>
     <div class="tab-pane" id="history" role="tabpanel"><app-history></app-history></div>
   </div>
 </div>
