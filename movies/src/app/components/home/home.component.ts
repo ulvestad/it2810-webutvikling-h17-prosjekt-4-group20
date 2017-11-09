@@ -4,7 +4,6 @@ import { DataService } from '../../services/data.service';
 import { SearchService } from '../../services/search.service';
 import { EventService } from '../../services/event.service';
 
-
 interface SelectedMovie {
   id: number;
   title: string;
@@ -157,8 +156,7 @@ export class HomeComponent implements OnInit {
       release_date: movie.release_date,
       poster_path: movie.poster_path,
     };
+
     this.eventService.publishSelectedMovie(this.selectedMovie) //publish selectedMovie to movie-modal
   }
-
-
 }
