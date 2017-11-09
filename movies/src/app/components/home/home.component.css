@@ -24,27 +24,6 @@ select{
   margin-right: 5px;
   margin-left: 5px;
 }
-.modal-footer{
-  background-color: #fff;
-}
-.modal-header{
-  background-color: #292b2c;
-  color: #5cb85c;
-}
-.modalBody{
-  padding-left: 20px;
-  flex-wrap: wrap;
-}
-.genres{
-  margin-left: -40px;
-}
-.genre{
-  margin-right: 10px;
-}
-
-ul > li {
-  display: inline-block;
-}
 .wrap-large{
   display: -webkit-flex; /* Safari */
   -webkit-justify-content: space-between; /* Safari 6.1+ */
@@ -69,9 +48,3 @@ ul > li {
 .small-img:hover { transform: scale(1.1); cursor: pointer;}
 .large-img { transition: all .2s ease-in-out; }
 .large-img:hover { transform: scale(1.1); cursor: pointer;}
-
-
-/*Change cursour when hover over button*/
-.addBtn, .closeBtn{
-  cursor: pointer;
-}

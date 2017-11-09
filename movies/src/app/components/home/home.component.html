@@ -25,32 +25,4 @@
   </div>
 </div>
 <!-- MODAL -->
-<div *ngIf="selectedMovie" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{selectedMovie.title}} ({{selectedMovie.release_date.substring(0,4)}})</h5>
-      </div>
-      <div class="d-flex justify-content-between modal-body">
-        <div class="modalBody">
-          <img width="200px" [src]="'https://image.tmdb.org/t/p/w320'+selectedMovie.poster_path"/>
-        </div>
-        <div class="modalBody">
-          <p><b>Genres: </b>
-            <ul class="genres">
-              <li class="genre"*ngFor="let genre of selectedMovie.genre_ids ">&bull; {{getGenre(genre)}}</li>
-            </ul>
-          <p><b>Rating: </b>{{selectedMovie.vote_average}}</p>
-          <p><b>Description: </b>{{selectedMovie.overview}}</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal">Close</button>
-        <div *ngIf="isLoggedIn;else login">
-          <button type="button" data-dismiss="modal" class="btn btn-outline-success mr-2 addBtn" (click)="addToMovieList()">Add to watchlist</button>
-        </div>
-        <ng-template #login></ng-template>
-      </div>
-    </div>
-  </div>
-</div>
+<app-movie-modal></app-movie-modal>
