@@ -44,7 +44,6 @@ module.exports.addToMovieList = (req, res) => {
 module.exports.removeFromMovieList = (req, res) => {
   let {id, username} = {...req.body, ...req.user.data}
   if (!id || !username) return res.json(response.errors.missing) // missing data
-
   User.findOne({
     username: username
   }, (err, user) => {
