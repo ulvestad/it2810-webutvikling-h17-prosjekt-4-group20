@@ -4,7 +4,7 @@
 
 ### Functional requirements
 * User login, register and management
-* Search for movie given title (lazy load)
+* Search for movie given title (Autocomplete suggestions in search field, lazy load of content)
 * Filter movies by genre, year, popularity, etc
 * MovieList for each users - add/remove
 
