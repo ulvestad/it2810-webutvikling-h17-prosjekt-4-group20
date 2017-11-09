@@ -49,7 +49,7 @@
         <div *ngIf="isLoggedIn;else login">
           <button type="button" data-dismiss="modal" class="btn btn-outline-success mr-2 addBtn" (click)="addToMovieList()">Add to watchlist</button>
         </div>
-        <ng-template #login><button type="button" data-dismiss="modal" class="btn btn-success mr-2 addBtn" routerLink="/login" routerLinkActive="active">Add to watchlist</button></ng-template>
+        <ng-template #login></ng-template>
       </div>
     </div>
   </div>
