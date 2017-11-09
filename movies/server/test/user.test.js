@@ -21,7 +21,7 @@ const findUsers = callback => User.find({}, callback)
 const dumpDatabase = callback => User.remove({}, callback)
 
 /* Integration tests for servers user api */
-describe('user', () => {
+xdescribe('user', () => {
   let server
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjU5ZjliYTI1YzczNTllMGE1NDYyNjgxZiIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwibW92aWVsaXN0IjpbXX0sImV4cCI6MTUxMDE0MzE0MSwiaWF0IjoxNTA5NTM4MzQxfQ.8Sv-THH-wGGa20W3WNtCJ5UjPBUVuPD_8mm-P4uWUD8'
   const decoded = { username: 'andy', iat: 1509045962 }

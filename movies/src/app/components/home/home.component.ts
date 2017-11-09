@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
 import { DataService } from '../../services/data.service';
-import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
+import { EventService } from '../../services/event.service';
 
 
 interface SelectedMovie {
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   filters: Array<any>;
   isLoggedIn: boolean = false; //assume worst
 
-  constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
+  constructor(private eventService: EventService, private dataService: DataService, private searchService: SearchService) {
 
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
@@ -73,7 +73,6 @@ export class HomeComponent implements OnInit {
         }),
       }, ...this.filters];
     });
-
   }
 
   ngOnInit() {
@@ -158,24 +157,8 @@ export class HomeComponent implements OnInit {
       release_date: movie.release_date,
       poster_path: movie.poster_path,
     };
+    this.eventService.publishSelectedMovie(this.selectedMovie) //publish selectedMovie to movie-modal
   }
 
-  getGenre(genre_id: any){
-    return this.genreList.find(e => e.id === genre_id).name
-  }
-
-  addToMovieList(movie: any){
-    this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
-      console.log(this.selectedMovie.id, 'added', res);
-    })
-  }
-
-  removeFromMovieList(movie: any){
-    this.dataService.post('/user/remove', {id: movie.id}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token)
-      console.log('removed', res)
-    })
-  }
 
 }

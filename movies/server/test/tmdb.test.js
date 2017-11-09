@@ -5,7 +5,7 @@ const server = require('./../../server.js')
 const tmdb = require('../controllers/tmdb')
 
 /* Integration tests for server api */
-describe('movie', () => {
+xdescribe('movie', () => {
 
   xit('Should search', done => {
     tmdb.searchRequest('batman', (err, res, body) => {
@@ -23,7 +23,7 @@ describe('movie', () => {
     })
   })
 
-  it('xxx', done => {
+  xit('xxx', done => {
     tmdb.init(array => {
       //console.log(array.length)
       //array.map(e => console.log(e.title, e.release_date, e.popularity))
