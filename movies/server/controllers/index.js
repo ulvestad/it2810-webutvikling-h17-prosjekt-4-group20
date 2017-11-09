@@ -4,7 +4,7 @@ const user = require('./user')
 const movie = require('./movie')
 const auth = require('./auth')
 
-movie.init()
+//movie.init()
 
 router.get('/', (req, res) => res.json({msg: 'api'}))
 router.get('/movies', movie.getAll)
@@ -16,6 +16,8 @@ router.get('/movies', movie.getAll)
 router.get('/movie', movie.get)
 router.post('/lazyMovies', movie.getMore)
 router.post('/search', movie.search)
+
+router.post('/suggestions', movie.getSuggestions)
 
 router.use(auth.middleware)
 router.get('/user', user.get)

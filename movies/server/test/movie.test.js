@@ -16,12 +16,14 @@ describe('movie', () => {
 
   before(done => {
     server = require('../../server')
-    dumpDatabase(err => done())
+    done()
+    //dumpDatabase(err => done())
   })
 
   after(done => {
     server.close()
-    dumpDatabase(err => done())
+    done()
+    //dumpDatabase(err => done())
   })
 
   xit('Should return search results', done => {
@@ -37,6 +39,13 @@ describe('movie', () => {
   xit('Should return empty search results', done => {
     post(request(server), '/api/search', {}, {query: 'do not find anything please'}, (err, res) => {
     	res.body.result.length.should.be.equal(0)
+      done()
+    })
+  })
+
+  it('find suggestions', done => {
+    post(request(server), '/api/suggestions', {}, {query: 'bat'}, (err, res) => {
+      res.body.result.forEach(e => console.log(e.title))
       done()
     })
   })
