@@ -141,12 +141,10 @@ export class HomeComponent implements OnInit {
   }
 
   onFilterChange(event) {
-    console.log('filtering!');
     this.filteredMovies = this.filterList(this.movies);
   }
 
   setMovie(movie: any) {
-    console.log(movie)
     this.selectedMovie = {
       id: movie.id,
       title: movie.title,
