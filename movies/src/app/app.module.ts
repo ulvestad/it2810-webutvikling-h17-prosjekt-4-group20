@@ -7,6 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { DataService } from './services/data.service';
 import { SearchService } from './services/search.service';
+import { EventService } from './services/event.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
   providers: [
     DataService,
     SearchService,
-    CookieService
+    CookieService,
+    EventService
   ],
   bootstrap: [AppComponent]
 })

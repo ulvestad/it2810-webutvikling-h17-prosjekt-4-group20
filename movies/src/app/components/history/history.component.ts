@@ -14,15 +14,11 @@ export class HistoryComponent implements OnInit {
     if(this.dataService.isLoggedIn()){ //user is logged in -> get data
       this.dataService.get('/user').subscribe(res => {
         this.history = res.user.data.history;
-        console.log(this.history)
       })
     }
   }
 
-
   ngOnInit() {
   }
-
-
 
 }
