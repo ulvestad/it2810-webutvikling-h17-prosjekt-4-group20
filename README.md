@@ -34,6 +34,9 @@
 * Module pattern (express controller split up)
 * Pipes and Filters pattern (search functionality, angular4s pipes)
 
+### Data Models
+* User (userid, email, passwordhash, movielist)
+* Movie (title, overview, popularity, poster_path, backdrop_path, genre_ids, release_date, runtime, tagline, vote_average, vote_count, tag)
 
 ## Instructions
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
