@@ -4,6 +4,15 @@ const Link = require('../models/link')
 const tmdb = require('./tmdb')
 const response = require('../response')
 
+/* Stores the most popular*/
+module.exports.init = () => {
+  tmdb.init((err, result) => {
+    if (err) return console.log('ERRRO', err)
+    console.log(result.length)
+    saveMany(result)
+  })
+}
+
 /* Get all movie elements */
 // remove I guess
 module.exports.getAll = (req, res) => {
@@ -25,7 +34,7 @@ module.exports.getMore = (req, res) => {
   })
 }
 
-/* Get movie from database*/
+/* Get single movie from database */
 module.exports.get = (req, res) => {
   let {id} = {...req.query}
   if (!id) return res.json(response.errors.missing)
@@ -43,13 +52,21 @@ module.exports.search = (req, res) => {
   const {query} = {...req.body}
   if (!query) return res.json(response.errors.missing)
   const regex = new RegExp(query, 'i')
-  NewMovie.find({title: regex}).sort('rating').exec((err, movies) => { // try regex the database
+  NewMovie.find({title: regex}).sort('popularity').exec((err, movies) => { // try regex the database
     if (movies.length > 10) return res.json({...response.success.success, result: movies}) // if low result, check tmdb for moremovies
     tmdb.search(query, (err, moreMovies) => { // find more results
       saveMany(moreMovies.results) // save movies
       return res.json({...response.success.success, result: [...moreMovies.results, ...movies]}) // send it all back to client
     })
   })
+}
+
+module.exports.getSuggestions = (req, res) => {
+  const {query} = {...res.body}
+  if (!query) return res.json(response.errors.missing)
+
+  const regex = new RegExp(query, 'i')
+  NewMovie.find({title: regex})
 }
 
 /* Saves all movies in array */
