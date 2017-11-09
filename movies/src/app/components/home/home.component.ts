@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   IMAGE_URL: string;
   selectedMovie: SelectedMovie;
   isLoggedIn: boolean = false; //assume worst
+  stockPosterPath: string = '../../assets/img/stockPoster.png'
 
   constructor(private eventService: EventService, private dataService: DataService, private searchService: SearchService) {
 

@@ -23,6 +23,7 @@ export class MovieModalComponent implements OnInit {
   selectedMovie: SelectedMovie;
   genreList: Array<any>;
   isLoggedIn: boolean = false; //assume worst
+  stockPosterPath: string = '../../assets/img/stockPoster.png'
 
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
 

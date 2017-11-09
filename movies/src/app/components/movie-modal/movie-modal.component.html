@@ -6,7 +6,12 @@
       </div>
       <div class="d-flex justify-content-between modal-body">
         <div class="modalBody">
-          <img width="200px" [src]="'https://image.tmdb.org/t/p/w320'+selectedMovie.poster_path"/>
+          <div *ngIf="selectedMovie.poster_path != null; else stock">
+            <img width="200px" [src]="'https://image.tmdb.org/t/p/w320'+selectedMovie.poster_path"/>
+          </div>
+          <ng-template #stock>
+            <img width="200px" [src]="this.stockPosterPath"/>
+          </ng-template>
         </div>
         <div class="modalBody">
           <p><b>Genres: </b>
