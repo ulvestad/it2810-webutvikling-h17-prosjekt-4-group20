@@ -61,12 +61,17 @@ module.exports.search = (req, res) => {
   })
 }
 
+/* Returns a list of suggestions based on query */
+// TODO filter away duplicates
+// TODO limit size of response here? .limit()
 module.exports.getSuggestions = (req, res) => {
-  const {query} = {...res.body}
+  const {query} = {...req.body}
   if (!query) return res.json(response.errors.missing)
-
   const regex = new RegExp(query, 'i')
-  NewMovie.find({title: regex})
+  NewMovie.find({title: regex}, {title: 1}).exec((err, movies) => {
+    if (err) return res.json(response.errors.lazy)
+    return res.json({...response.success.lazy, result: movies})
+  })
 }
 
 /* Saves all movies in array */
@@ -76,6 +81,6 @@ const saveMany = array => {
     new NewMovie(o).save(err => {
       if (err) console.log('duplicate key, not saved', o.title)
       else console.log('saved ', o.title)
-    }) 
+    })
   })
 }
