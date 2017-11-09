@@ -12,10 +12,10 @@ export class WatchlistComponent implements OnInit {
   private IMAGE_URL:string = 'https://image.tmdb.org/t/p/w320/';
 
   constructor(private dataService: DataService) {
-    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+    if (this.dataService.isLoggedIn()) { // user is logged in -> get data
       this.dataService.get('/user').subscribe(res => {
         this.moviesList = res.user.data.movielist;
-      })
+      });
     }
   }
 
@@ -23,7 +23,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   remove(movie: any) {
-    console.log('todo: remove me', movie)
+    console.log('todo: remove me', movie);
   }
 
 }

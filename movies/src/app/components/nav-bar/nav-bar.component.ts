@@ -10,30 +10,34 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-	private query: string;
+  private query: string;
 
-  constructor(private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService) {
+  constructor(
+    private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService
+  ) {
   }
 
   ngOnInit() {
   }
 
-  isLoggedIn(){
-    return this.dataService.isLoggedIn()
+  isLoggedIn() {
+    return this.dataService.isLoggedIn();
   }
 
   onSubmit(form: any) {
-  	this.query = form.query;
+    this.query = form.query;
     this.searchService.search(form.query);
     this.route.navigateByUrl('/');
     this.addToHistory(form.query);
   }
 
-  addToHistory(query: string){
+  addToHistory(query: string) {
     this.dataService.post('/user/add/history', {query: query}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
+      if (res.success) {
+        this.cookieService.set('token', res.token);
         console.log(query, 'added to hisotry');
-    })
+      }
+    });
   }
 
 }

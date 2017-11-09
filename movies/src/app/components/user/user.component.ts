@@ -18,13 +18,13 @@ interface User {
 export class UserComponent implements OnInit {
 
   user: User;
-  isLoggedIn: boolean = false; //assume worst
+  isLoggedIn: boolean;
 
   constructor(private dataService: DataService, private router: Router) {
     this.isLoggedIn = this.dataService.isLoggedIn();
-    if(!this.isLoggedIn) { //user is not logged in -> redirect to /login
+    if (!this.isLoggedIn) { // user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
-    }else{
+    } else {
       this.user = {username: '', email: '', searches: 0, watchlists: 0};
       this.getUser();
     }
@@ -35,13 +35,18 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-      //TODO: update number of searches with real data
-      this.user = {username: data.user.data.username, email: data.user.data.email, searches: data.user.data.history.length, watchlists: data.user.data.movielist.length};
+      // TODO: update number of searches with real data
+      this.user = {
+        username: data.user.data.username,
+        email: data.user.data.email,
+        searches: data.user.data.history.length,
+        watchlists: data.user.data.movielist.length
+      };
     });
   }
 
-  signOut(){
-    console.log('TODO: sign out user')
+  signOut() {
+    console.log('TODO: sign out user');
   }
 
 }
