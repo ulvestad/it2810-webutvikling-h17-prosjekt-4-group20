@@ -19,7 +19,7 @@ module.exports.getMore = (req, res) => {
   let next = req.body.nextNumber
   if (!next) return res.json(response.errors.lazy)
 
-  Movie.find({}).skip(10 * next).limit(10).exec((err, movies) => {
+  NewMovie.find({}).skip(8 * next).limit(8).exec((err, movies) => {
     if (err) return res.json(response.errors.lazy)
     return res.json({...response.success.lazy, data: movies})
   })
@@ -59,6 +59,6 @@ const saveMany = array => {
     new NewMovie(o).save(err => {
       if (err) console.log('duplicate key, not saved', o.title)
       else console.log('saved ', o.title)
-    }) 
+    })
   })
 }

@@ -4,24 +4,16 @@
     <option value="Upcoming">Upcoming movies</option>
     <option value="Top_Rated">Best rated</option>
   </select>
-  <div class="justify-content-between wrap-large">
-    <img  *ngFor="let movie of top_movies_big; let i = index" class="large-img" src="{{IMAGE_URL}}{{top_movies_big[i].poster_path}}"
+  <div class="justify-content-between wrap-small" infiniteScroll (scrolled)="onScroll()">
+    <img
+    *ngFor="let movie of movies"
+    class="small-img"
+    src="{{IMAGE_URL}}{{movie.poster_path}}"
     (click)="setMovie(movie)"
     data-toggle="modal"
     data-target="#exampleModal"
-    href=""/>
-  </div>
-  <div class="justify-content-between wrap-small">
-    <img *ngFor="let movie of top_movies_small1; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small1[i].poster_path}}"
-    (click)="setMovie(movie)"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    href=""/>
-    <img *ngFor="let movie of top_movies_small2; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small2[i].poster_path}}"
-    (click)="setMovie(movie)"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    href=""/>
+    href=""
+    />
   </div>
 </div>
 <!-- MODAL -->

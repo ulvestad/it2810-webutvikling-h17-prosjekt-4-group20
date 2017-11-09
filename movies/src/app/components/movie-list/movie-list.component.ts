@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 interface SelectedMovie {
   title: string;
@@ -23,11 +23,11 @@ export class MovieListComponent implements OnInit {
   next: number;
   movies: Array<any>;
   selectedMovie: SelectedMovie;
-  isLoggedIn: boolean = false; //assume worst
+  isLoggedIn: boolean;
 
   constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
-    this.isLoggedIn = this.dataService.isLoggedIn()
-    //this.query = '' //query is not set anywhere, commenting out
+    this.isLoggedIn = this.dataService.isLoggedIn();
+    // this.query = '' //query is not set anywhere, commenting out
     this.selectedMovie = {
       title: '',
       genres: '',
@@ -65,11 +65,11 @@ export class MovieListComponent implements OnInit {
     });
   }
 
-  addToMovieList(){
+  addToMovieList() {
     this.dataService.post('/user/add', {title: this.selectedMovie.title}).subscribe(res => {
       this.cookieService.set('token', res.token );
-      console.log(res)
-    })
+      console.log(res);
+    });
   }
 
 }
