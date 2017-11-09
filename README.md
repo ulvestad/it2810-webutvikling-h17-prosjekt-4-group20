@@ -3,7 +3,7 @@
 ## Architecture
 
 ### Functional requirements
-* User login, register and management
+* User login, register and management (token based session)
 * Search for movie given title (Autocomplete suggestions in search field, lazy load of content)
 * Filter movies by genre, year, popularity, etc
 * MovieList for each users - add/remove
