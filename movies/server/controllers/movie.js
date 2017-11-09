@@ -79,7 +79,7 @@ module.exports.getSuggestions = (req, res) => {
   const {query} = {...req.body}
   if (!query) return res.json(response.errors.missing)
   const regex = new RegExp(query, 'i')
-  NewMovie.find({title: regex}, {title: 1}).exec((err, movies) => {
+  NewMovie.find({title: regex}, {title: 1}).sort('-popularity').limit(5).exec((err, movies) => {
     if (err) return res.json(response.errors.lazy)
     return res.json({...response.success.lazy, result: movies})
   })
