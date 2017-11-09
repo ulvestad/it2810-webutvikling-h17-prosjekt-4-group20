@@ -24,7 +24,7 @@ module.exports.decodeToken = (token, callback) => jwt.verify(token.split(' ')[0]
 /* callback: (error, result) */
 module.exports.comparePassword = (password, hash, callback) => bcrypt.compare(password, hash, callback)
 
-
-
 // Sanitize
 // validate
+
+
