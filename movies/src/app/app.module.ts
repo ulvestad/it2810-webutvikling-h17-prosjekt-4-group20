@@ -19,6 +19,7 @@ import { MovieListComponent } from './components/movie-list/movie-list.component
 import { HistoryComponent } from './components/history/history.component';
 import { CookieService } from 'ngx-cookie-service';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
+import { MovieModalComponent } from './components/movie-modal/movie-modal.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     MovieListComponent,
     HistoryComponent,
     WatchlistComponent,
+    MovieModalComponent,
   ],
   imports: [
     BrowserModule,
