@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-  	this.query = form.query;
+  	this.query = form.query + '';
     this.searchService.search(form.query);
     this.route.navigateByUrl('/');
     this.addToHistory(form.query);

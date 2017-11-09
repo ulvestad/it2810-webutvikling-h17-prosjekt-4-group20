@@ -1,29 +1,65 @@
+
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h3>Filters</h3>
+  </div>
+
+  <div id="filters" role="tablist" aria-multiselectable="true">
+    <div class="card" *ngFor="let filter of this.filters">
+      <div class="card-header" id="{{ filter.name }}" role="tab">
+        <h5 class="mb-0">
+          <a data-toggle="collapse"
+            data-parent="#filters"
+            href="{{ '#collapse_' + filter.name }}"
+          >
+            {{ filter.name }}
+          </a>
+        </h5>
+      </div>
+
+      <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
+        <div class="card-block">
+            <div class="form-check" *ngFor="let option of filter.options">
+                <label class="form-check-label">
+                  <input type="checkbox"
+                    class="form-check-input"
+                    value="{{option.name}}"
+                    [(ngModel)]="option.checked"
+                    (ngModelChange)="onFilterChange($event)"
+                    >
+                  {{ option.name }}
+                </label>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container top-container">
   <select  (change)="selectorUpdate($event.target.value)">
     <option value="Popular">Top movies</option>
     <option value="Upcoming">Upcoming movies</option>
     <option value="Top_Rated">Best rated</option>
   </select>
-  <div class="justify-content-between wrap-large">
-    <img  *ngFor="let movie of top_movies_big; let i = index" class="large-img" src="{{IMAGE_URL}}{{top_movies_big[i].poster_path}}"
-    (click)="setMovie(movie)"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    href=""/>
+
+  <div class="d-flex justify-content-between wrap-large">
+      <img  *ngFor="let movie of filteredMovies | slice:0:4" class="large-img" src="{{IMAGE_URL + movie.poster_path}}"
+      (click)="setMovie(movie)"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      href=""/>
   </div>
-  <div class="justify-content-between wrap-small">
-    <img *ngFor="let movie of top_movies_small1; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small1[i].poster_path}}"
-    (click)="setMovie(movie)"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    href=""/>
-    <img *ngFor="let movie of top_movies_small2; let i = index" class="small-img" src="{{IMAGE_URL}}{{top_movies_small2[i].poster_path}}"
-    (click)="setMovie(movie)"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    href=""/>
+
+  <div class="d-flex justify-content-between wrap-small">
+      <img  *ngFor="let movie of filteredMovies | slice:4" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
+      (click)="setMovie(movie)"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      href=""/>
   </div>
 </div>
+
 <!-- MODAL -->
 <div *ngIf="selectedMovie" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

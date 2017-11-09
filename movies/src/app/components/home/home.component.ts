@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { SlicePipe } from '@angular/common';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
+
 
 interface SelectedMovie {
   id: number;
@@ -21,12 +23,12 @@ interface SelectedMovie {
 
 export class HomeComponent implements OnInit {
 
-  top_movies_big: Array<any>;
-  top_movies_small1: Array<any>;
-  top_movies_small2: Array<any>;
+  movies: Array<any>;
+  filteredMovies: Array<any>;
   IMAGE_URL: string;
   selectedMovie: SelectedMovie;
   genreList: Array<any>;
+  filters: Array<any>;
   isLoggedIn: boolean = false; //assume worst
 
   constructor(private dataService: DataService, private cookieService: CookieService, private searchService: SearchService) {
@@ -39,18 +41,44 @@ export class HomeComponent implements OnInit {
 
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
+      
+    // TODO: get years from the result set
+    this.filters = [
+      {
+        name: 'Year',
+        options: [
+          { name: '2017', checked: false },
+          { name: '2016', checked: false },
+          { name: '2015', checked: false },
+        ]
+      }, 
+    ]
 
     this.dataService.getPopular().subscribe(movies => this.update(movies));
 
     /* Listen to changes in search secrive */
     searchService.change.subscribe(movies => this.update(movies));
 
-    this.dataService.getGenreList().subscribe(res => this.genreList = res);
+    this.dataService.getGenreList().subscribe(res => {
+      this.genreList = res
+
+      // TODO: Filter the genre_list on the result set
+      this.filters = [{
+        name: 'Genres',
+        options: this.genreList.map(v => {
+          return {
+            checked: false,
+            ...v
+          }
+        }),
+      }, ...this.filters];
+    });
 
   }
 
   ngOnInit() {
   }
+
 
   /*Update movies according to selector*/
   selectorUpdate(option: string){
@@ -71,11 +99,52 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  /* Slices up the list into movies */
+  filterYears(movies) {
+    const year_options = this.filters
+      .filter(filter => filter.name === 'Year')[0]['options'];
+
+    const years = year_options
+      .filter(option => option.checked)
+      .map(option => option.name);
+
+    if (years.length) {
+      const containsYear = new RegExp(years.join("|"));  
+      movies = movies.filter(movie => containsYear.test(movie.release_date));
+    }
+
+    return movies;
+  }
+
+  filterGenres(movies) {
+    const genre_options = this.filters
+      .filter(filter => filter.name === 'Genres')[0]['options'];
+
+    const genre_ids = genre_options
+      .filter(option => option.checked)
+      .map(option => option.id);
+
+    if (genre_ids.length) {
+      // filter movies where there is an intersection between genre_ids and move.genre_ids
+      movies = movies.filter(movie => movie.genre_ids.filter(id => genre_ids.includes(id)).length )
+    }
+
+    return movies;
+  }
+
+  filterList(movies) {
+    movies = this.filterYears(movies);
+    movies = this.filterGenres(movies);
+    return movies;
+  }
+
   update(movies: any) {
-    this.top_movies_big = movies.slice(0,4);
-    this.top_movies_small1 = movies.slice(4,12);
-    this.top_movies_small2 = movies.slice(12,);
+    this.movies = movies;
+    this.filteredMovies = this.filterList(movies);
+  }
+
+  onFilterChange(event) {
+    console.log('filtering!');
+    this.filteredMovies = this.filterList(this.movies);
   }
 
   setMovie(movie: any) {
