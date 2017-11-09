@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { RouterModule, Routes} from '@angular/router';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 interface User {
   username: string;
@@ -20,7 +21,7 @@ export class UserComponent implements OnInit {
   user: User;
   isLoggedIn: boolean = false; //assume worst
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
     this.isLoggedIn = this.dataService.isLoggedIn();
     if(!this.isLoggedIn) { //user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
@@ -34,14 +35,15 @@ export class UserComponent implements OnInit {
   }
 
   getUser() {
+    console.log('getUser')
     return this.dataService.get('/user').subscribe(data => {
-      //TODO: update number of searches with real data
       this.user = {username: data.user.data.username, email: data.user.data.email, searches: data.user.data.history.length, watchlists: data.user.data.movielist.length};
     });
   }
 
   signOut(){
-    console.log('TODO: sign out user')
+    this.cookieService.delete('token');
+    this.router.navigate(['/']);
   }
 
 }
