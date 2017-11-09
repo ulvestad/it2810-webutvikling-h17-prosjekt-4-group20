@@ -34,6 +34,17 @@ module.exports.getMore = (req, res) => {
   })
 }
 
+module.exports.getPopular = (req, res) => {
+  console.log(req.body)
+  let {next} = {...req.body}
+  // add error for null or undefined
+  const n = 8
+  NewMovie.find({}).skip(n*next).limit(n).sort('-popularity').exec((err, movies) => {
+    if (err) return res.json(response.errors.database)
+    return res.json({...response.success.lazy, result: movies})
+  })
+}
+
 /* Get single movie from database */
 module.exports.get = (req, res) => {
   let {id} = {...req.query}
@@ -42,7 +53,7 @@ module.exports.get = (req, res) => {
   NewMovie.find({id: id}).exec((err, movie) => {
     if (err) return res.json(response.errors.database)
     if (!movie) return res.json(response.errors.noMovie) // todo fetch new info from tmdb
-    return res.json({...response.success.success, data: movie})
+    return res.json({...response.success.lazy, data: movie})
   })
 }
 

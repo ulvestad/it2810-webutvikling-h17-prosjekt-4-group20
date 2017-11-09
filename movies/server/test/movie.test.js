@@ -43,7 +43,18 @@ describe('movie', () => {
     })
   })
 
-  it('find suggestions', done => {
+  it('find popular', done => {
+    post(request(server), '/api/popular', {}, {next: 0}, (err, res) => {
+      res.body.result.forEach(e => console.log(e.title, e.popularity))
+      console.log('***')
+      post(request(server), '/api/popular', {}, {next: 1}, (err, res) => {
+        res.body.result.forEach(e => console.log(e.title, e.popularity))
+        done()
+      })
+    })
+  })
+
+  xit('find suggestions', done => {
     post(request(server), '/api/suggestions', {}, {query: 'bat'}, (err, res) => {
       res.body.result.forEach(e => console.log(e.title))
       done()
