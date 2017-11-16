@@ -1,6 +1,15 @@
-.top-container{
+#sidebar h3 {
+  margin-top: 1em;
+}
+
+.container {
   margin-top: 20px;
 }
+
+.card {
+  margin-top: .3em;
+}
+
 select{
   background-color: #292b2c;
   color: #5cb85c;
@@ -26,18 +35,18 @@ select{
 }
 .wrap-large{
   display: -webkit-flex; /* Safari */
-  -webkit-justify-content: space-between; /* Safari 6.1+ */
+  -webkit-justify-content: flex-start; /* Safari 6.1+ */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   /*overflow-y: hidden;*/
   /*max-height: 380px;*/ /*Must be same as large-img -> heigth*/
 }
 .wrap-small{
   display: -webkit-flex; /* Safari */
-  -webkit-justify-content: space-between; /* Safari 6.1+ */
+  -webkit-justify-content: flex-start; /* Safari 6.1+ */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   /*overflow-y: hidden;
   max-height: 210px;*/

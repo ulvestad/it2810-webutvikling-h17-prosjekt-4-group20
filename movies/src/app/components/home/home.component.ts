@@ -26,11 +26,15 @@ export class HomeComponent implements OnInit {
   filteredMovies: Array<any>;
   IMAGE_URL: string;
   selectedMovie: SelectedMovie;
-  genreList: Array<any>;
-  filters: Array<any>;
-  isLoggedIn: boolean = false; //assume worst
+  idToGenre: Map<number, String>;
+  filters: any;
+  filterArray: Array<any>;
+  isLoggedIn = false; // assume worst
 
   constructor(private eventService: EventService, private dataService: DataService, private searchService: SearchService) {
+
+    this.filters = {};
+    this.filterArray = [];
 
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
@@ -40,18 +44,6 @@ export class HomeComponent implements OnInit {
 
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
-      
-    // TODO: get years from the result set
-    this.filters = [
-      {
-        name: 'Year',
-        options: [
-          { name: '2017', checked: false },
-          { name: '2016', checked: false },
-          { name: '2015', checked: false },
-        ]
-      }, 
-    ]
 
     this.dataService.getPopular().subscribe(movies => this.update(movies));
 
@@ -59,28 +51,16 @@ export class HomeComponent implements OnInit {
     searchService.change.subscribe(movies => this.update(movies));
 
     this.dataService.getGenreList().subscribe(res => {
-      this.genreList = res
-
-      // TODO: Filter the genre_list on the result set
-      this.filters = [{
-        name: 'Genres',
-        options: this.genreList.map(v => {
-          return {
-            checked: false,
-            ...v
-          }
-        }),
-      }, ...this.filters];
+      this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
     });
   }
 
   ngOnInit() {
   }
 
-
   /*Update movies according to selector*/
-  selectorUpdate(option: string){
-    switch(option){
+  selectorUpdate(option: string) {
+    switch (option) {
       case 'Popular':
         this.dataService.getPopular().subscribe(movies => this.update(movies));
         break;
@@ -98,15 +78,14 @@ export class HomeComponent implements OnInit {
   }
 
   filterYears(movies) {
-    const year_options = this.filters
-      .filter(filter => filter.name === 'Year')[0]['options'];
+    const year_options = this.filters['year']['options'];
 
     const years = year_options
       .filter(option => option.checked)
       .map(option => option.name);
 
     if (years.length) {
-      const containsYear = new RegExp(years.join("|"));  
+      const containsYear = new RegExp(years.join('|'));
       movies = movies.filter(movie => containsYear.test(movie.release_date));
     }
 
@@ -114,16 +93,15 @@ export class HomeComponent implements OnInit {
   }
 
   filterGenres(movies) {
-    const genre_options = this.filters
-      .filter(filter => filter.name === 'Genres')[0]['options'];
+    const genre_options = this.filters['genre']['options'];
 
     const genre_ids = genre_options
-      .filter(option => option.checked)
-      .map(option => option.id);
+     .filter(option => option.checked)
+     .map(option => option.id);
 
     if (genre_ids.length) {
-      // filter movies where there is an intersection between genre_ids and move.genre_ids
-      movies = movies.filter(movie => movie.genre_ids.filter(id => genre_ids.includes(id)).length )
+     // filter movies where there is an intersection between genre_ids and move.genre_ids
+     movies = movies.filter(movie => movie.genre_ids.filter(id => genre_ids.includes(id)).length);
     }
 
     return movies;
@@ -135,8 +113,83 @@ export class HomeComponent implements OnInit {
     return movies;
   }
 
+  dateToYear(date: String): String {
+    return date.split('-')[0];
+  }
+
+  yearsFromMovies(movies: any): Array<any> {
+    const years = movies
+      .map(movie => movie.release_date)
+      .map(this.dateToYear);
+
+    const uniqueYears = Array.from(new Set(years));
+    const sortedYears = uniqueYears.sort().reverse();
+
+    return sortedYears.map(year => {
+      return {
+        name: year
+      };
+    });
+  }
+
+  makeFilters(list: object[], category: string): Array<Object> {
+    const filters = list.map(el => {
+      const res = {
+        name: el['name'],
+        checked: false,
+        id: category === 'genre' ? el['id'] : undefined,
+      };
+
+      return res;
+    });
+
+    return filters;
+  }
+
+  flatten(list: Array<Array<any>>): Array<any> {
+    const concat = [].concat.apply([], list);
+    return concat;
+  }
+
+  unique(list: Array<any>): Array<any> {
+    return Array.from(new Set(list));
+  }
+
   update(movies: any) {
     this.movies = movies;
+
+    // update year filters
+    const years = this.yearsFromMovies(movies);
+    const year_filters = this.makeFilters(years, 'years');
+
+    // update genre filters
+    const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
+    const uniqueIds = this.unique(genreIds);
+    const genres = uniqueIds.map( id => {
+        return {
+          name: this.idToGenre.get(id),
+          id: id
+        };
+    });
+    const genre_filters = this.makeFilters(genres, 'genre');
+
+    this.filters = {
+      ...this.filters,
+      year: {
+        name: 'Year',
+        options: year_filters
+      }, genre: {
+        name: 'Genre',
+        options: genre_filters
+      }
+    };
+
+    console.log(this.filters);
+
+    this.filterArray = [this.filters['genre'], this.filters['year']]
+      .filter(el => el !== undefined)
+      .filter(filter => filter.options.length > 1);
+
     this.filteredMovies = this.filterList(movies);
   }
 
@@ -155,6 +208,6 @@ export class HomeComponent implements OnInit {
       poster_path: movie.poster_path,
     };
 
-    this.eventService.publishSelectedMovie(this.selectedMovie) //publish selectedMovie to movie-modal
+    this.eventService.publishSelectedMovie(this.selectedMovie); // publish selectedMovie to movie-modal
   }
 }
