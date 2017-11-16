@@ -4,7 +4,7 @@
     <option value="Upcoming">Upcoming movies</option>
     <option value="Top_Rated">Best rated</option>
   </select>
-  <div class="justify-content-between wrap-small" infiniteScroll (scrolled)="onScroll()">
+  <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
     <img
     *ngFor="let movie of movies"
     class="small-img"

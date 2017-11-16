@@ -1,7 +1,8 @@
-.top-container{
+.top-container {
   margin-top: 20px;
 }
-select{
+
+select {
   background-color: #292b2c;
   color: #5cb85c;
   border-radius: .2rem;
@@ -11,40 +12,27 @@ select{
   margin-left: 8px;
   z-index: 40;
 }
-.large-img{
-  width: 260px;
-  height: 380px;
+
+.small-img {
+  width: 220px;
+  height: 270px;
   margin: auto;
-}
-.small-img{
-  width: 120px;
-  height: 170px;
-  margin: auto;
-  margin-top: 40px;
-  margin-right: 5px;
+  margin-top: 30px;
+  margin-right: 25px;
   margin-left: 5px;
 }
-.wrap-large{
+
+.wrap-small {
   display: -webkit-flex; /* Safari */
-  -webkit-justify-content: space-between; /* Safari 6.1+ */
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  /*overflow-y: hidden;*/
-  /*max-height: 380px;*/ /*Must be same as large-img -> heigth*/
-}
-.wrap-small{
-  display: -webkit-flex; /* Safari */
-  -webkit-justify-content: space-between; /* Safari 6.1+ */
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  /*overflow-y: hidden;
-  max-height: 210px;*/
 }
 
 /*image grow effect*/
-.small-img { transition: all .2s ease-in-out; }
-.small-img:hover { transform: scale(1.1); cursor: pointer;}
-.large-img { transition: all .2s ease-in-out; }
-.large-img:hover { transform: scale(1.1); cursor: pointer;}
+.small-img {
+  transition: all .2s ease-in-out;
+}
+
+.small-img:hover {
+  transform: scale(1.1); cursor: pointer;
+}

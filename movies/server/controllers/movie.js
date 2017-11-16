@@ -26,8 +26,8 @@ module.exports.getAll = (req, res) => {
 // change to query get more
 module.exports.getMore = (req, res) => {
   const {next} = {...req.body}
-  const skip = next === 1 ? 9 : (9 + (next * 3))
-  const limit = 3
+  const skip = next === 1 ? 20 : (20 + (next * 5))
+  const limit = 5
   NewMovie.find({}).skip(skip).limit(limit).sort('-popularity').exec((err, movies) => {
     if (err) return res.json(response.errors.lazy)
     return res.json({...response.success.lazy, data: movies})
