@@ -10,6 +10,8 @@ export class EventService {
   public _watchlistSubject = new Subject<number>();
   public event = this._watchlistSubject.asObservable();
 
+  public _autocompleteOptionsSubject = new Subject<any>();
+
   constructor() { }
 
   public publish(data: number) {
@@ -20,4 +22,5 @@ export class EventService {
     this._selectedMovieSubject.next(data);
   }
 
+  public 
 }

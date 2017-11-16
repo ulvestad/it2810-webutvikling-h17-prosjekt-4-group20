@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
@@ -7,48 +7,59 @@ import { CookieService } from 'ngx-cookie-service';
 
 import 'rxjs/add/operator/map';
 
+
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-	private query: string;
+  private query: string;
   private options: Array<any>;
-  stateCtrl: FormControl;
+  private searchString: string;
 
-  constructor(private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService) {
-    this.stateCtrl = new FormControl();
+  showAutoComplete: boolean;
+
+  constructor(private searchService: SearchService,
+    private route: Router,
+    private dataService: DataService,
+    private cookieService: CookieService) {
   }
 
   ngOnInit() {
   }
 
-  isLoggedIn(){
-    return this.dataService.isLoggedIn()
+  /* Updates the autocomplete text input with options */
+  changeInputValue(movie: any) {
+    this.searchString = movie.title;
   }
 
-  onChange(form: any) {
-    console.log(form.query)
-    this.dataService.post('/suggestions', {query: form.query}).subscribe(res => {
-      console.log('****')
-      res.result.forEach(e => console.log(e.title))
-      this.options = res;
-    })
+  isLoggedIn() {
+    return this.dataService.isLoggedIn();
   }
 
+  /* Will trigger if there is any changes in the input of the navbar */
+  onChange(event: any) {
+    if (event) {
+      // this.searchService.suggest(event);
+      this.showAutoComplete = true;
+    }
+  }
+
+  /* Will get results based on */
   onSubmit(form: any) {
-  	this.query = form.query + '';
-    this.searchService.search(form.query);
+    this.query = form.searchString;
+    this.searchService.search(form.searchString);
     this.route.navigateByUrl('/');
-    this.addToHistory(form.query);
+    this.addToHistory(form.searchString);
   }
 
-  addToHistory(query: string){
+  addToHistory(query: string) {
     this.dataService.post('/user/add/history', {query: query}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
+      if (res.success) {
+        this.cookieService.set('token', res.token );
         console.log(query, 'added to hisotry');
-    })
+      }
+    });
   }
-
 }

@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class SearchService {
   results: Array<any>;
-  change: Subject<any> = new Subject<any>();
-  private lastUpdate: number;
+  changeSearch: Subject<any> = new Subject<any>();
+
+  suggestions: Array<any>;
+  changeSuggestions: Subject<any> = new Subject<any>();
 
   constructor(private dataService: DataService, private router: Router) {
-    this.lastUpdate = + new Date();
   }
 
-  /* Returns the results for search string query */
-  // maybe handle this another way??
+  suggest(query: string) {
+    // if ((+ new Date() - this.lastUpdate > 1000)) {
+    // this.lastUpdate = + new Date();
 
-  // bug - if you write the whole query in under a second fast it wont fetch.
+    this.dataService.post('/suggestions', {query: query}).subscribe(res => {
+      this.suggestions = res.result;
+      this.changeSuggestions.next(this.suggestions);
+    });
+  }
+
   search(query: string) {
-    // second between each request
-    if ((+ new Date() - this.lastUpdate > 1000)) {
-      this.lastUpdate = + new Date();
-      this.dataService.post('/search', {query: query}).subscribe(res => {
-        //this.router.navigateByUrl('/movie-list');
-        this.results = res.result;
-        this.change.next(this.results)
-      })
-    }
+    this.dataService.post('/search', {query: query}).subscribe(res => {
+      this.results = res.result;
+      this.changeSearch.next(this.results);
+    });
   }
 }

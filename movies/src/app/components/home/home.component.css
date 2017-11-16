@@ -10,16 +10,11 @@
   margin-top: .3em;
 }
 
-select{
-  background-color: #292b2c;
-  color: #5cb85c;
-  border-radius: .2rem;
-  font-size: 90%;
-  padding: .2rem .4rem;
-  font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-  margin-left: 8px;
-  z-index: 40;
+select {
+  color: #0275d8;
+  padding: .3em;
 }
+
 .large-img{
   width: 260px;
   height: 380px;

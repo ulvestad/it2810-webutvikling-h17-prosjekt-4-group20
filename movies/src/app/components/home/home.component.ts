@@ -45,12 +45,11 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
 
-    /* Listen to changes in search secrive */
-    searchService.change.subscribe(movies => this.update(movies));
-
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
     });
+
+    // this.searchService.search.subscribe(movies => this.update(movies));
   }
 
   ngOnInit() {
