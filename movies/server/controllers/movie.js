@@ -25,23 +25,12 @@ module.exports.getAll = (req, res) => {
 /* Lazy loads more movies from all */
 // change to query get more
 module.exports.getMore = (req, res) => {
-  let next = req.body.nextNumber
-  if (!next) return res.json(response.errors.lazy)
-
-  NewMovie.find({}).skip(8 * next).limit(8).exec((err, movies) => {
+  const {next} = {...req.body}
+  const skip = next === 1 ? 9 : (9 + (next * 3))
+  const limit = 3
+  NewMovie.find({}).skip(skip).limit(limit).sort('-popularity').exec((err, movies) => {
     if (err) return res.json(response.errors.lazy)
     return res.json({...response.success.lazy, data: movies})
-  })
-}
-
-module.exports.getPopular = (req, res) => {
-  console.log(req.body)
-  let {next} = {...req.body}
-  // add error for null or undefined
-  const n = 8
-  NewMovie.find({}).skip(n*next).limit(n).sort('-popularity').exec((err, movies) => {
-    if (err) return res.json(response.errors.database)
-    return res.json({...response.success.lazy, result: movies})
   })
 }
 

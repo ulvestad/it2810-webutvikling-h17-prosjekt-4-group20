@@ -16,8 +16,6 @@ router.get('/movies', movie.getAll)
 router.get('/movie', movie.get)
 router.post('/lazyMovies', movie.getMore)
 router.post('/search', movie.search)
-
-router.post('/popular', movie.getPopular)
 router.post('/suggestions', movie.getSuggestions)
 
 router.use(auth.middleware)

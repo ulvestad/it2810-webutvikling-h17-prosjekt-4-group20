@@ -1,9 +1,9 @@
 const request = require('request')
 const config = require('../config')
 
-const POPULAR = 'https://api.themoviedb.org/3/movie/popular?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page=1'
+const POPULAR = 'https://api.themoviedb.org/3/movie/popular?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page='
 const LATEST = 'https://api.themoviedb.org/3/movie/upcoming?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US'
-const TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page=1'
+const TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US&page='
 const GENRE_LIST = 'https://api.themoviedb.org/3/genre/movie/list?api_key=286704470bfa6dce467f4e5cce16d153&language=en-US'
 
 const base = "https://api.themoviedb.org/3/";
@@ -20,24 +20,32 @@ const get = (url, callback) => {
 	})
 }
 
+const getTenPages = (api) => {
+	for (let i = 0; i < 10; i++) {
+
+	}
+}
+
 // BRUKE .then() eller?
 
 // Nå hentern bare en page fra hver, kan jo hente flere sider?
 module.exports.init = callback => {
-	let array = []
-	get(POPULAR, (err, result) => {
-		if (err) callback(err)
-		array.push(...result.results)
-		get(LATEST, (err, result) => {
+	for (let i = 1; i < 11; i++) {
+		let array = []
+		get(POPULAR + i, (err, result) => {
 			if (err) callback(err)
 			array.push(...result.results)
-			get(TOP_RATED, (err, result) => {
-				if (err) calback(err)
+			get(LATEST, (err, result) => {
+				if (err) callback(err)
 				array.push(...result.results)
-				callback(null, array)
+				get(TOP_RATED + i, (err, result) => {
+					if (err) calback(err)
+					array.push(...result.results)
+					callback(null, array)
+				})
 			})
 		})
-	})
+	}
 }
 
 
@@ -83,5 +91,3 @@ module.exports.init = callback => {
 }
 
 */
-
-

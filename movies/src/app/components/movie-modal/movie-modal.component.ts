@@ -22,12 +22,12 @@ export class MovieModalComponent implements OnInit {
 
   selectedMovie: SelectedMovie;
   genreList: Array<any>;
-  isLoggedIn: boolean = false; //assume worst
+  isLoggedIn: boolean;
 
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
 
     eventService.eventSelect.subscribe((data) => {
-      this.selectedMovie = { //update selectedMovie
+      this.selectedMovie = { // update selectedMovie
         id: data.id,
         title: data.title,
         genre_ids: data.genre_ids,
@@ -46,15 +46,17 @@ export class MovieModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  getGenre(genre_id: any){
-    return this.genreList.find(e => e.id === genre_id).name
+  getGenre(genre_id: any) {
+    return this.genreList.find(e => e.id === genre_id).name;
   }
 
-  addToMovieList(movie: any){
+  addToMovieList(movie: any) {
     this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
+      if (res.success) {
+        this.cookieService.set('token', res.token);
+      }
       console.log(this.selectedMovie.id, 'added', res);
-    })
+    });
   }
 
 }

@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
 
     this.dataService.getPopular().subscribe(movie => this.movies = movie);
 
-    this.searchService.changeSearch.subscribe(movies => this.update(movies));
+    this.searchService.changeSearch.subscribe(movies => this.movies);
   }
 
   ngOnInit() {
@@ -69,9 +69,10 @@ export class HomeComponent implements OnInit {
 
   onScroll() {
     this.next = this.next + 1;
-    this.dataService.post('/lazyMovies', {nextNumber: this.next}).subscribe(res => {
+    this.dataService.post('/lazyMovies', {next: this.next}).subscribe(res => {
       this.movies = [...this.movies, ...res.data];
     });
+    console.log(this.next, 'time scrolled');
   }
 
   setMovie(movie: any) {
