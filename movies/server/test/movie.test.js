@@ -26,7 +26,7 @@ describe('movie', () => {
     //dumpDatabase(err => done())
   })
 
-  xit('Should return search results', done => {
+  it('Should return search results', done => {
     post(request(server), '/api/search', {}, {query: 'avatar'}, (err, res) => {
       res.body.result.length.should.be.above(1)
       NewMovie.find({}, (err, movies) => {
@@ -36,14 +36,14 @@ describe('movie', () => {
     })
   })
 
-  xit('Should return empty search results', done => {
+  it('Should return empty search results', done => {
     post(request(server), '/api/search', {}, {query: 'do not find anything please'}, (err, res) => {
     	res.body.result.length.should.be.equal(0)
       done()
     })
   })
 
-  it('find popular', done => {
+  xit('find popular', done => {
     post(request(server), '/api/popular', {}, {next: 0}, (err, res) => {
       res.body.result.forEach(e => console.log(e.title, e.popularity))
       console.log('***')

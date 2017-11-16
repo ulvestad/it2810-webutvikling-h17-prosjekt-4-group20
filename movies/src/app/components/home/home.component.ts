@@ -41,10 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.dataService.getPopular().subscribe(movies => this.update(movies));
 
-    /* Listen to changes in search secrive */
-    searchService.change.subscribe(movies => this.update(movies));
-
-
+    this.searchService.changeSearch.subscribe(movies => this.update(movies));
   }
 
   ngOnInit() {
