@@ -45,8 +45,6 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
 
-    this.dataService.getPopular().subscribe(movies => this.update(movies));
-
     /* Listen to changes in search secrive */
     searchService.change.subscribe(movies => this.update(movies));
 
@@ -56,6 +54,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataService.getPopular().subscribe(movies => this.update(movies));
   }
 
   /*Update movies according to selector*/
