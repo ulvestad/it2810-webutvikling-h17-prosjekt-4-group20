@@ -18,6 +18,8 @@ export class NavBarComponent implements OnInit {
   private options: Array<any>;
   private searchString: string;
 
+  showAutoComplete: boolean;
+
   constructor(private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService) {
 
   }
@@ -25,6 +27,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
   }
 
+  /* Updates the autocomplete text input with options */
   changeInputValue(movie: any) {
     this.searchString = movie.title;
   }
@@ -33,10 +36,15 @@ export class NavBarComponent implements OnInit {
     return this.dataService.isLoggedIn()
   }
 
+  /* Will trigger if there is any changes in the input of the navbar */
   onChange(event: any) {
-    if (event) this.searchService.suggest(event)
+    if (event) {
+      this.searchService.suggest(event)
+      this.showAutoComplete = true;
+    }
   }
-
+  
+  /* Will get results based on */
   onSubmit(form: any) {
   	this.query = form.searchString;
     this.searchService.search(form.searchString);

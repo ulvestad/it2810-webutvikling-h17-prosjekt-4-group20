@@ -12,7 +12,11 @@
         <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString" 
         [(ngModel)]="searchString" autocomplete=off (ngModelChange)="onChange($event)">
         <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
-        <app-autocomplete (onSuggest)='changeInputValue($event)'> </app-autocomplete>
+        <app-autocomplete
+          [show]='showAutoComplete'
+          (onSuggest)='changeInputValue($event)'> 
+
+        </app-autocomplete>
       </form>
     </div>
       <a class="navbar-brand element" [routerLink]=" isLoggedIn() ? '/user': '/login'" routerLinkActive="active">

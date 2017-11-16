@@ -17,4 +17,6 @@
 	cursor: pointer;
 }
 
-.autocomplete-selected { background: #f0f0f0; }
+.autocomplete-selected {
+	background: #f0f0f0;
+}

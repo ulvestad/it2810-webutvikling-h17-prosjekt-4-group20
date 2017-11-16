@@ -21,7 +21,7 @@ const findUsers = callback => User.find({}, callback)
 const dumpDatabase = callback => User.remove({}, callback)
 
 /* Integration tests for servers user api */
-xdescribe('user', () => {
+describe('user', () => {
   let server
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjU5ZjliYTI1YzczNTllMGE1NDYyNjgxZiIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwibW92aWVsaXN0IjpbXX0sImV4cCI6MTUxMDE0MzE0MSwiaWF0IjoxNTA5NTM4MzQxfQ.8Sv-THH-wGGa20W3WNtCJ5UjPBUVuPD_8mm-P4uWUD8'
   const decoded = { username: 'andy', iat: 1509045962 }
@@ -165,7 +165,7 @@ xdescribe('user', () => {
       })
     })
 
-    it('success', done => {
+    xit('success', done => {
       get(request(server), '/api/user', {token: token}, (err, res) => {
         res.body.msg.should.equal(response.success.correctToken.msg)
         done()
@@ -181,7 +181,7 @@ xdescribe('user', () => {
       saveMovie(new NewMovie({...mov}), err => done())
     })
 
-    xit('should add movie to list', done => {
+    it('should add movie to list', done => {
       post(request(server), '/api/user/add', {token: token}, {id: first}, (err, res) => {
         decode(res.body.token, (err, user) => {
           user.data.movielist.length.should.equal(1)
@@ -190,7 +190,7 @@ xdescribe('user', () => {
       })
     })
 
-    xit('should not add multiple of same movie', done => {
+    it('should not add multiple of same movie', done => {
       let changabletoken = token
       post(request(server), '/api/user/add', {token: token}, {id: first}, (err, res) => {
         changabletoken = res.body.token || changabletoken
