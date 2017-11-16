@@ -1,0 +1,25 @@
+.modal-footer{
+  background-color: #fff;
+}
+.modal-header{
+  background-color: #292b2c;
+  color: #5cb85c;
+}
+.modalBody{
+  padding-left: 20px;
+  flex-wrap: wrap;
+}
+.genres{
+  margin-left: -40px;
+}
+.genre{
+  margin-right: 10px;
+}
+ul > li {
+  display: inline-block;
+}
+
+/*Change cursour when hover over button*/
+.addBtn, .closeBtn{
+  cursor: pointer;
+}

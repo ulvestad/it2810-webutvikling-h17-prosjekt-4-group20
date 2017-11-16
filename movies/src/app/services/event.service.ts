@@ -3,16 +3,24 @@ import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 export class EventService {
-  //default subject & event
-  /*public _subject = new Subject<object>();
-  public event = this._subject.asObservable(); */
+
+  public _selectedMovieSubject = new Subject<any>();
+  public eventSelect = this._selectedMovieSubject.asObservable();
 
   public _watchlistSubject = new Subject<number>();
   public event = this._watchlistSubject.asObservable();
+
+  public _autocompleteOptionsSubject = new Subject<any>();
 
   constructor() { }
 
   public publish(data: number) {
     this._watchlistSubject.next(data);
   }
+
+  public publishSelectedMovie(data: any) {
+    this._selectedMovieSubject.next(data);
+  }
+
+  public 
 }

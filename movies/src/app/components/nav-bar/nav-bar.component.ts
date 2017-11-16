@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
+
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,24 +15,46 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class NavBarComponent implements OnInit {
   private query: string;
+  private options: Array<any>;
+  private searchString: string;
+
+  showAutoComplete: boolean;
 
   constructor(
-    private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService
+    private searchService: SearchService,
+    private route: Router,
+    private dataService: DataService,
+    private cookieService: CookieService
   ) {
+
   }
 
   ngOnInit() {
+  }
+
+  /* Updates the autocomplete text input with options */
+  changeInputValue(movie: any) {
+    this.searchString = movie.title;
   }
 
   isLoggedIn() {
     return this.dataService.isLoggedIn();
   }
 
+  /* Will trigger if there is any changes in the input of the navbar */
+  onChange(event: any) {
+    if (event) {
+      this.searchService.suggest(event);
+      this.showAutoComplete = true;
+    }
+  }
+
+  /* Will get results based on */
   onSubmit(form: any) {
-    this.query = form.query;
-    this.searchService.search(form.query);
+    this.query = form.searchString;
+    this.searchService.search(form.searchString);
     this.route.navigateByUrl('/');
-    this.addToHistory(form.query);
+    this.addToHistory(form.searchString);
   }
 
   addToHistory(query: string) {
