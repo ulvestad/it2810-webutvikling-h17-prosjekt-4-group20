@@ -49,7 +49,8 @@ export class HomeComponent implements OnInit {
       this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
     });
 
-    // this.searchService.search.subscribe(movies => this.update(movies));
+    // TODO: how do you subscribe on search now?
+    // this.searchService.results.subscribe(movies => this.update(movies));
   }
 
   ngOnInit() {
