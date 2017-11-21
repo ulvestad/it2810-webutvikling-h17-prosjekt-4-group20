@@ -1,28 +1,24 @@
 #sidebar h3 {
   margin-top: 1em;
 }
-
 .container {
   margin-top: 20px;
 }
-
 .card {
   margin-top: .3em;
 }
-
 select {
   color: #0275d8;
   padding: .3em;
 }
-
 .large-img{
   width: 260px;
   height: 380px;
   margin: auto;
 }
 .small-img{
-  width: 120px;
-  height: 170px;
+  width: 170px;
+  height: 250px;
   margin: auto;
   margin-top: 30px;
   margin-right: 25px;
