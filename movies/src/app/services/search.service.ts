@@ -21,8 +21,8 @@ export class SearchService {
     });
   }
 
-  search(query: string) {
-    this.dataService.post('/search', {query: query}).subscribe(res => {
+  search(query: string, page: number) {
+    this.dataService.post('/search', {query: query, page: page}).subscribe(res => {
       this.results = res.result;
       this.changeSearch.next(this.results);
     });

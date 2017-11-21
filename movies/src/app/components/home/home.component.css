@@ -12,6 +12,10 @@ select {
   padding: .3em;
 }
 
+.buttons {
+  margin-bottom: 10px;
+}
+
 .small-img{
   width: 180px;
   height: 250px;
