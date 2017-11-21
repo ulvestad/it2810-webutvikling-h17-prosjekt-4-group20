@@ -4,21 +4,24 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" routerLink="/home"><img src="../../assets/img/logo.png" class="logo"/></a>
     <div class="collapse navbar-collapse" id="navbarsExampleContainer">
+      <select class="form-control element" (change)="selectorUpdate($event.target.value)">
+        <option value="popular">Top movies</option>
+        <option value="upcoming">Upcoming movies</option>
+        <option value="top">Best rated</option>
+      </select>
+      <div class="form-inline mx-auto flex-nowrap flex-row element">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+          <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString"
+          [(ngModel)]="searchString" autocomplete=off (ngModelChange)="onChange($event)">
+          <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
+          <app-autocomplete
+            [show]='showAutoComplete'
+            (onSuggest)='changeInputValue($event)'>
 
-    <div class="form-inline mx-auto flex-nowrap flex-row element">
-      <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-        <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString" 
-        [(ngModel)]="searchString" autocomplete=off (ngModelChange)="onChange($event)">
-        <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
-        <app-autocomplete
-          [show]='showAutoComplete'
-          (onSuggest)='changeInputValue($event)'> 
-
-        </app-autocomplete>
-      </form>
-    </div>
+          </app-autocomplete>
+        </form>
+      </div>
       <a class="navbar-brand element" [routerLink]=" isLoggedIn() ? '/user': '/login'" routerLinkActive="active">
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>

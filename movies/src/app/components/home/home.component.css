@@ -15,28 +15,15 @@ select {
   padding: .3em;
 }
 
-.large-img{
-  width: 260px;
-  height: 380px;
-  margin: auto;
-}
 .small-img{
-  width: 120px;
-  height: 170px;
+  width: 200px;
+  height: 270px;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-right: 25px;
   margin-left: 5px;
 }
-.wrap-large{
-  display: -webkit-flex; /* Safari */
-  -webkit-justify-content: flex-start; /* Safari 6.1+ */
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  /*overflow-y: hidden;*/
-  /*max-height: 380px;*/ /*Must be same as large-img -> heigth*/
-}
+
 .wrap-small{
   display: -webkit-flex; /* Safari */
   -webkit-justify-content: flex-start; /* Safari 6.1+ */

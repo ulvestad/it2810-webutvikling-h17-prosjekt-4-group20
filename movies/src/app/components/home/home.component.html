@@ -1,29 +1,14 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-3" id="sidebar">
-      <h3>Category</h3>
-      <select  class="form-control" (change)="selectorUpdate($event.target.value)">
-          <option value="Popular">Top movies</option>
-          <option value="Upcoming">Upcoming movies</option>
-          <option value="Top_Rated">Best rated</option>
-      </select>
-
       <h3>Filters</h3>
       <div id="filters" role="tablist" aria-multiselectable="true">
           <div class="card" *ngFor="let filter of this.filterArray">
-
             <div class="card-header" id="{{ filter.name }}" role="tab">
-
-                <a data-toggle="collapse"
-                  data-parent="#filters"
-                  href="{{ '#collapse_' + filter.name }}"
-                >
+                <a data-toggle="collapse" data-parent="#filters" href="{{ '#collapse_' + filter.name }}">
                   {{ filter.name }}
                 </a>
-
             </div>
-
             <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
               <div class="card-block">
                   <div class="form-check" *ngFor="let option of filter.options">
@@ -39,7 +24,6 @@
                   </div>
               </div>
             </div>
-
           </div>
         </div>
     </div>
@@ -52,7 +36,6 @@
               data-target="#exampleModal"
               href=""/>
           </div> -->
-
           <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
               <img  *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
               (click)="setMovie(movie)"

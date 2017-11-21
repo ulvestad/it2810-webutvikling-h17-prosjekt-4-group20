@@ -1,5 +1,5 @@
 /*Spacing between columns when collapsed*/
-.element{
+.element {
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -18,11 +18,11 @@
 }
 
 /*Logo adjustments*/
-.logo{
+.logo {
   width: 120px;
 }
 
 /*Change cursour when hover over button*/
-.searchBtn{
+.searchBtn {
   cursor: pointer;
 }

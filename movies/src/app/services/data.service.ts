@@ -35,20 +35,8 @@ export class DataService {
     return this.post('/genres', {}).map(data => this.result = data.result);
   }
 
-  getPopular() {
-    return this.post('/popular', {}).map(data => this.result = data.result);
-  }
-
-  getLatest() {
-    return this.post('/latest', {}).map(data => this.result = data.result);
-  }
-
-  getTopRated() {
-    return this.post('/top', {}).map(data => this.result = data.result);
-  }
-
-  getUpcoming() {
-    return this.post('/upcoming', {}).map(data => this.result = data.result);
+  getMovies(current: string) {
+    return this.post(current, {}).map(data => this.result = data.result);
   }
 
   isLoggedIn() {

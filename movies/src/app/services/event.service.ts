@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class EventService {
@@ -9,6 +9,9 @@ export class EventService {
 
   public _watchlistSubject = new Subject<number>();
   public event = this._watchlistSubject.asObservable();
+
+  public _pageNumberAndCurrentPage = new Subject<any>();
+  public eventHome = this._pageNumberAndCurrentPage.asObservable();
 
   public _autocompleteOptionsSubject = new Subject<any>();
 
@@ -20,5 +23,10 @@ export class EventService {
 
   public publishSelectedMovie(data: any) {
     this._selectedMovieSubject.next(data);
+  }
+
+  public publishHome(page: number, current: string) {
+    const obj = {page, current};
+    this._pageNumberAndCurrentPage.next(obj);
   }
 }

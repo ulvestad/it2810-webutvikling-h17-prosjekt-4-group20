@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { SearchService } from '../../services/search.service';
 import { EventService } from '../../services/event.service';
@@ -32,10 +33,17 @@ export class HomeComponent implements OnInit {
   filterArray: Array<any>;
   isLoggedIn = false; // assume worst
 
-  constructor(private eventService: EventService, private dataService: DataService, private searchService: SearchService) {
+  constructor(
+    private eventService: EventService,
+    private dataService: DataService,
+    private searchService: SearchService
+    private router: Router) {
 
     this.filters = {};
     this.filterArray = [];
+
+    this.page = 0;
+    this.current = 'popular';
 
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
@@ -45,8 +53,16 @@ export class HomeComponent implements OnInit {
 
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
-    this.page = 0;
-    this.current = 'Popular';
+
+    eventService.eventHome.subscribe(data => {
+      const {page, current} = data;
+      this.page = page;
+      this.current = current;
+      this.router.navigate(['/']);
+      this.dataService.getMovies('/' + this.current).subscribe(movies => {
+        this.update(movies);
+      });
+    });
 
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => this.update(movies));
@@ -55,60 +71,17 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
-      this.dataService.getPopular().subscribe(movies => {
+      this.dataService.getMovies('/' + this.current).subscribe(movies => {
         this.update(movies);
       });
      });
   }
 
-  /*Update movies according to selector*/
-  selectorUpdate(option: string) {
-    switch (option) {
-      case 'Popular':
-        this.page = 0;
-        this.dataService.getPopular().subscribe(movies => this.update(movies));
-        this.current = 'Popular';
-        break;
-      case 'Upcoming':
-        this.page = 0;
-        this.dataService.getUpcoming().subscribe(movies => this.update(movies));
-        this.current = 'Upcoming';
-        break;
-      case 'Top_Rated':
-        this.page = 0;
-        this.dataService.getTopRated().subscribe(movies => this.update(movies));
-        this.current = 'Top_Rated';
-        break;
-      default:
-        this.dataService.getPopular().subscribe(movies => this.update(movies));
-        break;
-    }
-  }
-
   onScroll() {
     this.page = this.page + 1;
-    switch (this.current) {
-      case 'Popular':
-        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.result]);
-        });
-        break;
-      case 'Upcoming':
-        this.dataService.post('/upcoming', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.result]);
-        });
-        break;
-      case 'Top_Rated':
-        this.dataService.post('/top', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.result]);
-        });
-        break;
-      default:
-        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.result]);
-        });
-        break;
-    }
+    this.dataService.post('/' + this.current, {page: this.page}).subscribe(res => {
+      this.update([...this.movies, ...res.result]);
+    });
   }
 
   filterYears(movies) {
