@@ -55,7 +55,7 @@ export class NavBarComponent implements OnInit {
   /* Will get results based on */
   onSubmit(form: any) {
     this.query = form.searchString;
-    this.searchService.search(form.searchString);
+    this.searchService.search(form.searchString, 0);
     this.route.navigateByUrl('/');
     this.addToHistory(form.searchString);
   }
