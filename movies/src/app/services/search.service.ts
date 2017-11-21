@@ -11,6 +11,8 @@ export class SearchService {
   suggestions: Array<any>;
   changeSuggestions: Subject<any> = new Subject<any>();
 
+  currentQuery: string;
+
   constructor(private dataService: DataService, private router: Router) {
   }
 
@@ -22,7 +24,8 @@ export class SearchService {
   }
 
   search(query: string, page: number) {
-    this.dataService.post('/search', {query: query, page: page}).subscribe(res => {
+    this.currentQuery = query || this.currentQuery;
+    this.dataService.post('/search', {query: this.currentQuery, page: page}).subscribe(res => {
       this.results = res.result;
       this.changeSearch.next(this.results);
     });
