@@ -16,9 +16,9 @@ export class DataService {
 
   /* */
   get(url: string): Observable<any> {
-    let headers = new Headers({ "content-type": "text/html", });
+    const headers = new Headers({ 'content-type': 'text/html', });
     headers.append('token', this.cookieService.get('token'));
-    let options = new RequestOptions({ headers: headers });
+    const options = new RequestOptions({ headers: headers });
     return this.http.get(this.path + url, options).map(res => res.json());
   }
 
@@ -52,7 +52,9 @@ export class DataService {
   }
 
   isLoggedIn() {
-    if(this.cookieService.get('token')) return true;
+    if (this.cookieService.get('token')) {
+      return true;
+    }
     return false;
   }
 

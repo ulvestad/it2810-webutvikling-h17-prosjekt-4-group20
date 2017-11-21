@@ -14,10 +14,10 @@ export class WatchlistComponent implements OnInit {
   private IMAGE_URL:string = 'https://image.tmdb.org/t/p/w320/';
 
   constructor(private eventService: EventService, private dataService: DataService, private cookieService: CookieService) {
-    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+    if (this.dataService.isLoggedIn()) { // user is logged in -> get data
       this.dataService.get('/user').subscribe(data => {
         this.moviesList = data.result.movielist;
-      })
+      });
     }
   }
 

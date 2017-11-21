@@ -11,10 +11,10 @@ export class HistoryComponent implements OnInit {
   history: Array<any>;
 
   constructor(private dataService: DataService) {
-    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+    if (this.dataService.isLoggedIn()) { // user is logged in -> get data
       this.dataService.get('/user').subscribe(data => {
         this.history = data.result.history;
-      })
+      });
     }
   }
 

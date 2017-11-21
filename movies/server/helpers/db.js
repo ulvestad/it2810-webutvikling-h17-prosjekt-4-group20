@@ -3,7 +3,7 @@ const Movie = require('../models/newMovie')
 const User = require('../models/user')
 const util = require('./util')
 /*
-* User 
+* User
 */
 
 /* Find user, return user prmoise */
@@ -69,17 +69,15 @@ module.exports.searchMovie = (query, page=0, n=8) => {
 
 /* Get movies, returns promise */
 /* popularity :: release_date :: vote_average */
-module.exports.getMovies = (type, page=0, n=8) => {
-	if (type === 'upcoming') return this.getUpcoming(page, n) // ugly finn en bedre løsning ? cmplx
-	else return Movie.find({}).sort(`-${type}`).skip(n*page).limit(n).exec()
+module.exports.getMovies = (type, skip=0,  limit=5) => {
+	if (type === 'upcoming') return this.getUpcoming(skip, limit) // ugly finn en bedre løsning ? cmplx
+	else return Movie.find({}).sort(`-${type}`).skip(skip).limit(limit).exec()
 }
 /* Get upcoming movies */
 // todo add constraint on vote_average, popularity aswell?
-module.exports.getUpcoming = (page=0, n=8) => {
+module.exports.getUpcoming = (skip=0, limit=5) => {
 	const max = util.formatFutureDate(10)
 	// finds movies with release date below max, then sort by release date
 	// can add more eg. {popularity: {$gt: 300}}
-	return Movie.find({release_date: {$gt: max}}).sort('-release_date').skip(n*page).limit(n).exec()
+	return Movie.find({release_date: {$gt: max}}).sort('-release_date').skip(skip).limit(limit).exec()
 }
-
-

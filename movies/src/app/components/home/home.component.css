@@ -24,8 +24,8 @@ select {
   width: 120px;
   height: 170px;
   margin: auto;
-  margin-top: 40px;
-  margin-right: 5px;
+  margin-top: 30px;
+  margin-right: 25px;
   margin-left: 5px;
 }
 .wrap-large{
@@ -43,12 +43,13 @@ select {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  /*overflow-y: hidden;
-  max-height: 210px;*/
 }
 
 /*image grow effect*/
-.small-img { transition: all .2s ease-in-out; }
-.small-img:hover { transform: scale(1.1); cursor: pointer;}
-.large-img { transition: all .2s ease-in-out; }
-.large-img:hover { transform: scale(1.1); cursor: pointer;}
+.small-img {
+  transition: all .2s ease-in-out;
+}
+
+.small-img:hover {
+  transform: scale(1.1); cursor: pointer;
+}
