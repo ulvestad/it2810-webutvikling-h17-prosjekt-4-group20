@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngIf="this.current === 'search'" class="row">
-    <div class="col-md-3" id="sidebar">
+    <div class="col-md-2 fixed" id="sidebar">
       <h3>Filters</h3>
       <div id="filters" role="tablist" aria-multiselectable="true">
         <div class="card" *ngFor="let filter of this.filterArray">
@@ -25,26 +25,28 @@
             </div>
           </div>
         </div>
-      </div>
-      <h3>Sort</h3>
-      <div>
-        <button
-          type="button"
-          [ngClass]="{'active': (activeButton === 'popular')}"
-          class="btn btn-outline-success buttons"
-          (click)="sort($event.target.value)"
-          value="popular"
-        >Most popular</button>
-        <button
-          type="button"
-          [ngClass]="{'active': (activeButton === 'top')}"
-          class="btn btn-outline-success buttons"
-          (click)="sort($event.target.value)"
-          value="top"
-        >Top rated</button>
+        <h3>Sort</h3>
+        <div>
+          <button
+            type="button"
+            [ngClass]="{'active': (activeButton === 'popular')}"
+            class="btn btn-outline-success buttons"
+            (click)="sort($event.target.value)"
+            value="popular"
+            [scrollTo]="'#content'"
+          >Most popular</button>
+          <button
+            type="button"
+            [ngClass]="{'active': (activeButton === 'top')}"
+            class="btn btn-outline-success buttons"
+            (click)="sort($event.target.value)"
+            value="top"
+            [scrollTo]="'#content'"
+          >Top rated</button>
+        </div>
       </div>
     </div>
-    <div class="col-md-9" id="content">
+    <div class="col-md-10 movies" id="content">
       <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
         <img *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
         (click)="setMovie(movie)"
