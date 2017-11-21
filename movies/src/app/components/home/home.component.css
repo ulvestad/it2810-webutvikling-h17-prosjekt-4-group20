@@ -10,6 +10,27 @@
   margin-top: .3em;
 }
 
+.fixed {
+  width: 200px;
+  position: fixed;
+}
+
+.movies {
+  margin-left: 200px;
+  position: relative;
+  overflow: auto;
+}
+
+@media screen and (max-width: 720px) {
+  .fixed {
+    position: static;
+  }
+  .movies {
+    margin-left: 0;
+    position: static;
+  }
+}
+
 select {
   color: #0275d8;
   padding: .3em;
@@ -23,16 +44,16 @@ select {
   cursor: pointer;
 }
 
-.small-img{
-  width: 180px;
-  height: 250px;
+.small-img {
+  width: 190px;
+  height: 260px;
   margin: auto;
   margin-top: 20px;
   margin-right: 25px;
   margin-left: 5px;
 }
 
-.wrap-small{
+.wrap-small {
   display: -webkit-flex; /* Safari */
   -webkit-justify-content: flex-start; /* Safari 6.1+ */
   display: flex;
