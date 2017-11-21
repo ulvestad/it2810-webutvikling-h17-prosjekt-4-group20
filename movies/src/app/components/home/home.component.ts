@@ -43,8 +43,6 @@ export class HomeComponent implements OnInit {
     this.filterArray = [];
 
     this.page = 0;
-    this.current = 'popular';
-
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
     // body{ ... } in the css file does not work
@@ -54,10 +52,10 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
 
+    /* Listens for changes in eventHome */
     eventService.eventHome.subscribe(data => {
-      const {page, current} = data;
-      this.page = page;
-      this.current = current;
+      this.page = data.page;
+      this.current = data.current;
       this.router.navigate(['/']);
       this.dataService.getMovies('/' + this.current).subscribe(movies => {
         this.update(movies);
@@ -71,9 +69,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
-      this.dataService.getMovies('/' + this.current).subscribe(movies => {
-        this.update(movies);
-      });
+      if (this.eventService.current !== 'search') {
+        this.eventService.publishHome(0, this.eventService.current || 'popular');
+      }
      });
   }
 

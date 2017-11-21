@@ -12,6 +12,7 @@ export class EventService {
 
   public _pageNumberAndCurrentPage = new Subject<any>();
   public eventHome = this._pageNumberAndCurrentPage.asObservable();
+  public current: string;
 
   private _autocompleteOptionsSubject = new Subject<any>();
   public  eventAutocomplete = this._autocompleteOptionsSubject.asObservable();
