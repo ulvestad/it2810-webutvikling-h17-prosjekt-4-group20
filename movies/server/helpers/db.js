@@ -48,7 +48,9 @@ module.exports.saveMultipleMovies = array => {
 		if (!array || !array.length) return resolve('no data')
 		let movies = []
 		await Promise.all(array.map(async m => {
-			await this.saveMovie(m).then(m => { movies.push(m) }).catch(e => {})
+			if(m.poster_path != null){ //does not save movies with missing poster_path
+				await this.saveMovie(m).then(m => { movies.push(m) }).catch(e => {})
+			}
 		}))
 		resolve(movies)
 	})

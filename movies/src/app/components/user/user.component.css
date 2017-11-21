@@ -7,7 +7,6 @@
   width: 100%;
   min-height: 200px;
   background-color: #292b2c;
-  background-image: url("../../../assets/img/banner.png");
   color: #fff;
 }
 .banner-content{
@@ -38,6 +37,9 @@
 .btn-outline-secondary:hover{
   cursor: pointer;
 }
+.btn-outline-secondary{
+  margin-bottom: 20px;
+}
 
 /*Tabpanel*/
 .tab-panel{
@@ -62,6 +64,10 @@
 .tab-content{
   margin-top: 20px;
   margin-bottom: 60px;
+}
+.tab-pane{
+  overflow: auto;
+  max-height: 545px;
 }
 
 /*Circular widget*/
