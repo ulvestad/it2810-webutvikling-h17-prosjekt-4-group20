@@ -28,11 +28,11 @@ export class WatchlistComponent implements OnInit {
     this.dataService.post('/user/remove', {id: movie.id}).subscribe(data => {
       console.log(movie.title, 'removed', data);
       this.moviesList = data.result;
-      // this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
-      //  this.moviesList = res.user.data.movielist;
-      //  this.eventService.publish(res.user.data.movielist.length) //publish changes (movielist length)
-      // })
-    });
+      this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
+       this.moviesList = res.result.movielist;
+       this.eventService.publish(res.result.movielist.length) //publish changes (movielist length)
+      })
+    })
   }
 
 

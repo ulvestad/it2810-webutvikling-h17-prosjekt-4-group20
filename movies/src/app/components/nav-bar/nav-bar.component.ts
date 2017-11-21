@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
@@ -18,8 +18,6 @@ export class NavBarComponent implements OnInit {
   private query: string;
   private options: Array<any>;
   private searchString: string;
-
-  showAutoComplete: boolean;
 
   constructor(
     private searchService: SearchService,
@@ -51,7 +49,6 @@ export class NavBarComponent implements OnInit {
   onChange(event: any) {
     if (event) {
       this.searchService.suggest(event);
-      this.showAutoComplete = true;
     }
   }
 
