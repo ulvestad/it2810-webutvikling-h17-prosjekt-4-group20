@@ -165,7 +165,7 @@ describe('user', () => {
       })
     })
 
-    it('success', done => {
+    xit('success', done => {
       get(request(server), '/api/user', {token: token}, (err, res) => {
         res.body.msg.should.equal(response.success.correctToken.msg)
         done()
@@ -181,7 +181,7 @@ describe('user', () => {
       saveMovie(new NewMovie({...mov}), err => done())
     })
 
-    xit('should add movie to list', done => {
+    it('should add movie to list', done => {
       post(request(server), '/api/user/add', {token: token}, {id: first}, (err, res) => {
         decode(res.body.token, (err, user) => {
           user.data.movielist.length.should.equal(1)
@@ -190,7 +190,7 @@ describe('user', () => {
       })
     })
 
-    xit('should not add multiple of same movie', done => {
+    it('should not add multiple of same movie', done => {
       let changabletoken = token
       post(request(server), '/api/user/add', {token: token}, {id: first}, (err, res) => {
         changabletoken = res.body.token || changabletoken

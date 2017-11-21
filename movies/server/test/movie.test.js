@@ -16,15 +16,17 @@ describe('movie', () => {
 
   before(done => {
     server = require('../../server')
-    dumpDatabase(err => done())
+    done()
+    //dumpDatabase(err => done())
   })
 
   after(done => {
     server.close()
-    dumpDatabase(err => done())
+    done()
+    //dumpDatabase(err => done())
   })
 
-  xit('Should return search results', done => {
+  it('Should return search results', done => {
     post(request(server), '/api/search', {}, {query: 'avatar'}, (err, res) => {
       res.body.result.length.should.be.above(1)
       NewMovie.find({}, (err, movies) => {
@@ -34,9 +36,27 @@ describe('movie', () => {
     })
   })
 
-  xit('Should return empty search results', done => {
+  it('Should return empty search results', done => {
     post(request(server), '/api/search', {}, {query: 'do not find anything please'}, (err, res) => {
     	res.body.result.length.should.be.equal(0)
+      done()
+    })
+  })
+
+  xit('find popular', done => {
+    post(request(server), '/api/popular', {}, {next: 0}, (err, res) => {
+      res.body.result.forEach(e => console.log(e.title, e.popularity))
+      console.log('***')
+      post(request(server), '/api/popular', {}, {next: 1}, (err, res) => {
+        res.body.result.forEach(e => console.log(e.title, e.popularity))
+        done()
+      })
+    })
+  })
+
+  xit('find suggestions', done => {
+    post(request(server), '/api/suggestions', {}, {query: 'bat'}, (err, res) => {
+      res.body.result.forEach(e => console.log(e.title))
       done()
     })
   })

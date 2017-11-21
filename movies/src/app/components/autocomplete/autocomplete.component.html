@@ -1,0 +1,5 @@
+<div *ngIf="show && options.length" id="autocomplete">
+	<li *ngFor="let option of options" (click)="updateInputValue(option)">
+    {{option.title}}
+  </li>
+</div>

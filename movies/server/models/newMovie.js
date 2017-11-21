@@ -14,5 +14,6 @@ module.exports = mongoose.model('NewMovie', new Schema({
 	runtime: Number,
 	tagline: String,
 	vote_average: Number,
-	vote_count: Number
+	vote_count: Number,
+	tag: String
 }))
