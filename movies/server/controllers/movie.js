@@ -5,12 +5,14 @@ const db = require('../helpers/db')
 /* Stores the most popular*/
 module.exports.init = () => {
   operate.solve(async () => {
-    const a = await tmdb.getMovies('popular', 0)
-    const b = await tmdb.getMovies('upcoming', 0)
-    const c = await tmdb.getMovies('top_rated', 0)
-    let array = [...a, ...b, ...c]
-    const r = await db.saveMultipleMovies(array)
-    return a
+    for (let i = 0; i < 10; i++) {
+      const a = await tmdb.getMovies('popular', i)
+      const b = await tmdb.getMovies('upcoming', i)
+      const c = await tmdb.getMovies('top_rated', i)
+      let array = [...a, ...b, ...c]
+      const r = await db.saveMultipleMovies(array)
+    }
+    return {}
   }).then(result => console.log('saved'))
 }
 

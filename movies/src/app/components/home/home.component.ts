@@ -65,21 +65,21 @@ export class HomeComponent implements OnInit {
     switch (option) {
       case 'Popular':
         this.page = 0;
-        this.dataService.getPopular().subscribe(movie => this.update(movies));
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
         this.current = 'Popular';
         break;
       case 'Upcoming':
         this.page = 0;
-        this.dataService.getLatest().subscribe(movie => this.update(movies));
+        this.dataService.getLatest().subscribe(movies => this.update(movies));
         this.current = 'Upcoming';
         break;
       case 'Top_Rated':
         this.page = 0;
-        this.dataService.getTop_Rated().subscribe(movie => this.update(movies));
+        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
         this.current = 'Top_Rated';
         break;
       default:
-        this.dataService.getPopular().subscribe(movie => this.update(movies));
+        this.dataService.getPopular().subscribe(movies => this.update(movies));
         break;
     }
   }
