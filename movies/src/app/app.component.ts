@@ -16,6 +16,6 @@ export class AppComponent {
   }
 
   @HostListener('click') onClick() {
-    this.eventService.publishSelectedMovie(false);
+    this.eventService.autoCompleteTrigger(false);
   }
 }

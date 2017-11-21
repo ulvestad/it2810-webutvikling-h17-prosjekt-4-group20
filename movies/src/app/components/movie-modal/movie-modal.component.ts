@@ -25,11 +25,7 @@ export class MovieModalComponent implements OnInit {
   isLoggedIn: boolean;
 
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
-
-    eventService.eventSelect.subscribe((data) => {
-      this.selectedMovie = data;
-    });
-
+    eventService.eventSelect.subscribe(data => this.selectedMovie = {...data});
     this.dataService.getGenreList().subscribe(data => this.genreList = data.genres);
     this.isLoggedIn = this.dataService.isLoggedIn();
   }
