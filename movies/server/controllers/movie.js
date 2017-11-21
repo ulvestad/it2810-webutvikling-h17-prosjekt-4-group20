@@ -38,10 +38,10 @@ module.exports.getGenres = (req, res) => {
 /* Get movies */
 /* DB   = popularity :: release_date :: vote_average */
 /* TMDB = popular :: upcoming :: top_rated */
-const getMovies = async (dbType, tmdbType, page) => {
+const getMovies = async (dbType, tmdbType, page = 0) => {
   const limit = page === 0 ? 20 : 5
-  const skip = page === 0 ? 20 : (20 + (page * 5))
-  const movies = await db.getMovies(dbType, page, skip, limit) // get movies
+  const skip = page === 0 ? 0 : (20 + (page * 5))
+  const movies = await db.getMovies(dbType, skip, limit) // get movies
   if (movies.length >= limit) return movies // return if enough
   let more = await tmdb.getMovies(tmdbType, page) // get more results
   more = await db.saveMultipleMovies(more) // save more

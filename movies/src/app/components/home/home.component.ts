@@ -50,14 +50,15 @@ export class HomeComponent implements OnInit {
 
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => this.update(movies));
-
-    this.dataService.getGenreList().subscribe(res => {
-      this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
-    });
   }
 
   ngOnInit() {
-    this.dataService.getPopular().subscribe(movies => this.update(movies));
+    this.dataService.getGenreList().subscribe(res => {
+      this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
+      this.dataService.getPopular().subscribe(movies => {
+        this.update(movies);
+      });
+     });
   }
 
   /*Update movies according to selector*/
@@ -70,12 +71,12 @@ export class HomeComponent implements OnInit {
         break;
       case 'Upcoming':
         this.page = 0;
-        this.dataService.getLatest().subscribe(movies => this.update(movies));
+        this.dataService.getUpcoming().subscribe(movies => this.update(movies));
         this.current = 'Upcoming';
         break;
       case 'Top_Rated':
         this.page = 0;
-        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
+        this.dataService.getTopRated().subscribe(movies => this.update(movies));
         this.current = 'Top_Rated';
         break;
       default:
@@ -88,23 +89,23 @@ export class HomeComponent implements OnInit {
     this.page = this.page + 1;
     switch (this.current) {
       case 'Popular':
-        this.dataService.post('/popularMovies', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.data]);
+        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
         });
         break;
       case 'Upcoming':
-        this.dataService.post('/upcomingMovies', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.data]);
+        this.dataService.post('/upcoming', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
         });
         break;
       case 'Top_Rated':
-        this.dataService.post('/topRatedMovies', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.data]);
+        this.dataService.post('/top', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
         });
         break;
       default:
-        this.dataService.post('/popularMovies', {page: this.page}).subscribe(res => {
-          this.update([...this.movies, ...res.data]);
+        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
         });
         break;
     }
@@ -216,8 +217,6 @@ export class HomeComponent implements OnInit {
         options: genre_filters
       }
     };
-
-    console.log(this.filters);
 
     this.filterArray = [this.filters['genre'], this.filters['year']]
       .filter(el => el !== undefined)
