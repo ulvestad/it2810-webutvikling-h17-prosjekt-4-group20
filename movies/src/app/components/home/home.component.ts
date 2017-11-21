@@ -59,9 +59,7 @@ export class HomeComponent implements OnInit {
       this.page = page;
       this.current = current;
       this.router.navigate(['/']);
-      this.dataService.getMovies('/' + this.current).subscribe(movies => {
-        this.update(movies);
-      });
+      this.dataService.getMovies('/' + this.current).subscribe(movies => this.update(movies));
     });
 
     /* Listens to changes in changeSearch, triggered after a search */
@@ -71,10 +69,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
-      this.dataService.getMovies('/' + this.current).subscribe(movies => {
-        this.update(movies);
-      });
-     });
+      this.dataService.getMovies('/' + this.current).subscribe(movies => this.update(movies));
+    });
   }
 
   onScroll() {
@@ -82,6 +78,10 @@ export class HomeComponent implements OnInit {
     this.dataService.post('/' + this.current, {page: this.page}).subscribe(res => {
       this.update([...this.movies, ...res.result]);
     });
+  }
+
+  sort(option: string) {
+    this.dataService.getMovies('/' + option).subscribe(movies => this.update(movies));
   }
 
   filterYears(movies) {
