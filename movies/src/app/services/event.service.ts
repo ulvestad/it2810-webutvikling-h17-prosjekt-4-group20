@@ -10,6 +10,9 @@ export class EventService {
   private _watchlistSubject = new Subject<number>();
   public event = this._watchlistSubject.asObservable();
 
+  public _pageNumberAndCurrentPage = new Subject<any>();
+  public eventHome = this._pageNumberAndCurrentPage.asObservable();
+
   private _autocompleteOptionsSubject = new Subject<any>();
   public  eventAutocomplete = this._autocompleteOptionsSubject.asObservable();
 
@@ -21,7 +24,13 @@ export class EventService {
     this._selectedMovieSubject.next(data);
   }
 
+  public publishHome(page: number, current: string) {
+    const obj = {page, current};
+    this._pageNumberAndCurrentPage.next(obj);
+  }
+
   public autoCompleteTrigger(data: boolean) {
     this._autocompleteOptionsSubject.next(data);
   }
+
 }

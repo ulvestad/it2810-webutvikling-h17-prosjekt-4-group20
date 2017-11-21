@@ -4,6 +4,7 @@ import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { CookieService } from 'ngx-cookie-service';
+import { EventService } from '../../services/event.service';
 
 import 'rxjs/add/operator/map';
 
@@ -18,13 +19,20 @@ export class NavBarComponent implements OnInit {
   private options: Array<any>;
   private searchString: string;
 
-  constructor(private searchService: SearchService,
+  constructor(
+    private searchService: SearchService,
+    private eventService: EventService,
     private route: Router,
     private dataService: DataService,
     private cookieService: CookieService) {
   }
 
   ngOnInit() {
+  }
+
+  /*Update movies according to selector*/
+  selectorUpdate(option: string) {
+    this.eventService.publishHome(0, option);
   }
 
   /* Updates the autocomplete text input with options */

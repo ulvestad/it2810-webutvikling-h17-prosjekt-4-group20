@@ -15,7 +15,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserComponent } from './components/user/user.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { MovieListComponent } from './components/movie-list/movie-list.component';
 import { HistoryComponent } from './components/history/history.component';
 import { CookieService } from 'ngx-cookie-service';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
@@ -26,7 +25,6 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'movie-list', component: MovieListComponent },
   { path: 'user', component: UserComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -39,7 +37,6 @@ const appRoutes: Routes = [
     HomeComponent,
     UserComponent,
     NavBarComponent,
-    MovieListComponent,
     HistoryComponent,
     WatchlistComponent,
     MovieModalComponent,
