@@ -4,6 +4,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
 import { Observable } from 'rxjs/Observable';
 
+const genres = [
+  'Action',
+  'Drama',
+  'Romance'
+];
+
 interface SelectedMovie {
   title: string;
   genres: string;
@@ -36,7 +42,7 @@ export class MovieListComponent implements OnInit {
       image: '',
     };
     this.next = 0;
-    this.dataService.getMovies().subscribe(res => this.movies = res);
+    this.dataService.getPopular().subscribe(res => this.movies = res);
   }
 
   ngOnInit() {
@@ -67,8 +73,7 @@ export class MovieListComponent implements OnInit {
 
   addToMovieList() {
     this.dataService.post('/user/add', {title: this.selectedMovie.title}).subscribe(res => {
-      this.cookieService.set('token', res.token );
-      console.log(res);
+      console.log('added?', res);
     });
   }
 

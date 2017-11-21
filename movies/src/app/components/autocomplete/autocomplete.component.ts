@@ -18,11 +18,11 @@ export class AutocompleteComponent implements OnInit {
 
   /* Kan bli brukt til å fjerne autocorrect i guess */
   @HostListener('click') onClick() {
-    console.log('yeahyae');
+    console.log('user this for hiding modal, i think');
   }
 
   ngOnInit() {
-    this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
+    // this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
   }
 
   updateInputValue(value: any) {

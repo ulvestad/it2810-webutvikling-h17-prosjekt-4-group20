@@ -41,12 +41,9 @@ export class UserComponent implements OnInit {
 
   getUser() {
     return this.dataService.get('/user').subscribe(data => {
-      this.user = {
-        username: data.user.data.username,
-        email: data.user.data.email,
-        searches: data.user.data.history.length,
-        watchlists: data.user.data.movielist.length
-      };
+      if (data.success) {
+        this.user = {...data.result, searches: data.result.history.length, watchlists: data.result.movielist.length};
+      }
     });
   }
 

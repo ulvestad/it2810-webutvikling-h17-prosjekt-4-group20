@@ -1,30 +1,47 @@
-.top-container {
+#sidebar h3 {
+  margin-top: 1em;
+}
+
+.container {
   margin-top: 20px;
 }
 
-select {
-  background-color: #292b2c;
-  color: #5cb85c;
-  border-radius: .2rem;
-  font-size: 90%;
-  padding: .2rem .4rem;
-  font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-  margin-left: 8px;
-  z-index: 40;
+.card {
+  margin-top: .3em;
 }
 
-.small-img {
-  width: 220px;
-  height: 270px;
+select {
+  color: #0275d8;
+  padding: .3em;
+}
+
+.large-img{
+  width: 260px;
+  height: 380px;
+  margin: auto;
+}
+.small-img{
+  width: 120px;
+  height: 170px;
   margin: auto;
   margin-top: 30px;
   margin-right: 25px;
   margin-left: 5px;
 }
-
-.wrap-small {
+.wrap-large{
   display: -webkit-flex; /* Safari */
+  -webkit-justify-content: flex-start; /* Safari 6.1+ */
   display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  /*overflow-y: hidden;*/
+  /*max-height: 380px;*/ /*Must be same as large-img -> heigth*/
+}
+.wrap-small{
+  display: -webkit-flex; /* Safari */
+  -webkit-justify-content: flex-start; /* Safari 6.1+ */
+  display: flex;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 

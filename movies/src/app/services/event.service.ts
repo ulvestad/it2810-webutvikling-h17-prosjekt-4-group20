@@ -21,6 +21,4 @@ export class EventService {
   public publishSelectedMovie(data: any) {
     this._selectedMovieSubject.next(data);
   }
-
-  public 
 }

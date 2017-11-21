@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       if (data.success) { // success
         this.router.navigate(['']);
         this.form.reset();
-        this.cookieService.set('token', data.token );
+        this.cookieService.set('token', data.result);
         this.cookieValue = this.cookieService.get('token');
       } else { // fail
         this.result = 'Invalid username or password';

@@ -12,8 +12,8 @@ export class HistoryComponent implements OnInit {
 
   constructor(private dataService: DataService) {
     if (this.dataService.isLoggedIn()) { // user is logged in -> get data
-      this.dataService.get('/user').subscribe(res => {
-        this.history = res.user.data.history;
+      this.dataService.get('/user').subscribe(data => {
+        this.history = data.result.history;
       });
     }
   }

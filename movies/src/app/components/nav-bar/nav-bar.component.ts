@@ -20,13 +20,10 @@ export class NavBarComponent implements OnInit {
 
   showAutoComplete: boolean;
 
-  constructor(
-    private searchService: SearchService,
+  constructor(private searchService: SearchService,
     private route: Router,
     private dataService: DataService,
-    private cookieService: CookieService
-  ) {
-
+    private cookieService: CookieService) {
   }
 
   ngOnInit() {
@@ -58,12 +55,8 @@ export class NavBarComponent implements OnInit {
   }
 
   addToHistory(query: string) {
-    this.dataService.post('/user/add/history', {query: query}).subscribe(res => {
-      if (res.success) {
-        this.cookieService.set('token', res.token);
-        console.log(query, 'added to hisotry');
-      }
+    this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
+      console.log(query, 'added to history');
     });
   }
-
 }
