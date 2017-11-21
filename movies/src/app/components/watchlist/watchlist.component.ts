@@ -14,10 +14,10 @@ export class WatchlistComponent implements OnInit {
   private IMAGE_URL:string = 'https://image.tmdb.org/t/p/w320/';
 
   constructor(private eventService: EventService, private dataService: DataService, private cookieService: CookieService) {
-    if(this.dataService.isLoggedIn()){ //user is logged in -> get data
+    if (this.dataService.isLoggedIn()) { // user is logged in -> get data
       this.dataService.get('/user').subscribe(data => {
         this.moviesList = data.result.movielist;
-      })
+      });
     }
   }
 
@@ -28,11 +28,11 @@ export class WatchlistComponent implements OnInit {
     this.dataService.post('/user/remove', {id: movie.id}).subscribe(data => {
       console.log(movie.title, 'removed', data);
       this.moviesList = data.result;
-      //this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
+      // this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
       //  this.moviesList = res.user.data.movielist;
       //  this.eventService.publish(res.user.data.movielist.length) //publish changes (movielist length)
-      //})
-    })
+      // })
+    });
   }
 
 

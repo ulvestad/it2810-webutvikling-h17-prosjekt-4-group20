@@ -21,7 +21,8 @@ interface SelectedMovie {
 })
 
 export class HomeComponent implements OnInit {
-
+  page: number;
+  current: string;
   movies: Array<any>;
   filteredMovies: Array<any>;
   IMAGE_URL: string;
@@ -44,6 +45,8 @@ export class HomeComponent implements OnInit {
 
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
+    this.page = 0;
+    this.current = 'Popular';
 
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => this.update(movies));
@@ -53,7 +56,7 @@ export class HomeComponent implements OnInit {
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
       this.dataService.getPopular().subscribe(movies => {
-        this.update(movies)
+        this.update(movies);
       });
      });
   }
@@ -62,16 +65,48 @@ export class HomeComponent implements OnInit {
   selectorUpdate(option: string) {
     switch (option) {
       case 'Popular':
+        this.page = 0;
         this.dataService.getPopular().subscribe(movies => this.update(movies));
+        this.current = 'Popular';
         break;
       case 'Upcoming':
+        this.page = 0;
         this.dataService.getUpcoming().subscribe(movies => this.update(movies));
+        this.current = 'Upcoming';
         break;
       case 'Top_Rated':
+        this.page = 0;
         this.dataService.getTopRated().subscribe(movies => this.update(movies));
+        this.current = 'Top_Rated';
         break;
       default:
         this.dataService.getPopular().subscribe(movies => this.update(movies));
+        break;
+    }
+  }
+
+  onScroll() {
+    this.page = this.page + 1;
+    switch (this.current) {
+      case 'Popular':
+        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
+        });
+        break;
+      case 'Upcoming':
+        this.dataService.post('/upcoming', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
+        });
+        break;
+      case 'Top_Rated':
+        this.dataService.post('/top', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
+        });
+        break;
+      default:
+        this.dataService.post('/popular', {page: this.page}).subscribe(res => {
+          this.update([...this.movies, ...res.result]);
+        });
         break;
     }
   }
@@ -165,7 +200,6 @@ export class HomeComponent implements OnInit {
     const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
     const uniqueIds = this.unique(genreIds);
     const genres = uniqueIds.map( id => {
-        const genre = this.idToGenre.get(id) || ''
         return {
           name: this.idToGenre.get(id),
           id: id
@@ -183,8 +217,6 @@ export class HomeComponent implements OnInit {
         options: genre_filters
       }
     };
-
-    console.log(this.filters);
 
     this.filterArray = [this.filters['genre'], this.filters['year']]
       .filter(el => el !== undefined)

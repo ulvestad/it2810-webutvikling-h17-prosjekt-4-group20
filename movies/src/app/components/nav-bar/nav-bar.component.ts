@@ -41,7 +41,7 @@ export class NavBarComponent implements OnInit {
   /* Will trigger if there is any changes in the input of the navbar */
   onChange(event: any) {
     if (event) {
-      // this.searchService.suggest(event);
+      this.searchService.suggest(event);
       this.showAutoComplete = true;
     }
   }
@@ -54,9 +54,9 @@ export class NavBarComponent implements OnInit {
     this.addToHistory(form.searchString);
   }
 
-  addToHistory(query: string){
+  addToHistory(query: string) {
     this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
       console.log(query, 'added to history');
-    })
+    });
   }
 }

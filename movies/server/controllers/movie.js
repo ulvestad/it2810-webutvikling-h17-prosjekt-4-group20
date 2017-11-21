@@ -5,12 +5,14 @@ const db = require('../helpers/db')
 /* Stores the most popular*/
 module.exports.init = () => {
   operate.solve(async () => {
-    const a = await tmdb.getMovies('popular', 0)
-    const b = await tmdb.getMovies('upcoming', 0)
-    const c = await tmdb.getMovies('top_rated', 0)
-    let array = [...a, ...b, ...c]
-    const r = await db.saveMultipleMovies(array)
-    return a
+    for (let i = 0; i < 10; i++) {
+      const a = await tmdb.getMovies('popular', i)
+      const b = await tmdb.getMovies('upcoming', i)
+      const c = await tmdb.getMovies('top_rated', i)
+      let array = [...a, ...b, ...c]
+      const r = await db.saveMultipleMovies(array)
+    }
+    return {}
   }).then(result => console.log('saved'))
 }
 
@@ -23,7 +25,7 @@ module.exports.get = (req, res) => {
 }
 
 /* Get genres list */
-// todo, on init save genres and get from there instead. 
+// todo, on init save genres and get from there instead.
 // or just save the genre list in js.
 module.exports.getGenres = (req, res) => {
   operate.solve(async () => {
@@ -36,13 +38,14 @@ module.exports.getGenres = (req, res) => {
 /* Get movies */
 /* DB   = popularity :: release_date :: vote_average */
 /* TMDB = popular :: upcoming :: top_rated */
-const getMovies = async (dbType, tmdbType, page) => {
-  const limit = 8
-  const movies = await db.getMovies(dbType, page, limit) // get movies
+const getMovies = async (dbType, tmdbType, page = 0) => {
+  const limit = page === 0 ? 20 : 5
+  const skip = page === 0 ? 0 : (20 + (page * 5))
+  const movies = await db.getMovies(dbType, skip, limit) // get movies
   if (movies.length >= limit) return movies // return if enough
   let more = await tmdb.getMovies(tmdbType, page) // get more results
   more = await db.saveMultipleMovies(more) // save more
-  return [...movies, ...more].splice(0, 8) // return max 8 of them
+  return [...movies, ...more].splice(0, 5) // return max 8 of them
 }
 
 /* Get popular movies */
@@ -81,7 +84,7 @@ module.exports.search = (req, res) => {
     if (movies.length > 7) return movies // return if enough
     let more = await tmdb.search(query, page) // get more movies
     more = await db.saveMultipleMovies(more) // save result
-    return [...movies, ...more].splice(0,8) // return 8 of them
+    return [...movies, ...more].splice(0, 5) // return 8 of them
   }).then(result => {
     console.log(result)
     res.json(result)

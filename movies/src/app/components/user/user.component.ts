@@ -20,18 +20,19 @@ interface User {
 export class UserComponent implements OnInit {
 
   user: User;
-  isLoggedIn: boolean = false; //assume worst
+  isLoggedIn: boolean;
 
-  constructor(private eventService: EventService, private dataService: DataService, private router: Router, private cookieService: CookieService) {
+  constructor(private eventService: EventService,
+    private dataService: DataService, private router: Router, private cookieService: CookieService) {
     this.isLoggedIn = this.dataService.isLoggedIn();
-    if(!this.isLoggedIn) { //user is not logged in -> redirect to /login
+    if (!this.isLoggedIn) { // user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
-    }else{
+    } else {
       this.user = {username: '', email: '', searches: 0, watchlists: 0};
       this.getUser();
     }
     eventService.event.subscribe((data) => {
-      this.user.watchlists = data;  //update movielist length
+      this.user.watchlists = data;  // update movielist length
     });
   }
 
@@ -46,7 +47,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  signOut(){
+  signOut() {
     this.cookieService.delete('token');
     this.router.navigate(['/']);
   }

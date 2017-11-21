@@ -14,16 +14,16 @@
           <div class="card" *ngFor="let filter of this.filterArray">
 
             <div class="card-header" id="{{ filter.name }}" role="tab">
-              
+
                 <a data-toggle="collapse"
                   data-parent="#filters"
                   href="{{ '#collapse_' + filter.name }}"
                 >
                   {{ filter.name }}
                 </a>
-             
+
             </div>
-      
+
             <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
               <div class="card-block">
                   <div class="form-check" *ngFor="let option of filter.options">
@@ -39,7 +39,7 @@
                   </div>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>
@@ -52,8 +52,8 @@
               data-target="#exampleModal"
               href=""/>
           </div> -->
-        
-          <div class="wrap-small">
+
+          <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
               <img  *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
               (click)="setMovie(movie)"
               data-toggle="modal"
@@ -66,4 +66,3 @@
 
 <!-- MODAL -->
 <app-movie-modal></app-movie-modal>
-
