@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div *ngIf="this.current != 'search'" class="row">
     <div class="col-md-3" id="sidebar">
       <h3>Filters</h3>
       <div id="filters" role="tablist" aria-multiselectable="true">
@@ -26,10 +26,28 @@
           </div>
         </div>
       </div>
+      <h3>Sort</h3>
+      <div>
+        <select class="form-control" (change)="sort($event.target.value)">
+          <option value="popular">Most popular</option>
+          <option value="top">Best rated</option>
+        </select>
+      </div>
     </div>
     <div class="col-md-9" id="content">
       <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
-        <img  *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
+        <img *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
+        (click)="setMovie(movie)"
+        data-toggle="modal"
+        data-target="#exampleModal"
+        href=""/>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="this.current == 'search'" class="row">
+    <div class="col-md-12" id="content">
+      <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
+        <img *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
         (click)="setMovie(movie)"
         data-toggle="modal"
         data-target="#exampleModal"
