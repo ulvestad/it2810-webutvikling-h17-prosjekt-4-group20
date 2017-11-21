@@ -32,8 +32,9 @@ export class NavBarComponent implements OnInit {
 
   /*Update movies according to selector*/
   selectorUpdate(option: string) {
-    console.log('asd');
     this.eventService.publishHome(0, option);
+    this.eventService.current = option;
+    // this.route.navigateByUrl('/');
   }
 
   /* Updates the autocomplete text input with options */
@@ -55,8 +56,9 @@ export class NavBarComponent implements OnInit {
   /* Will get results based on */
   onSubmit(form: any) {
     this.query = form.searchString;
-    this.searchService.search(form.searchString, 0);
     this.route.navigateByUrl('/');
+    this.eventService.current = 'search';
+    this.searchService.search(form.searchString, 0);
     this.addToHistory(form.searchString);
   }
 
