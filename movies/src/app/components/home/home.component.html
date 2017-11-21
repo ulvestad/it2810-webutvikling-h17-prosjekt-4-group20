@@ -3,25 +3,23 @@
     <div class="col-md-2 fixed" id="sidebar">
       <h3>Filters</h3>
       <div id="filters" role="tablist" aria-multiselectable="true">
-        <div class="card" *ngFor="let filter of this.filterArray">
-          <div class="card-header" id="{{ filter.name }}" role="tab">
-            <a data-toggle="collapse" data-parent="#filters" href="{{ '#collapse_' + filter.name }}">
+        <div *ngFor="let filter of this.filterArray">
+          <a id="{{ filter.name }}" role="tab" data-toggle="collapse" data-parent="#filters" href="{{ '#collapse_' + filter.name }}">
+            <button class="btn btn-outline-success buttons">
               {{ filter.name }}
-            </a>
-          </div>
+            </button>
+          </a>
           <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
-            <div class="card-block">
-              <div class="form-check" *ngFor="let option of filter.options">
-                <label class="form-check-label">
-                  <input type="checkbox"
-                    class="form-check-input"
-                    value="{{option.name}}"
-                    [(ngModel)]="option.checked"
-                    (ngModelChange)="onFilterChange($event)"
-                  >
-                  {{ option.name }}
-                </label>
-              </div>
+            <div class="form-check" *ngFor="let option of filter.options">
+              <label class="form-check-label">
+                <input type="checkbox"
+                  class="form-check-input"
+                  value="{{option.name}}"
+                  [(ngModel)]="option.checked"
+                  (ngModelChange)="onFilterChange($event)"
+                >
+                {{ option.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -34,7 +32,9 @@
             (click)="sort($event.target.value)"
             value="popular"
             [scrollTo]="'#content'"
-          >Most popular</button>
+          >
+            Most popular
+          </button>
           <button
             type="button"
             [ngClass]="{'active': (activeButton === 'top')}"
@@ -42,7 +42,9 @@
             (click)="sort($event.target.value)"
             value="top"
             [scrollTo]="'#content'"
-          >Top rated</button>
+          >
+            Top rated
+          </button>
         </div>
       </div>
     </div>
