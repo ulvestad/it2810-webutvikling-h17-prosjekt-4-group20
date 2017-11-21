@@ -14,7 +14,9 @@ router.post('/register', auth.register)
 
 router.get('/movies', movie.getAll)
 router.get('/movie', movie.get)
-router.post('/lazyMovies', movie.getMore)
+router.post('/popularMovies', movie.getMoreOfPopular)
+router.post('/upcomingMovies', movie.getMoreOfUpcoming)
+router.post('/topRatedMovies', movie.getMoreOfTopRated)
 router.post('/search', movie.search)
 router.post('/suggestions', movie.getSuggestions)
 

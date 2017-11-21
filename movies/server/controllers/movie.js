@@ -22,13 +22,35 @@ module.exports.getAll = (req, res) => {
   })
 }
 
-/* Lazy loads more movies from all */
-// change to query get more
-module.exports.getMore = (req, res) => {
+/* Lazy loads more movies sorted by popularity */
+module.exports.getMoreOfPopular = (req, res) => {
   const {next} = {...req.body}
   const skip = next === 1 ? 20 : (20 + (next * 5))
   const limit = 5
   NewMovie.find({}).skip(skip).limit(limit).sort('-popularity').exec((err, movies) => {
+    if (err) return res.json(response.errors.lazy)
+    return res.json({...response.success.lazy, data: movies})
+  })
+}
+
+/* Lazy loads more movies sorted by popularity */
+module.exports.getMoreOfUpcoming = (req, res) => {
+  const {next} = {...req.body}
+  const skip = next === 1 ? 20 : (20 + (next * 5))
+  const limit = 5
+  const m = `'2017-11-20'`
+  NewMovie.find({release_date: {$gt:m}}).sort('-release_date').skip(skip).limit(limit).exec((err, movies) => {
+    if (err) return res.json(response.errors.lazy)
+    return res.json({...response.success.lazy, data: movies})
+  })
+}
+
+/* Lazy loads more movies sorted by popularity */
+module.exports.getMoreOfTopRated = (req, res) => {
+  const {next} = {...req.body}
+  const skip = next === 1 ? 20 : (20 + (next * 5))
+  const limit = 5
+  NewMovie.find({}).skip(skip).limit(limit).sort('-vote_average').exec((err, movies) => {
     if (err) return res.json(response.errors.lazy)
     return res.json({...response.success.lazy, data: movies})
   })

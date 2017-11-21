@@ -24,7 +24,8 @@ export class HomeComponent implements OnInit {
   movies: Array<any>;
   IMAGE_URL: string;
   selectedMovie: SelectedMovie;
-  isLoggedIn: boolean; // assume worst
+  isLoggedIn: boolean;
+  page: string;
 
   constructor(private eventService: EventService, private dataService: DataService, private searchService: SearchService) {
 
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
     this.next = 0;
+    this.page = 'Popular';
 
     this.dataService.getPopular().subscribe(movie => this.movies = movie);
 
@@ -52,14 +54,17 @@ export class HomeComponent implements OnInit {
       case 'Popular':
         this.next = 0;
         this.dataService.getPopular().subscribe(movie => this.movies = movie);
+        this.page = 'Popular';
         break;
       case 'Upcoming':
         this.next = 0;
         this.dataService.getLatest().subscribe(movie => this.movies = movie);
+        this.page = 'Upcoming';
         break;
       case 'Top_Rated':
         this.next = 0;
         this.dataService.getTop_Rated().subscribe(movie => this.movies = movie);
+        this.page = 'Top_Rated';
         break;
       default:
         this.dataService.getPopular().subscribe(movie => this.movies = movie);
@@ -69,14 +74,31 @@ export class HomeComponent implements OnInit {
 
   onScroll() {
     this.next = this.next + 1;
-    this.dataService.post('/lazyMovies', {next: this.next}).subscribe(res => {
-      this.movies = [...this.movies, ...res.data];
-    });
-    console.log(this.next, 'time scrolled');
+    switch (this.page) {
+      case 'Popular':
+        this.dataService.post('/popularMovies', {next: this.next}).subscribe(res => {
+          this.movies = [...this.movies, ...res.data];
+        });
+        break;
+      case 'Upcoming':
+        this.dataService.post('/upcomingMovies', {next: this.next}).subscribe(res => {
+          this.movies = [...this.movies, ...res.data];
+        });
+        break;
+      case 'Top_Rated':
+        this.dataService.post('/topRatedMovies', {next: this.next}).subscribe(res => {
+          this.movies = [...this.movies, ...res.data];
+        });
+        break;
+      default:
+        this.dataService.post('/popularMovies', {next: this.next}).subscribe(res => {
+          this.movies = [...this.movies, ...res.data];
+        });
+        break;
+    }
   }
 
   setMovie(movie: any) {
-    console.log(movie);
     this.selectedMovie = {
       id: movie.id,
       title: movie.title,
