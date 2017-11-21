@@ -32,6 +32,10 @@ export class WatchlistComponent implements OnInit {
        this.moviesList = res.result.movielist;
        this.eventService.publish(res.result.movielist.length) //publish changes (movielist length)
       })
+      // snackbar
+      var x = document.getElementById("snackbar")
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     })
   }
 

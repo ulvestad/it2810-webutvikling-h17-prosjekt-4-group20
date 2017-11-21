@@ -214,5 +214,6 @@ export class HomeComponent implements OnInit {
     };
 
     this.eventService.publishSelectedMovie(this.selectedMovie); // publish selectedMovie to movie-modal
+
   }
 }

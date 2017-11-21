@@ -40,6 +40,11 @@ export class MovieModalComponent implements OnInit {
   addToMovieList(movie: any) {
     this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
       console.log(this.selectedMovie.id, 'added', res);
+
+      // snackbar
+      var x = document.getElementById("snackbar")
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     });
   }
 
