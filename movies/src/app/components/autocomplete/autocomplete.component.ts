@@ -9,12 +9,10 @@ import { EventService } from '../../services/event.service';
 })
 export class AutocompleteComponent implements OnInit {
   private options: Array<any>;
-  @Input() show: boolean;
   @Output() onSuggest: EventEmitter<any> = new EventEmitter();
 
   constructor(private eventService: EventService, private searchService: SearchService) {
     eventService.eventSelect.subscribe(data => {
-      this.show = data;
       this.options = [];
     });
     this.options = [];
