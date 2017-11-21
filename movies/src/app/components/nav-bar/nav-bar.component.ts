@@ -14,14 +14,16 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-	private query: string;
+  private query: string;
   private options: Array<any>;
   private searchString: string;
 
   showAutoComplete: boolean;
 
-  constructor(private searchService: SearchService, private route: Router, private dataService: DataService, private cookieService: CookieService) {
-
+  constructor(private searchService: SearchService,
+    private route: Router,
+    private dataService: DataService,
+    private cookieService: CookieService) {
   }
 
   ngOnInit() {
@@ -32,21 +34,21 @@ export class NavBarComponent implements OnInit {
     this.searchString = movie.title;
   }
 
-  isLoggedIn(){
-    return this.dataService.isLoggedIn()
+  isLoggedIn() {
+    return this.dataService.isLoggedIn();
   }
 
   /* Will trigger if there is any changes in the input of the navbar */
   onChange(event: any) {
     if (event) {
-      this.searchService.suggest(event)
+      // this.searchService.suggest(event);
       this.showAutoComplete = true;
     }
   }
-  
+
   /* Will get results based on */
   onSubmit(form: any) {
-  	this.query = form.searchString;
+    this.query = form.searchString;
     this.searchService.search(form.searchString);
     this.route.navigateByUrl('/');
     this.addToHistory(form.searchString);
@@ -57,5 +59,4 @@ export class NavBarComponent implements OnInit {
       console.log(query, 'added to history');
     })
   }
-
 }

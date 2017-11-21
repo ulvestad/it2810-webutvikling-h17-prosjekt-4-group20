@@ -1,3 +1,13 @@
+<!-- Filters -->
+Filters:
+<div class="form-check" *ngFor="let genre of genres">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" value="">
+    {{genre}}
+  </label>
+</div>
+
+<!-- Movies -->
 <div
   class="list-group wrapper"
   infiniteScroll

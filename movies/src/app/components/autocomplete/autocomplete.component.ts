@@ -7,12 +7,12 @@ import { SearchService } from '../../services/search.service';
   styleUrls: ['./autocomplete.component.css']
 })
 export class AutocompleteComponent implements OnInit {
-	private options: Array<any>;
+  private options: Array<any>;
   @Input() show: boolean;
   @Output() onSuggest: EventEmitter<any> = new EventEmitter();
 
-  constructor(private searchService: SearchService) { 
-    //this.show = false;
+  constructor(private searchService: SearchService) {
+    // this.show = false;
     this.options = [];
   }
 
@@ -22,7 +22,7 @@ export class AutocompleteComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
+    // this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
   }
 
   updateInputValue(value: any) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -15,12 +15,13 @@ export class SearchService {
   }
 
   suggest(query: string) {
-    //if ((+ new Date() - this.lastUpdate > 1000)) {
+    // if ((+ new Date() - this.lastUpdate > 1000)) {
     // this.lastUpdate = + new Date();
+
     this.dataService.post('/suggestions', {query: query}).subscribe(res => {
       this.suggestions = res.result;
-      this.changeSuggestions.next(this.suggestions)
-    })
+      this.changeSuggestions.next(this.suggestions);
+    });
   }
 
   search(query: string) {
@@ -28,6 +29,6 @@ export class SearchService {
       this.results = res.result;
       console.log(this.results)
       this.changeSearch.next(this.results);
-    })
+    });
   }
 }

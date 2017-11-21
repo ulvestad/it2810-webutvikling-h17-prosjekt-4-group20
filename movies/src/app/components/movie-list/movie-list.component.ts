@@ -4,6 +4,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search.service';
 import { Observable } from 'rxjs';
 
+const genres = [
+  'Action',
+  'Drama',
+  'Romance'
+]
+
 interface SelectedMovie {
   title: string;
   genres: string;
