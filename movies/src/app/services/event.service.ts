@@ -31,4 +31,6 @@ export class EventService {
 
   public autoCompleteTrigger(data: boolean) {
     this._autocompleteOptionsSubject.next(data);
+  }
+
 }

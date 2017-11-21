@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private dataService: DataService,
-    private searchService: SearchService
+    private searchService: SearchService,
     private router: Router) {
 
     this.filters = {};

@@ -32,7 +32,6 @@ export class NavBarComponent implements OnInit {
 
   /*Update movies according to selector*/
   selectorUpdate(option: string) {
-    this.dataService.getMovies('/' + option).subscribe(movies => this.movies);
     this.eventService.publishHome(0, option);
   }
 
