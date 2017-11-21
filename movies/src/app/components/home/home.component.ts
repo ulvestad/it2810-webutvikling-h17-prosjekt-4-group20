@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   filters: any;
   filterArray: Array<any>;
   isLoggedIn = false; // assume worst
+  activeButton: string;
 
   constructor(
     private eventService: EventService,
@@ -57,13 +58,15 @@ export class HomeComponent implements OnInit {
       this.page = data.page;
       this.current = data.current;
       this.router.navigate(['/']);
-      this.dataService.getMovies('/' + this.current).subscribe(movies => {
-        this.update(movies);
-      });
+      this.dataService.getMovies('/' + this.current).subscribe(movies => this.update(movies));
     });
 
     /* Listens to changes in changeSearch, triggered after a search */
-    this.searchService.changeSearch.subscribe(movies => this.update(movies));
+    this.searchService.changeSearch.subscribe(movies => {
+      this.activeButton = 'popular';
+      this.update(movies);
+      this.current = 'search';
+    });
   }
 
   ngOnInit() {
@@ -80,6 +83,19 @@ export class HomeComponent implements OnInit {
     this.dataService.post('/' + this.current, {page: this.page}).subscribe(res => {
       this.update([...this.movies, ...res.result]);
     });
+  }
+
+  sort(option: string) {
+    this.activeButton = option;
+    if (option === 'popular') {
+      this.movies.sort((a, b) => {
+        return b.popularity - a.popularity;
+      });
+    } else if (option === 'top') {
+      this.movies.sort((a, b) => {
+        return b.vote_average - a.vote_average;
+      });
+    }
   }
 
   filterYears(movies) {
@@ -123,9 +139,7 @@ export class HomeComponent implements OnInit {
   }
 
   yearsFromMovies(movies: any): Array<any> {
-    const years = movies
-      .map(movie => movie.release_date)
-      .map(this.dateToYear);
+    const years = movies.map(movie => movie.release_date).map(this.dateToYear);
 
     const uniqueYears = Array.from(new Set(years));
     const sortedYears = uniqueYears.sort().reverse();

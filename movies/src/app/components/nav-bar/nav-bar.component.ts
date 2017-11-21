@@ -58,7 +58,7 @@ export class NavBarComponent implements OnInit {
     this.query = form.searchString;
     this.route.navigateByUrl('/');
     this.eventService.current = 'search';
-    this.searchService.search(form.searchString);
+    this.searchService.search(form.searchString, 0);
     this.addToHistory(form.searchString);
   }
 

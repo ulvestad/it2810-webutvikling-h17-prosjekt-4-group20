@@ -4,15 +4,15 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarsExampleContainer">
-      <div class="element dropdown">
-        <div class="dropbtn"> Movies <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></div>
-        <div class="dropdown-content">
-          <a href="#" (click)="selectorUpdate('popular')"> Popular </a>
-          <a href="#" (click)="selectorUpdate('upcoming')"> Upcoming </a>
-          <a href="#" (click)="selectorUpdate('top')"> Top Rated </a>
-        </div>
+    <div class="navbar-brand  element dropdown">
+      <div class="dropbtn"> Movies <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></div>
+      <div class="dropdown-content">
+        <a href="#" (click)="selectorUpdate('popular')"> Popular </a>
+        <a href="#" (click)="selectorUpdate('upcoming')"> Upcoming </a>
+        <a href="#" (click)="selectorUpdate('top')"> Top Rated </a>
       </div>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarsExampleContainer">
       <div class="form-inline mx-auto flex-nowrap flex-row element">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
           <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString"

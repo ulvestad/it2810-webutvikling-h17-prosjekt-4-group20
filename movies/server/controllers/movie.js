@@ -83,10 +83,10 @@ module.exports.search = (req, res) => {
     const limit = page === 0 ? 20 : 5
     const skip = page === 0 ? 0 : (20 + (page * 5))
     const movies = await db.searchMovie(query, skip, limit) // search for movies
-    if (movies.length > 7) return movies // return if enough
+    if (movies.length >= limit) return movies // return if enough
     let more = await tmdb.search(query, page) // get more movies
     more = await db.saveMultipleMovies(more) // save result
-    return [...movies, ...more].splice(0, 5) // return 8 of them
+    return [...movies, ...more].splice(0, limit)
   }).then(result => res.json(result))
 }
 
