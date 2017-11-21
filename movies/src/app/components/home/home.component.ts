@@ -47,14 +47,15 @@ export class HomeComponent implements OnInit {
 
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => this.update(movies));
-    
-    this.dataService.getGenreList().subscribe(res => {
-      this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
-    });
   }
 
   ngOnInit() {
-    this.dataService.getPopular().subscribe(movies => this.update(movies));
+    this.dataService.getGenreList().subscribe(res => {
+      this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
+      this.dataService.getPopular().subscribe(movies => {
+        this.update(movies)
+      });
+     });
   }
 
   /*Update movies according to selector*/
@@ -164,6 +165,7 @@ export class HomeComponent implements OnInit {
     const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
     const uniqueIds = this.unique(genreIds);
     const genres = uniqueIds.map( id => {
+        const genre = this.idToGenre.get(id) || ''
         return {
           name: this.idToGenre.get(id),
           id: id
