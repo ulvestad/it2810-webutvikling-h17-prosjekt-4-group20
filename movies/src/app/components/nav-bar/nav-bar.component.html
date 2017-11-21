@@ -5,11 +5,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarsExampleContainer">
-      <select class="form-control element" (change)="selectorUpdate($event.target.value)">
-        <option value="popular">Top movies</option>
-        <option value="upcoming">Upcoming movies</option>
-        <option value="top">Best rated</option>
-      </select>
+      <div class="element dropdown">
+        <div class="dropbtn"> Movies <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></div>
+        <div class="dropdown-content">
+          <a href="#" (click)="selectorUpdate('popular')"> Popular </a>
+          <a href="#" (click)="selectorUpdate('upcoming')"> Upcoming </a>
+          <a href="#" (click)="selectorUpdate('top')"> Top Rated </a>
+        </div>
+      </div>
       <div class="form-inline mx-auto flex-nowrap flex-row element">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
           <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString"
@@ -21,7 +24,6 @@
       <a class="navbar-brand element" [routerLink]=" isLoggedIn() ? '/user': '/login'" routerLinkActive="active">
         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
       </a>
-
     </div>
   </div>
 </nav>
