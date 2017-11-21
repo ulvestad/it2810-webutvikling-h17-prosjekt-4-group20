@@ -12,7 +12,7 @@ export class AutocompleteComponent implements OnInit {
   @Output() onSuggest: EventEmitter<any> = new EventEmitter();
 
   constructor(private eventService: EventService, private searchService: SearchService) {
-    eventService.eventSelect.subscribe(data => {
+    eventService.eventAutocomplete.subscribe(data => {
       this.options = [];
     });
     this.options = [];
