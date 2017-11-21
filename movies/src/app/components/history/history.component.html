@@ -4,7 +4,7 @@
     <span>Search text</span>
   </li>
   <li class="list-group-item justify-content-between" *ngFor="let search of history">
-    <kbd>{{search.timestamp}}</kbd>
+    <kbd>{{search.timestamp | date:'medium'}}</kbd> <!-- https://angular.io/api/common/DatePipe-->
     <span>{{search.search_text}}</span>
   </li>
 </ul>

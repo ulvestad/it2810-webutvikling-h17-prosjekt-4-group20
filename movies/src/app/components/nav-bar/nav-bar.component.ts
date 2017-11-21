@@ -54,12 +54,9 @@ export class NavBarComponent implements OnInit {
     this.addToHistory(form.searchString);
   }
 
-  addToHistory(query: string) {
-    this.dataService.post('/user/add/history', {query: query}).subscribe(res => {
-      if (res.success) {
-        this.cookieService.set('token', res.token );
-        console.log(query, 'added to hisotry');
-      }
-    });
+  addToHistory(query: string){
+    this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
+      console.log(query, 'added to history');
+    })
   }
 }

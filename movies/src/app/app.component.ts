@@ -10,10 +10,8 @@ import { DataService } from './services/data.service';
 })
 
 export class AppComponent {
-  movies: Array<any>;
 
-  constructor(private dataService: DataService) {
-    this.dataService.getMovies().subscribe(res => this.movies = res);
+  constructor() {
   }
 
   title = 'app';
