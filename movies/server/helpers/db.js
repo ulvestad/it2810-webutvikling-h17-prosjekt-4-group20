@@ -64,9 +64,9 @@ module.exports.suggestMovie = (query, n=5) => {
 }
 
 /* Search for movie by regex, returns movies promise */
-module.exports.searchMovie = (query, page=0, n=8) => {
+module.exports.searchMovie = (query, skip=0, limit=5) => {
 	const regex = new RegExp(query, 'i')
-	return Movie.find({title: regex}).sort('-popularity').skip(n*page).limit(n).exec()
+	return Movie.find({title: regex}).sort('-popularity').skip(skip).limit(limit).exec()
 }
 
 /* Get movies, returns promise */

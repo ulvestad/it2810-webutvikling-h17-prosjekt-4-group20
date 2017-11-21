@@ -15,9 +15,6 @@ export class SearchService {
   }
 
   suggest(query: string) {
-    // if ((+ new Date() - this.lastUpdate > 1000)) {
-    // this.lastUpdate = + new Date();
-
     this.dataService.post('/suggestions', {query: query}).subscribe(res => {
       this.suggestions = res.result;
       this.changeSuggestions.next(this.suggestions);
@@ -27,7 +24,6 @@ export class SearchService {
   search(query: string) {
     this.dataService.post('/search', {query: query}).subscribe(res => {
       this.results = res.result;
-      console.log(this.results)
       this.changeSearch.next(this.results);
     });
   }

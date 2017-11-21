@@ -34,7 +34,6 @@ module.exports.logout = (req, res) => {
 module.exports.middleware = (req, res, next) => {
   operate.solve(async () => {
     const token = req.get('token') || req.body.token
-    console.log(token)
     if (!token) throw new Error('Not logged in 1')
     const decode = crypto.decodeToken(token)
     req.username = decode.data
