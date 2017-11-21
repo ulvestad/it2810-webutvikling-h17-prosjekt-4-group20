@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { SearchService } from '../../services/search.service';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-autocomplete',
@@ -11,18 +12,16 @@ export class AutocompleteComponent implements OnInit {
   @Input() show: boolean;
   @Output() onSuggest: EventEmitter<any> = new EventEmitter();
 
-  constructor(private searchService: SearchService) {
-    // this.show = false;
+  constructor(private eventService: EventService, private searchService: SearchService) {
+    eventService.eventSelect.subscribe(data => {
+      this.show = data;
+      this.options = [];
+    });
     this.options = [];
   }
 
-  /* Kan bli brukt til å fjerne autocorrect i guess */
-  @HostListener('click') onClick() {
-    console.log('user this for hiding modal, i think');
-  }
-
   ngOnInit() {
-    // this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
+    this.searchService.changeSuggestions.subscribe(movies => this.options = movies);
   }
 
   updateInputValue(value: any) {

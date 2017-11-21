@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { DataService } from './services/data.service';
+import { EventService } from './services/event.service';
 
 
 @Component({
@@ -11,8 +12,10 @@ import { DataService } from './services/data.service';
 
 export class AppComponent {
 
-  constructor() {
+  constructor(private eventService: EventService) {
   }
 
-  title = 'app';
+  @HostListener('click') onClick() {
+    this.eventService.publishSelectedMovie(false);
+  }
 }
