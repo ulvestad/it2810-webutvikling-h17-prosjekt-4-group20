@@ -15,8 +15,8 @@ export class WatchlistComponent implements OnInit {
 
   constructor(private eventService: EventService, private dataService: DataService, private cookieService: CookieService) {
     if(this.dataService.isLoggedIn()){ //user is logged in -> get data
-      this.dataService.get('/user').subscribe(res => {
-        this.moviesList = res.user.data.movielist;
+      this.dataService.get('/user').subscribe(data => {
+        this.moviesList = data.result.movielist;
       })
     }
   }
@@ -25,13 +25,13 @@ export class WatchlistComponent implements OnInit {
   }
 
   remove(movie: any) {
-    this.dataService.post('/user/remove', {id: movie.id}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
-      console.log(movie.title, 'removed', res);
-      this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
-        this.moviesList = res.user.data.movielist;
-        this.eventService.publish(res.user.data.movielist.length) //publish changes (movielist length)
-      })
+    this.dataService.post('/user/remove', {id: movie.id}).subscribe(data => {
+      console.log(movie.title, 'removed', data);
+      this.moviesList = data.result;
+      //this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
+      //  this.moviesList = res.user.data.movielist;
+      //  this.eventService.publish(res.user.data.movielist.length) //publish changes (movielist length)
+      //})
     })
   }
 

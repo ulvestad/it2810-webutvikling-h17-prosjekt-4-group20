@@ -39,8 +39,10 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
 
+    /* Fills list with popular movies on nit */
     this.dataService.getPopular().subscribe(movies => this.update(movies));
 
+    /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => this.update(movies));
   }
 
@@ -54,11 +56,10 @@ export class HomeComponent implements OnInit {
         this.dataService.getPopular().subscribe(movies => this.update(movies));
         break;
       case 'Upcoming':
-        this.dataService.getLatest().subscribe(movies => this.update(movies));
-
+        this.dataService.getUpcoming().subscribe(movies => this.update(movies));
         break;
       case 'Top_Rated':
-        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
+        this.dataService.getTopRated().subscribe(movies => this.update(movies));
         break;
       default:
         this.dataService.getPopular().subscribe(movies => this.update(movies));
@@ -68,6 +69,7 @@ export class HomeComponent implements OnInit {
 
   /* Slices up the list into movies */
   update(movies: any) {
+    console.log(movies)
     this.top_movies_big = movies.slice(0,4);
     this.top_movies_small1 = movies.slice(4,12);
     this.top_movies_small2 = movies.slice(12,);

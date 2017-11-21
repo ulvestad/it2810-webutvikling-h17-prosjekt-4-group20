@@ -26,6 +26,7 @@ export class SearchService {
   search(query: string) {
     this.dataService.post('/search', {query: query}).subscribe(res => {
       this.results = res.result;
+      console.log(this.results)
       this.changeSearch.next(this.results);
     })
   }
