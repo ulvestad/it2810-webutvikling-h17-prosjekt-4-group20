@@ -86,7 +86,6 @@ module.exports.search = (req, res) => {
     more = await db.saveMultipleMovies(more) // save result
     return [...movies, ...more].splice(0, 5) // return 8 of them
   }).then(result => {
-    console.log(result)
     res.json(result)
   })
 }
