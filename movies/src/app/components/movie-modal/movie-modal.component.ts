@@ -28,20 +28,11 @@ export class MovieModalComponent implements OnInit {
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
 
     eventService.eventSelect.subscribe((data) => {
-      this.selectedMovie = { //update selectedMovie
-        id: data.id,
-        title: data.title,
-        genre_ids: data.genre_ids,
-        overview: data.overview,
-        vote_average: data.vote_average,
-        release_date: data.release_date,
-        poster_path: data.poster_path,
-      };
+      this.selectedMovie = data;
     });
 
-    this.dataService.getGenreList().subscribe(res => this.genreList = res);
+    this.dataService.getGenreList().subscribe(data => this.genreList = data.genres);
     this.isLoggedIn = this.dataService.isLoggedIn();
-
   }
 
   ngOnInit() {
@@ -53,7 +44,6 @@ export class MovieModalComponent implements OnInit {
 
   addToMovieList(movie: any){
     this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
-      if (res.success) this.cookieService.set('token', res.token );
       console.log(this.selectedMovie.id, 'added', res);
     })
   }

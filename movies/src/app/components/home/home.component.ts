@@ -45,12 +45,12 @@ export class HomeComponent implements OnInit {
     this.IMAGE_URL = 'https://image.tmdb.org/t/p/w320';
     this.isLoggedIn = this.dataService.isLoggedIn();
 
+    /* Listens to changes in changeSearch, triggered after a search */
+    this.searchService.changeSearch.subscribe(movies => this.update(movies));
+    
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.map(el => [el.id, el.name]));
     });
-
-    // TODO: how do you subscribe on search now?
-    // this.searchService.results.subscribe(movies => this.update(movies));
   }
 
   ngOnInit() {
@@ -64,11 +64,10 @@ export class HomeComponent implements OnInit {
         this.dataService.getPopular().subscribe(movies => this.update(movies));
         break;
       case 'Upcoming':
-        this.dataService.getLatest().subscribe(movies => this.update(movies));
-
+        this.dataService.getUpcoming().subscribe(movies => this.update(movies));
         break;
       case 'Top_Rated':
-        this.dataService.getTop_Rated().subscribe(movies => this.update(movies));
+        this.dataService.getTopRated().subscribe(movies => this.update(movies));
         break;
       default:
         this.dataService.getPopular().subscribe(movies => this.update(movies));
