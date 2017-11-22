@@ -15,12 +15,15 @@
       margin-left: 0;
       margin-right: 0;
     }
-
+    .searchBtn {
+      margin-top: 12px;
+    }
 }
 
 /*adjustments*/
 .navbar-toggler{
   margin-top: 7px;
+  cursor: pointer;
 }
 
 /*Change cursour when hover over button*/
@@ -67,6 +70,7 @@
 .dropdown-content a:hover {
   background-color: #3e8e41;
   color: white;
+  cursor: pointer;
 }
 .dropdown:hover .dropdown-content {
   display: block;
