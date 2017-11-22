@@ -40,9 +40,6 @@ export class HomeComponent implements OnInit {
     private searchService: SearchService,
     private router: Router) {
 
-    this.filters = {};
-    this.filterArray = [];
-
     this.page = 0;
     // Overrides the background from login/register
     // TODO: find a better way to change <body> background-color
@@ -70,6 +67,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filters = {'year': {name: 'Year', options: []}, 'genre': {name: 'Genre', options: []}};
+    this.filterArray = [];
+
     this.dataService.getGenreList().subscribe(res => {
       this.idToGenre = new Map<number, String>(res.genres.map(el => [el.id, el.name]));
       if (this.eventService.current !== 'search') {
@@ -144,25 +144,14 @@ export class HomeComponent implements OnInit {
     const uniqueYears = Array.from(new Set(years));
     const sortedYears = uniqueYears.sort().reverse();
 
-    return sortedYears.map(year => {
-      return {
-        name: year
-      };
-    });
+    return sortedYears;
   }
 
-  makeFilters(list: object[], category: string): Array<Object> {
-    const filters = list.map(el => {
-      const res = {
-        name: el['name'],
-        checked: false,
-        id: category === 'genre' ? el['id'] : undefined,
-      };
+  idsFromMovies(movies: any): Array<any> {
+    const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
+    const uniqueIds = this.unique(genreIds);
 
-      return res;
-    });
-
-    return filters;
+    return uniqueIds;
   }
 
   flatten(list: Array<Array<any>>): Array<any> {
@@ -179,21 +168,31 @@ export class HomeComponent implements OnInit {
 
     // update year filters
     const years = this.yearsFromMovies(movies);
-    const year_filters = this.makeFilters(years, 'years');
+    const current_year_filters = this.filters.year.options;
+    const currenet_years = current_year_filters.map(filter => filter.name);
+    const new_years = years.filter(year => !currenet_years.includes(year));
+    const new_year_filters = new_years.map(year => ({
+      name: year,
+      checked: false
+    }));
+    const year_filters = [...current_year_filters, ...new_year_filters];
+
 
     // update genre filters
-    const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
-    const uniqueIds = this.unique(genreIds);
-    const genres = uniqueIds.map( id => {
-        return {
-          name: this.idToGenre.get(id),
-          id: id
-        };
-    });
-    const genre_filters = this.makeFilters(genres, 'genre');
+    const genreIds = this.idsFromMovies(movies);
+    const current_genre_filters = this.filters.genre.options;
+    const current_genre_ids = current_genre_filters.map(filter => filter.id);
+    const new_genres = genreIds.filter(id => !current_genre_ids.includes(id));
+
+    const new_genre_filters = new_genres.map(genreId => ({
+      name: this.idToGenre.get(genreId),
+      id: genreId,
+      checked: false
+    }));
+
+    const genre_filters = [...current_genre_filters, ...new_genre_filters.filter(f => f.name !== undefined)];
 
     this.filters = {
-      ...this.filters,
       year: {
         name: 'Year',
         options: year_filters
