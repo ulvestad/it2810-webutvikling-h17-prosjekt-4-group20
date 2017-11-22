@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { SearchService } from '../../services/search.service';
 import { EventService } from '../../services/event.service';
+import { flatten, unique, dateToYear, sortOnProp} from '../../utils/utils';
 
 interface SelectedMovie {
   id: number;
@@ -134,12 +135,8 @@ export class HomeComponent implements OnInit {
     return movies;
   }
 
-  dateToYear(date: String): String {
-    return date.split('-')[0];
-  }
-
   yearsFromMovies(movies: any): Array<any> {
-    const years = movies.map(movie => movie.release_date).map(this.dateToYear);
+    const years = movies.map(movie => movie.release_date).map(dateToYear);
 
     const uniqueYears = Array.from(new Set(years));
     const sortedYears = uniqueYears.sort().reverse();
@@ -148,23 +145,10 @@ export class HomeComponent implements OnInit {
   }
 
   idsFromMovies(movies: any): Array<any> {
-    const genreIds = this.flatten(movies.map(movie => movie['genre_ids']));
-    const uniqueIds = this.unique(genreIds);
+    const genreIds = flatten(movies.map(movie => movie['genre_ids']));
+    const uniqueIds = unique(genreIds);
 
     return uniqueIds;
-  }
-
-  flatten(list: Array<Array<any>>): Array<any> {
-    const concat = [].concat.apply([], list);
-    return concat;
-  }
-
-  unique(list: Array<any>): Array<any> {
-    return Array.from(new Set(list));
-  }
-
-  sortOnProp(prop: string, list: Array<object>) {
-    return list.sort((a, b) => (a[prop] > b[prop]) ? 1 : ((b[prop] > a[prop]) ? -1 : 0) );
   }
 
   update(movies: any) {
@@ -202,7 +186,7 @@ export class HomeComponent implements OnInit {
         options: year_filters
       }, genre: {
         name: 'Genre',
-        options: this.sortOnProp('name', genre_filters)
+        options: sortOnProp('name', genre_filters)
       }
     };
 
