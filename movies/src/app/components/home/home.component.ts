@@ -64,6 +64,8 @@ export class HomeComponent implements OnInit {
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => {
       this.activeButton = 'popular';
+      console.log('MOVIES');
+      console.log(movies);
       this.update(movies);
       this.current = 'search';
     });
@@ -75,13 +77,14 @@ export class HomeComponent implements OnInit {
       if (this.eventService.current !== 'search') {
         this.eventService.publishHome(0, this.eventService.current || 'popular');
       }
-     });
+    });
   }
 
   onScroll() {
     this.page = this.page + 1;
-    this.dataService.post('/' + this.current, {page: this.page}).subscribe(res => {
-      this.update([...this.movies, ...res.result]);
+    this.dataService.getMovies('/' + this.current, this.page).subscribe(res => {
+      console.log(res);
+      this.update([...this.movies, ...res]);
     });
   }
 

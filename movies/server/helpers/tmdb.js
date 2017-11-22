@@ -18,6 +18,8 @@ const searchURL = (query, page=0) => `${BASE}search/movie${KEY}&query=${query}&p
 const genreURL = () => `${BASE}genre/movie/list${KEY}&language=en-US'`
 /* Find movie info url */
 const findURL = id => `${BASE}movie/${id}${KEY}`
+/* Dump url */
+const dumpURL = date => `http://files.tmdb.org/p/exports/movie_ids_${util.formatDate(date)}` 
 
 /* GET request, promise return result */
 const get = url => {
@@ -44,3 +46,9 @@ module.exports.search = (query, page) => get(searchURL(query, page))
 
 /* Get extended movie info by id */
 module.exports.find = id => get(findURL(id))
+
+/* http://files.tmdb.org/p/exports/movie_ids_11_22_2017.json.gz */
+module.exports.getDailyDump = () => {
+	// how to handle the zipped file.
+}
+
