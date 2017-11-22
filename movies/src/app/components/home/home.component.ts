@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     private router: Router) {
 
     this.page = 0;
-    
+
     // Overrides the background from login/register
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#fff';
@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit {
 
   update(movies: any) {
     this.movies = movies;
-
+    console.log(movies)
     // update year filters
     const years = this.yearsFromMovies(movies);
     const current_year_filters = this.filters.year.options;
