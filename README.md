@@ -21,7 +21,9 @@
 
 ## Screenshots
 
-<img src="http://folk.ntnu.no/simenul/screen/front.png" width="48" alt="homepage">
+<img src="http://folk.ntnu.no/simenul/screen/front.png" width="300" alt="homepage">
+<img src="http://folk.ntnu.no/simenul/screen/search.png" width="300" alt="search">
+<img src="http://folk.ntnu.no/simenul/screen/userpage.png" width="300" alt="userpage">
 
 
 ## Architecture
