@@ -9,6 +9,14 @@
   padding-left: 20px;
   flex-wrap: wrap;
 }
+.modalImg {
+  width: 200px;
+}
+@media screen and (max-width: 720px) {
+  .modalImg {
+    width: 100px;
+  }
+}
 .genres{
   margin-left: -40px;
 }
