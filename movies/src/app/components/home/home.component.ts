@@ -190,7 +190,8 @@ export class HomeComponent implements OnInit {
       checked: false
     }));
 
-    const genre_filters = [...current_genre_filters, ...new_genre_filters.filter(f => f.name !== undefined)];
+    const genre_filters = [...current_genre_filters, ...new_genre_filters.filter(f => f.name !== undefined)]
+      .sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0) );
 
     this.filters = {
       year: {
@@ -203,7 +204,7 @@ export class HomeComponent implements OnInit {
     };
 
     this.filterArray = [this.filters['genre'], this.filters['year']]
-      .filter(el => el !== undefined)
+      .filter(el => el !== undefined && el.name !== undefined)
       .filter(filter => filter.options.length > 1);
 
     this.filteredMovies = this.filterList(movies);
