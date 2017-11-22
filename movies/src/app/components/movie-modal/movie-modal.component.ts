@@ -25,23 +25,23 @@ export class MovieModalComponent implements OnInit {
   isLoggedIn: boolean;
 
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
-    eventService.eventSelect.subscribe(data => this.selectedMovie = {...data});
-    this.dataService.getGenreList().subscribe(data => this.genreList = data.genres);
-    this.isLoggedIn = this.dataService.isLoggedIn();
+    eventService.eventSelect.subscribe(data => this.selectedMovie = {...data}); // listens to the current selected movie and set values to SelectedMovie interface
+    this.dataService.getGenreList().subscribe(data => this.genreList = data.genres); // fetches list with all genres
+    this.isLoggedIn = this.dataService.isLoggedIn(); // is user logged in
   }
 
   ngOnInit() {
   }
 
+  // Fethes genre by id
   getGenre(genre_id: any) {
-    return this.genreList.find(e => e.id === genre_id).name;
+    return this.genreList.find(e => e.id === genre_id).name; // get the corresponding genre by id
   }
 
+  // Add movie to watchlist
   addToMovieList(movie: any) {
     this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
-      console.log(this.selectedMovie.id, 'added', res);
-
-      // snackbar
+      // snackbar notification, confirming addition
       var x = document.getElementById("snackbar")
       x.className = "show";
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);

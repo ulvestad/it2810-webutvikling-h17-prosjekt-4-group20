@@ -13,6 +13,7 @@ module.exports.register = (req, res) => {
   }).then(result => res.json(result))
 }
 
+/* Login */
 module.exports.login = (req, res) => {
   operate.solve(async () => {
     const {username, password} = {...req.body}
@@ -31,12 +32,13 @@ module.exports.logout = (req, res) => {
   // redirect
 }
 
+/* Middleware */
 module.exports.middleware = (req, res, next) => {
   operate.solve(async () => {
     const token = req.get('token') || req.body.token
     if (!token) throw new Error('Not logged in 1')
-    const decode = crypto.decodeToken(token)
-    req.username = decode.data
+    const decode = crypto.decodeToken(token) // decode token
+    req.username = decode.data // set username for next routes to use
     return
   }).then(result => {
     if (result.success) next() // continue

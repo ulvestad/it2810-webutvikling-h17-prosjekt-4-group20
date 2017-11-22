@@ -22,13 +22,14 @@ export class NavBarComponent implements OnInit {
   @ViewChild('searchText') input;
 
   constructor(
+    // services and router
     private searchService: SearchService,
     private eventService: EventService,
     private route: Router,
     private dataService: DataService,
     private cookieService: CookieService) {
 
-    eventService.eventSelectArrow.subscribe(data => {
+    eventService.eventSelectArrow.subscribe(data => { // subscribe event for listening to potential arrow selection in search
       this.searchArrowSelect = data;
     });
   }
@@ -36,23 +37,24 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*Update movies according to selector*/
+  // Update movies according to selector
   selectorUpdate(option: string) {
     this.eventService.publishHome(0, option);
     this.eventService.current = option;
     // this.route.navigateByUrl('/');
   }
 
-  /* Updates the autocomplete text input with options */
+  // Updates the autocomplete text input with options
   changeInputValue(movie: any) {
     this.searchString = movie.title;
   }
 
+  // checks if user is logged in (true/false)
   isLoggedIn() {
     return this.dataService.isLoggedIn();
   }
 
-  /* Will trigger if there is any changes in the input of the navbar */
+  // Will trigger if there is any changes in the input of the navbar
   onChange(event: any) {
     if (event) {
       this.searchService.suggest(event);
@@ -60,10 +62,10 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-  /* Will get results based on */
+  // Fetch search results based on text
   onSubmit(form: any) {
     setTimeout(() => {
-      if(form.searchString == ""){
+      if(form.searchString == ""){ // search is empty -> redirects to popular page
         this.query = form.searchString;
         this.route.navigateByUrl('/');
         this.eventService.current = 'popular';
@@ -71,7 +73,7 @@ export class NavBarComponent implements OnInit {
         this.addToHistory(form.searchString);
         this.input.nativeElement.value = ""; //update searchtext
       }
-      else if(this.searchArrowSelect != ""){
+      else if(this.searchArrowSelect != ""){ // search is done using arrow keys -> search by arrows select value
         this.query = this.searchArrowSelect;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
@@ -79,19 +81,20 @@ export class NavBarComponent implements OnInit {
         this.addToHistory(this.searchArrowSelect);
         this.input.nativeElement.value = this.searchArrowSelect; //update searchtext
         this.searchArrowSelect = ""; //reset value
-      }else{
+      }else{ // search is done by clicking on button as normal
         this.query = this.input.nativeElement.value;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
         this.searchService.search(this.input.nativeElement.value, 0);
         this.addToHistory(this.input.nativeElement.value);
       }
-    }, 400); //this should probably be change to promise or something
+    }, 400); //callback to check is arrow is used in search
   }
 
+  // Add search to history
   addToHistory(query: string) {
-    if(query != "" && this.dataService.isLoggedIn()){
-      this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
+    if(query != "" && this.dataService.isLoggedIn()){ // searchtext must not be empty an user is logged in
+        this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => { // add
       });
     }
   }

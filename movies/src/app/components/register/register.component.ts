@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
     document.body.style.backgroundSize = 'auto';
   }
 
+  // Initilizes default values to user interface
   ngOnInit() {
     this.user = {
       username: '',
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnInit {
     };
   }
 
+  // Registers a new user with data from the form
   onSubmit(form: any): void {
     this.user = {...form};
     this.dataService.post('/register', this.user).subscribe(data => {
@@ -46,9 +48,9 @@ export class RegisterComponent implements OnInit {
         this.form.reset();
       } else { // fail
         this.result = data.msg;
-        if (data.msg === 'err, user exists') { // TODO change error msg
+        if (data.msg === 'err, user exists') {
           this.user.username = '';
-        } else if (data.msg === 'Email taken') { // TODO fix this on server
+        } else if (data.msg === 'Email taken') {
           this.user.email = '';
         }
       }
