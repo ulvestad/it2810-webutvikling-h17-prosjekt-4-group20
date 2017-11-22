@@ -136,6 +136,8 @@ export class HomeComponent implements OnInit {
     return movies;
   }
 
+
+  /* Get list of all unique years from the list of movies */
   yearsFromMovies(movies: any): Array<any> {
     const years = movies.map(movie => movie.release_date).map(dateToYear);
 
@@ -145,30 +147,17 @@ export class HomeComponent implements OnInit {
     return sortedYears;
   }
 
-  idsFromMovies(movies: any): Array<any> {
+  /* Get list of all unique genre IDs from the list of movies */
+  genreIDsFromMovies(movies: any): Array<any> {
     const genreIds = flatten(movies.map(movie => movie['genre_ids']));
     const uniqueIds = unique(genreIds);
 
     return uniqueIds;
   }
 
-  update(movies: any) {
-    this.movies = movies;
-    // console.log(movies)
-    // update year filters
-    const years = this.yearsFromMovies(movies);
-    const current_year_filters = this.filters.year.options;
-    const currenet_years = current_year_filters.map(filter => filter.name);
-    const new_years = years.filter(year => !currenet_years.includes(year));
-    const new_year_filters = new_years.map(year => ({
-      name: year,
-      checked: false
-    }));
-    const year_filters = [...current_year_filters, ...new_year_filters];
-
-
-    // update genre filters
-    const genreIds = this.idsFromMovies(movies);
+  /* Update the filter values for genres when new movies are loaded */
+  updateGenreFilters(movies) {
+    const genreIds = this.genreIDsFromMovies(movies);
     const current_genre_filters = this.filters.genre.options;
     const current_genre_ids = current_genre_filters.map(filter => filter.id);
     const new_genres = genreIds.filter(id => !current_genre_ids.includes(id));
@@ -179,7 +168,26 @@ export class HomeComponent implements OnInit {
       checked: false
     })).filter(genre => genre.name !== undefined);
 
-    const genre_filters = [...current_genre_filters, ...new_genre_filters];
+    return [...current_genre_filters, ...new_genre_filters];
+  }
+
+  /* Update the filter values for years when new movies are loaded */
+  updateYearFilters(movies) {
+    const years = this.yearsFromMovies(movies);
+    const current_year_filters = this.filters.year.options;
+    const currenet_years = current_year_filters.map(filter => filter.name);
+    const new_years = years.filter(year => !currenet_years.includes(year));
+    const new_year_filters = new_years.map(year => ({
+      name: year,
+      checked: false
+    }));
+
+    return [...current_year_filters, ...new_year_filters];
+  }
+
+  updateFilters(movies: any) {
+    const year_filters = this.updateYearFilters(movies);
+    const genre_filters = this.updateGenreFilters(movies);
 
     this.filters = {
       year: {
@@ -198,10 +206,18 @@ export class HomeComponent implements OnInit {
     this.filteredMovies = this.filterList(movies);
   }
 
+  /* Update the component's movie list, and the filters that depend on it */
+  update(movies: any) {
+    this.movies = movies;
+
+    this.updateFilters(movies);
+  }
+
   onFilterChange(event) {
     this.filteredMovies = this.filterList(this.movies);
   }
 
+  /* Set the selected movie to be used by the movie-modal component */ 
   setMovie(movie: any) {
     this.selectedMovie = {
       id: movie.id,
@@ -213,7 +229,7 @@ export class HomeComponent implements OnInit {
       poster_path: movie.poster_path,
     };
 
-    this.eventService.publishSelectedMovie(this.selectedMovie); // publish selectedMovie to movie-modal
-
+    // publish selectedMovie to movie-modal
+    this.eventService.publishSelectedMovie(this.selectedMovie); 
   }
 }
