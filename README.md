@@ -9,7 +9,6 @@
 6. Start client build: `ng serve`
 7. Open browser at localhost:4200, server runs at localhost:3000, both steps 5 and 6 must run together in different terminals
 8. Run server and angular tests: `npm test`
-9. Todo add angular tests.
 
 * If doing changes in server files it need to restart.
 * Frontend files is automatic.
