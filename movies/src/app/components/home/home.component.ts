@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     private router: Router) {
 
     this.page = 0;
-    
+
     // Overrides the background from login/register
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#fff';
@@ -95,6 +95,13 @@ export class HomeComponent implements OnInit {
         return b.vote_average - a.vote_average;
       });
     }
+  }
+
+  spinner() {
+    if (this.movies) {
+      return this.movies.length < 20 ? false : true;
+    }
+    return false;
   }
 
   filterYears(movies) {
