@@ -1,5 +1,5 @@
 const util = require('./util')
-const LOGGER = false
+const LOGGER = true
 
 /**
  * Solved a function (purpose) and catches result or error
