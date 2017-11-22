@@ -2,7 +2,7 @@
 
 ## Webpage
 
-Link to webpage: http://UPDATETHIS.no
+Link: http://UPDATETHIS.no
 
 
 ## Instructions
