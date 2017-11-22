@@ -8,22 +8,49 @@ Link: http://it2810-20.idi.ntnu.no:8084
 
 [Documentation.pdf](doc.pdf)
 
-## Instructions
+## Production setup
 
-1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
-2. Install node v8+ and npm v5+
-3. Start mongodb: `mongod`
-4. Install modules: `cd ..` -> `cd movies` -> `npm install`
-5. Start server: `node server` (can change to npm start if wanted)
-6. Start client build: `ng serve`
-7. Open browser at localhost:4200, server runs at localhost:3000, both steps 5 and 6 must run together in different terminals
-8. Run server and angular tests: `npm test`
-
+Required for getting started: `mongodb` running, `node` v8+ and `npm` v5+
 <br>
+Create .env file inside `/movies` folder
 
-* If doing changes in server files it need to restart.
-* Frontend files is automatic.
-* Dropping database: `mongo` -> `use dev` -> `db.dropDatabase()`
+``` bash
+# Required environment variables
+NODE_ENV = dev
+SESSION_SECRET = s3cr3t-sup3r
+TOKEN_SECRET = sup3r-s3cr3t
+TMDB_KEY = <tmdb-api-key>
+DB_HOST = mongodb://localhost/
+DB_PORT = 27017
+DB_NAME = <dbname>
+PORT = 3000
+```
+
+``` bash
+
+# Clone repo
+git clone https://github.com/IT2810/it2810-webutvikling-h17-prosjekt-4-group20.git
+
+# Navigate to folder
+cd it2810-webutvikling-h17-prosjekt-4-group20/movies
+# Install dependencies
+npm install
+
+# Start server
+npm start
+
+# Open website
+Open browser at localhost:3000
+```
+
+### Testing
+#### Backend
+* (mac/lin) NODE_ENV=test mocha server/test/unit
+* (mac/lin) NODE_ENV=test mocha server/test/integration
+* (win) SET NODE_ENV=test & mocha server/test/unit
+* (win) SET NODE_ENV=test & mocha server/test/integration
+#### Frontend
+* npm test
 
 <br>
 
