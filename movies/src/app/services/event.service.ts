@@ -17,8 +17,22 @@ export class EventService {
   private _autocompleteOptionsSubject = new Subject<any>();
   public  eventAutocomplete = this._autocompleteOptionsSubject.asObservable();
 
+  private _arrowSubject = new Subject<any>();
+  public eventArrow = this._arrowSubject.asObservable();
+
+  private _arrowSelectSubject = new Subject<any>();
+  public eventSelectArrow = this._arrowSelectSubject.asObservable();
+
   public publish(data: number) {
     this._watchlistSubject.next(data);
+  }
+
+  public publishArrow(data: any) {
+    this._arrowSubject.next(data);
+  }
+
+  public publishSelectArrow(data: any) {
+    this._arrowSelectSubject.next(data);
   }
 
   public publishSelectedMovie(data: any) {

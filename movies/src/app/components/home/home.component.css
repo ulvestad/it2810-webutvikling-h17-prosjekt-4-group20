@@ -24,7 +24,7 @@ a:hover{
 .movies {
   margin-left: 200px;
   position: relative;
-  overflow: auto;
+  /*overflow: auto;*/
 }
 @media screen and (max-width: 720px) {
   .fixed {

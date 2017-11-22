@@ -44,9 +44,8 @@ export class HomeComponent implements OnInit {
     this.filterArray = [];
 
     this.page = 0;
+    
     // Overrides the background from login/register
-    // TODO: find a better way to change <body> background-color
-    // body{ ... } in the css file does not work
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#fff';
 
