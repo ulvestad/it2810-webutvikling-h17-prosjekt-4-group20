@@ -18,6 +18,7 @@ module.exports.init = async () => {
       const c = await tmdb.getMovies('top_rated', i)
       let array = [...a, ...b, ...c]
       const r = await db.saveMultipleMovies(array)
+      console.log('Downloading...')
     }
     return {}
   }).then(result => console.log('Complete pre load - tmdb'))
@@ -120,7 +121,7 @@ module.exports.search = (req, res) => {
     if (movies.length >= limit) return movies // return if enough
     const more = await getAllPages(query) // danger uuu
     if (!more || !more.result || !more.result.length) return movies
-    else return [...movies, ...more.result].splice(0, 5)//
+    else return [...movies, ...more.result].splice(0, limit)//
   }).then(result => res.json(result))
 }
 
