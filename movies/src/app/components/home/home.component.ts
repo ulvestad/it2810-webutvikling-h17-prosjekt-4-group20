@@ -227,6 +227,7 @@ export class HomeComponent implements OnInit {
 
   onFilterChange(event) {
     this.filteredMovies = this.filterList(this.movies);
+    this.moreMoviesLeft = !this.moreMoviesLeft;
   }
 
   setMovie(movie: any) {
