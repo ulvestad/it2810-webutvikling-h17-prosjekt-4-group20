@@ -4,6 +4,9 @@
 
 Link: http://it2810-20.idi.ntnu.no:8084
 
+## Documentation
+
+[a link](doc.pdf)
 
 ## Instructions
 
