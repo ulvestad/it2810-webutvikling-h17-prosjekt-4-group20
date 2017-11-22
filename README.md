@@ -10,10 +10,14 @@
 7. Open browser at localhost:4200, server runs at localhost:3000, both steps 5 and 6 must run together in different terminals
 8. Run server and angular tests: `npm test`
 
+<br>
+
 * If doing changes in server files it need to restart.
 * Frontend files is automatic.
 * Dropping database: `mongo` -> `use dev` -> `db.dropDatabase()`
 
+<br>
+<br>
 
 ## Architecture
 
