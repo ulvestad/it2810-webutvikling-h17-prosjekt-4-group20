@@ -10,7 +10,7 @@ Link: http://it2810-20.idi.ntnu.no:8084
 
 ## Production setup
 
-Required for getting started: `mongodb` running, `node` v8+ and `npm` v5+
+Required for getting started: `mongodb` running, `node` v8+, `npm` v5+ and `angular-cli`
 <br>
 Create .env file inside `/movies` folder
 
