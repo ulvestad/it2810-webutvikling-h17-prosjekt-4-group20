@@ -13,7 +13,7 @@ export class DataService {
   lastQuery: string;
 
   constructor(private http: Http, private cookieService: CookieService) {
-    this.path = 'http://localhost:3000/api';
+    this.path = 'http://it2810-20.idi.ntnu.no:8084/api';
   }
 
   /* */

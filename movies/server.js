@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 app.use('/api', api)
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')))
 
+console.log(process.env)
 /* Start Express server */
 const server = http.createServer(app)
 server.listen(process.env.PORT || 3000, () => console.log(`Running on localhost:${process.env.PORT || 3000}`))
