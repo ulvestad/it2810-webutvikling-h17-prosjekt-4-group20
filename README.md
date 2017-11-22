@@ -17,7 +17,6 @@
 * Dropping database: `mongo` -> `use dev` -> `db.dropDatabase()`
 
 <br>
-<br>
 
 ## Screenshots
 
@@ -25,7 +24,7 @@ Homepage            |  Search result          |  Userpage
 :-------------------------:|:-------------------------:|:-------------------------:
 <img src="http://folk.ntnu.no/simenul/screen/front.png" width="400" alt="homepage">  |  <img src="http://folk.ntnu.no/simenul/screen/search.png" width="400" alt="search"> | <img src="http://folk.ntnu.no/simenul/screen/userpage.png" width="400" alt="userpage">
 
-
+<br>
 
 
 ## Architecture
