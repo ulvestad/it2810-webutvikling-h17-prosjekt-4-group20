@@ -39,28 +39,28 @@ export class AutocompleteComponent implements OnInit {
   // Keypress listener on window
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if(event.key === "ArrowDown" && this.inputHasChanged){ // handle arrowdown keypress
-      if(this.arrowCounter<4){
+    if (event.key === 'ArrowDown' && this.inputHasChanged) { // handle arrowdown keypress
+      if (this.arrowCounter < 4) {
         this.arrowCounter++; // increase counter
       }
-      if(this.arrowCounter != 0){ //remove selection from previous except if it is the first (cannot remove style on child -1)
-        this.li.nativeElement.children[this.arrowCounter-1].style.backgroundColor = "#fff";
+      if (this.arrowCounter !== 0) { // remove selection from previous except if it is the first (cannot remove style on child -1)
+        this.li.nativeElement.children[this.arrowCounter - 1].style.backgroundColor = '#fff';
       }
-      this.li.nativeElement.children[this.arrowCounter].style.backgroundColor = "#eee"; // set background for selection effect
-      this.selectedSuggestion =  this.li.nativeElement.children[this.arrowCounter].innerText; //update selectedSuggestion
+      this.li.nativeElement.children[this.arrowCounter].style.backgroundColor = '#eee'; // set background for selection effect
+      this.selectedSuggestion =  this.li.nativeElement.children[this.arrowCounter].innerText; // update selectedSuggestion
     }
-    if(event.key === "ArrowUp" && this.inputHasChanged){ // handle arrowup keypress
-      if(this.arrowCounter>0){
-        this.arrowCounter--; //decrease counter
+    if (event.key === 'ArrowUp' && this.inputHasChanged) { // handle arrowup keypress
+      if (this.arrowCounter > 0) {
+        this.arrowCounter--; // decrease counter
       }
-      if(this.arrowCounter != 4){ //remove selection from previous except if it is the last (cannot remove style on child last+1)
-        this.li.nativeElement.children[this.arrowCounter+1].style.backgroundColor = "#fff";
+      if (this.arrowCounter !== 4) { // remove selection from previous except if it is the last (cannot remove style on child last+1)
+        this.li.nativeElement.children[this.arrowCounter + 1].style.backgroundColor = '#fff';
       }
-      this.li.nativeElement.children[this.arrowCounter].style.backgroundColor = "#eee"; // set background for selection effect
-      this.selectedSuggestion = this.li.nativeElement.children[this.arrowCounter].innerText; //update selectedSuggestion
+      this.li.nativeElement.children[this.arrowCounter].style.backgroundColor = '#eee'; // set background for selection effect
+      this.selectedSuggestion = this.li.nativeElement.children[this.arrowCounter].innerText; // update selectedSuggestion
     }
-    if(event.key === "Enter" && this.arrowCounter != -1){ // handle enter keypress
-      this.eventService.publishSelectArrow(this.selectedSuggestion) // publish slelected suggestion
+    if (event.key === 'Enter' && this.arrowCounter !== - 1) { // handle enter keypress
+      this.eventService.publishSelectArrow(this.selectedSuggestion); // publish slelected suggestion
     }
   }
 }

@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
   onSubmit(form: any): void { // submit log in
     this.user = {...form};
     this.dataService.post('/login', this.user).subscribe(data => {
-      console.log(data);
       if (data.success) { // success
         this.router.navigate(['']);
         this.form.reset();
