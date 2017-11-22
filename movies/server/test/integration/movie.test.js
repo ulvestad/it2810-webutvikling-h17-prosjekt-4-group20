@@ -28,7 +28,6 @@ describe('movie', () => {
 
   it('Should search get plenty of results', async () => {
     const a = await util.sendPost(request(server), '/api/search', {}, {query: 't', page: 0})
-    console.log(a.body.result.length)
     a.body.result.length.should.above(10)
   })
 

@@ -3,11 +3,10 @@ const should = require('should')
 const tmdb = require('../../helpers/tmdb')
 
 /* Tests for tmdb service. */
-describe('tmdb', () => {
+// It is disabled on default, request get method in helpers/tmdb.js will not accept node_env=test
+xdescribe('tmdb - disabled on default', () => {
 
   afterEach(done => setTimeout(done, 500)) // delay between each test, tmdb has limit
-
-  /* popular :: upcoming :: top_rated */
 
   it('should get popular', async () => {
     const a = await tmdb.getMovies('popular')

@@ -12,10 +12,10 @@ describe('user', () => {
   const decoded = { username: 'andy', iat: 1509045962 }
   const data = {
     username: 'andy', 
-    email: 'at@a.t', 
-    password: '123',
-    confirm: '123',
-    hash: '$2a$10$S.QJsnORXMLsVnyqT./sOOgrKYj5KUw4h.04fFyf8aLiIlB8SSR8.'
+    email: 'andy@gmail.com', 
+    password: '123456789',
+    confirm: '123456789',
+    hash: '$2a$10$loDIe1WqX0zu4/YvtSjYfOTJ9WBc0xu9Etbd7AP2.CAWh8JoRGEt2'
   }
 
   before(async () => {
@@ -66,7 +66,7 @@ describe('user', () => {
     })
 
     it('Should success', async () => {
-      const a = await util.sendPost(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'it@a.t'})
+      const a = await util.sendPost(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'andy@hotmail.com'})
       a.body.success.should.equal(true)
     })
   })

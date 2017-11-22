@@ -11,6 +11,7 @@ router.get('/', (req, res) => res.json({msg: 'api'}))
 router.post('/login', auth.login)
 router.post('/register', auth.register)
 
+
 router.post('/movie', movie.get)
 router.post('/genres', movie.getGenres)
 router.post('/top', movie.getTopRated)
