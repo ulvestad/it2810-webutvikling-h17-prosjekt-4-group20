@@ -29,10 +29,18 @@ a:hover{
 @media screen and (max-width: 720px) {
   .fixed {
     position: static;
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-direction: row; /* Safari 6.1+ */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
   .movies {
     margin-left: 0;
     position: static;
+  }
+  .sortBox {
+    margin-left: 50px;
   }
 }
 select {
@@ -55,9 +63,9 @@ select {
 }
 .wrap-small {
   display: -webkit-flex; /* Safari */
-  -webkit-justify-content: flex-start; /* Safari 6.1+ */
+  -webkit-justify-content: center; /* Safari 6.1+ */
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -75,7 +83,6 @@ select {
   -webkit-justify-content: center; /* Safari 6.1+ */
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   margin-top: 50px;
   margin-bottom: 50px;
 }
