@@ -1,4 +1,3 @@
-// wrap for tmdb as promise
 const request = require('request')
 require('dotenv').config()
 
@@ -21,9 +20,13 @@ const findURL = id => `${BASE}movie/${id}${KEY}`
 /* Dump url */
 const dumpURL = date => `http://files.tmdb.org/p/exports/movie_ids_${util.formatDate(date)}` 
 
-/* GET request, promise return result */
+/**
+ * Send GET request, ignore on test env
+ * @param {String} url
+ * @returns {Promise.<JSON>} result
+ */
 const get = url => {
-	console.log(url)
+	if (process.env.NODE_ENV === 'test') return // Do not download if in test env
 	return new Promise((resolve, reject) => {
 		request.get(url, (err, res, body) => {
 			if (err || !body) return reject('Found nothing')
@@ -34,21 +37,31 @@ const get = url => {
 	})
 }
 
-/* Get movies, returns promise */
-/* popular :: upcoming :: top_rated */
+/**
+ * Get movies by type
+ * @param {String} type (popular, upcoming, top_rated)
+ * @param {Number} page
+ * @returns {Promise.<Array.<Movies>>} result
+ */
 module.exports.getMovies = (type, page) => get(staticURL(type, page))
 
-/* Get genres, returns promise */
+/**
+ * Get genres
+ * @returns {Promise.<Array.<String>>} result
+ */
 module.exports.getGenres = () => get(genreURL())
 
-// do tmdb sort the list returned?
+/**
+ * Get movies with search query
+ * @param {String} query
+ * @param {Number} page
+ * @returns {Promise.<Array.<Movies>>} result
+ */
 module.exports.search = (query, page) => get(searchURL(query, page))
 
-/* Get extended movie info by id */
+/**
+ * Get extended movie detail
+ * @param {String} id 
+ * @returns {Promise.<Movie>} movie
+ */
 module.exports.find = id => get(findURL(id))
-
-/* http://files.tmdb.org/p/exports/movie_ids_11_22_2017.json.gz */
-module.exports.getDailyDump = () => {
-	// how to handle the zipped file.
-}
-

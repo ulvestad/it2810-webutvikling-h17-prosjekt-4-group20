@@ -1,9 +1,12 @@
 const operate = require('../helpers/operate')
 const tmdb = require('../helpers/tmdb')
 const db = require('../helpers/db')
-let genresStore // cba putting it into the db, fetches if not found
+let genresStore
 
-/* Stores some predefined list from TMDB into Movie, 15 pages */
+/**
+ * Init with fetching movies from tmdb.
+ * Stores the predefined list from TMDB into database, 15 pages
+ */
 module.exports.init = async () => {
   console.log('Init pre load - tmdb')
   operate.solve(async () => {
@@ -20,7 +23,11 @@ module.exports.init = async () => {
   }).then(result => console.log('Complete pre load - tmdb'))
 }
 
-/* Get single movie */
+/**
+ * Get single movie
+ * @param {String} req.body.id
+ * @returns {Object.{<Boolean>.<Array.<genres>>}} success, genres
+ */
 module.exports.get = (req, res) => {
   operate.solve(async () => {
     const movie = await db.findMovie(req.body.id)
@@ -28,9 +35,10 @@ module.exports.get = (req, res) => {
   }).then(result => res.json(result))
 }
 
-/* Get genres list */
-// todo, on init save genres and get from there instead.
-// or just save the genre list in js.
+/**
+ * Get genres list
+ * @returns {Object.{<boolean>.<Array>}} success, token
+ */
 module.exports.getGenres = (req, res) => {
   operate.solve(async () => {
     if (genresStore) return genresStore
@@ -39,63 +47,88 @@ module.exports.getGenres = (req, res) => {
   }).then(result => res.json(result))
 }
 
-/* Get movies */
-/* DB   = popularity :: release_date :: vote_average */
-/* TMDB = popular :: upcoming :: top_rated */
+/**
+ * Get movies by type
+ * @param {String} dbType - (popularity, release_date, vote_average)
+ * @param {String} tmdbType -(popular, upcoming, top_rated)
+ * @param {Number} page
+ * @returns {Array.<genres>} movies
+ */
 const getMovies = async (dbType, tmdbType, page = 0) => {
   const limit = page === 0 ? 20 : 5
   const skip = page === 0 ? 0 : (20 + (page * 5))
   const movies = await db.getMovies(dbType, skip, limit) // get movies
-  if (movies.length >= limit) return movies // return if enough
-  const more = await getAllPages(query) // danger uuu
-  return [...movies, ...more].splice(0, 5)//
+  return movies // return result
 }
 
-/* Get popular movies */
+/**
+ * Get popular movies
+ * @params {Number} req.body.page
+ * @returns {Array.<Movie>} movies
+ */
 module.exports.getPopular = (req, res) => {
   operate.solve(async () => {
     return await getMovies('popularity', 'popular', req.body.page)
   }).then(result => res.json(result))
 }
 
-/* Get Latest movies, returns n movies*/
+/**
+ * Get latest movies
+ * @params {Number} req.body.page
+ * @returns {Array.<Movie>} movies
+ */
 module.exports.getLatest = (req, res) => {
   operate.solve(async () => {
     return await getMovies('release_date', 'upcoming', req.body.page)
   }).then(result => res.json(result))
 }
 
-/* Get top rated movies, returns n movies*/
+/**
+ * Get top rated movies
+ * @params {Number} req.body.page
+ * @returns {Array.<Movie>} movies
+ */
 module.exports.getTopRated = (req, res) => {
   operate.solve(async () => {
     return await getMovies('vote_average', 'top_rated', req.body.page)
   }).then(result => res.json(result))
 }
 
-/* Get upocming movies, returns n movies*/
+/**
+ * Get upcoming movies
+ * @params {Number} req.body.page
+ * @returns {Array.<Movie>} movies
+ */
 module.exports.getUpcoming = (req, res) => {
   operate.solve(async () => {
     return await getMovies('upcoming', 'upcoming', req.body.page)
   }).then(result => res.json(result))
 }
 
-/* Search for movies, returns n movies from db and/or tmdb */
-// todo get this into same as getmovies yeh. Create different methods in db.js instead
+/**
+ * Search for movies, if not found in database it will try tmdb site
+ * @params {String} req.body.query
+ * @params {Number} req.body.page
+ * @returns {Array.<Movie>} movies
+ */
 module.exports.search = (req, res) => {
   operate.solve(async () => {
     const {query, page} = {...req.body}
     const limit = page === 0 ? 20 : 5
     const skip = page === 0 ? 0 : (20 + (page * 5))
     const movies = await db.searchMovie(query, skip, limit) // search for movies
-    console.log('HAHAHAH', query, movies.length, skip, limit )
     if (movies.length >= limit) return movies // return if enough
     const more = await getAllPages(query) // danger uuu
-    if (!more || !movies.length) return movies
-    else return [...movies, ...more].splice(0, 5)//
+    if (!more || !more.result || !more.result.length) return movies
+    else return [...movies, ...more.result].splice(0, 5)//
   }).then(result => res.json(result))
 }
 
-/* Get autocomplete suggestions, returns list of titles */
+/**
+ * Get autocomplete suggestions
+ * @params {String} req.body.query
+ * @returns {Array.<String>} movietitles
+ */
 module.exports.getSuggestions = (req, res) => {
   operate.solve(async () => {
     const {query} = {...req.body}
@@ -106,24 +139,23 @@ module.exports.getSuggestions = (req, res) => {
   }).then(result => res.json(result))
 }
 
-/* Get more from tmdb */
-// checks if tmdb got any more stored
-// hard limit on 10 right now // some querys can have over 100 pages of result..
-let completedQuerys = []
-const getAllPages = query => {
-  if (completedQuerys.some(e => { return e === query })) return
-  completedQuerys.push(query)
-  operate.solve(async () => {
-    let a = true
-    let n = 0
-    let array = []
-    while (a) {
-      let more = await tmdb.search(query, n) // get result
-      let res = await db.saveMultipleMovies(more) // save em
-      array = [...array, ...res]
-      if (n === 5 || more.length === 0) a = false // break if no more results or hard limit
-      n++
-    }
-    return array
-  }).then(result => console.log('gottaCatchEmAll saved:', result.length))
+/**
+ * Get more data from tmdb, behaves recursive to fetch more if present. Returns first actuall content
+ * @params {String} query
+ * @params {Number} page
+ * @params {Boolean} allow to bypass banlist
+ * @returns {Array.<Movie>} movies
+ */
+let completedQuerys = [] // query banlist
+const getAllPages = (query, page=0, allow) => {
+  if (!allow && completedQuerys.some(e => { return e === query })) return // return if banlisted
+  completedQuerys.push(query) // add query to banlist
+  return operate.solve(async () => {
+    let more = await tmdb.search(query, page) // get result
+    let res = await db.saveMultipleMovies(more) // save result
+    page++
+    // continue recursive if more stuff to get
+    if (page !== 10 && more.length !== 0) getAllPages(query, page, true)
+    if (res.length) return res // return at first sight at something
+  })
 }

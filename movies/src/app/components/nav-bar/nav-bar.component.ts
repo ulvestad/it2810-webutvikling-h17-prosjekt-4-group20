@@ -18,17 +18,16 @@ export class NavBarComponent implements OnInit {
   private query: string;
   private options: Array<any>;
   private searchString: string;
-  private searchArrowSelect: string = "";
+  private searchArrowSelect: string;
   @ViewChild('searchText') input;
 
   constructor(
-    // services and router
     private searchService: SearchService,
     private eventService: EventService,
     private route: Router,
     private dataService: DataService,
     private cookieService: CookieService) {
-
+    this.searchArrowSelect = '';
     eventService.eventSelectArrow.subscribe(data => { // subscribe event for listening to potential arrow selection in search
       this.searchArrowSelect = data;
     });
@@ -58,42 +57,41 @@ export class NavBarComponent implements OnInit {
   onChange(event: any) {
     if (event) {
       this.searchService.suggest(event);
-      this.eventService.publishArrow(true)
+      this.eventService.publishArrow(true);
     }
   }
 
-  // Fetch search results based on text
+  /* Fetch search results based on text */
   onSubmit(form: any) {
-    setTimeout(() => {
-      if(form.searchString == ""){ // search is empty -> redirects to popular page
+    setTimeout(() => { // small delay to wait for subscriber event
+      if (form.searchString === '') { // search is empty -> redirects to popular page
         this.query = form.searchString;
         this.route.navigateByUrl('/');
         this.eventService.current = 'popular';
         this.eventService.publishHome(0, 'popular');
         this.addToHistory(form.searchString);
-        this.input.nativeElement.value = ""; //update searchtext
-      }
-      else if(this.searchArrowSelect != ""){ // search is done using arrow keys -> search by arrows select value
+        this.input.nativeElement.value = ''; // update searchtext
+      } else if (this.searchArrowSelect !== '') { // search is done using arrow keys -> search by arrows select value
         this.query = this.searchArrowSelect;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
         this.searchService.search(this.searchArrowSelect, 0);
         this.addToHistory(this.searchArrowSelect);
-        this.input.nativeElement.value = this.searchArrowSelect; //update searchtext
-        this.searchArrowSelect = ""; //reset value
-      }else{ // search is done by clicking on button as normal
+        this.input.nativeElement.value = this.searchArrowSelect; // update searchtext
+        this.searchArrowSelect = ''; // reset value
+      } else { // search is done by clicking on button as normal
         this.query = this.input.nativeElement.value;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
         this.searchService.search(this.input.nativeElement.value, 0);
         this.addToHistory(this.input.nativeElement.value);
       }
-    }, 400); //callback to check is arrow is used in search
+    }, 400); // callback to check is arrow is used in search
   }
 
   // Add search to history
   addToHistory(query: string) {
-    if(query != "" && this.dataService.isLoggedIn()){ // searchtext must not be empty an user is logged in
+    if (query !== '' && this.dataService.isLoggedIn()) { // searchtext must not be empty an user is logged in
         this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => { // add
       });
     }

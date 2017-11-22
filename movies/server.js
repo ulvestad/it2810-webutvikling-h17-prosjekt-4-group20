@@ -4,8 +4,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const http = require('http')
 const mongoose = require('mongoose')
-const morgan = require('morgan')
 const sanitize = require('mongo-sanitize')
+const expressValidator = require('express-validator');
 
 const api = require('./server/controllers/index')
 
@@ -28,7 +28,7 @@ mongoose.connection.on('error', (err) => {
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false}))
-app.use(morgan('dev'))
+app.use(expressValidator());
 
 /* Routes */
 // Enable CORS from client side
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-	req.body = sanitize(req.body)
+	req.body = sanitize(req.body) // sanitize data for mongodb
 	next()
 })
 

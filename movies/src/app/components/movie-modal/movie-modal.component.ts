@@ -25,7 +25,8 @@ export class MovieModalComponent implements OnInit {
   isLoggedIn: boolean;
 
   constructor(private eventService: EventService, private dataService: DataService,  private cookieService: CookieService) {
-    eventService.eventSelect.subscribe(data => this.selectedMovie = {...data}); // listens to the current selected movie and set values to SelectedMovie interface
+    // listens to the current selected movie and set values to SelectedMovie interface
+    eventService.eventSelect.subscribe(data => this.selectedMovie = {...data});
     this.dataService.getGenreList().subscribe(data => this.genreList = data.genres); // fetches list with all genres
     this.isLoggedIn = this.dataService.isLoggedIn(); // is user logged in
   }
@@ -42,9 +43,9 @@ export class MovieModalComponent implements OnInit {
   addToMovieList(movie: any) {
     this.dataService.post('/user/add', {id: this.selectedMovie.id}).subscribe(res => {
       // snackbar notification, confirming addition
-      var x = document.getElementById("snackbar")
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      let x = document.getElementById('snackbar');
+      x.className = 'show';
+      setTimeout(function() { x.className = x.className.replace('show', ''); }, 3000);
     });
   }
 

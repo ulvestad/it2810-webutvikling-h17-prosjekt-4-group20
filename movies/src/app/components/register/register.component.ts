@@ -23,8 +23,6 @@ export class RegisterComponent implements OnInit {
   @ViewChild('f') form: any; // the form
 
   constructor(private dataService: DataService, private router: Router) {
-    // TODO: find a better way to change <body> background-color
-    // body{ ... } in the css file does not work
     document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
     document.body.style.backgroundSize = 'auto';
   }
@@ -44,15 +42,10 @@ export class RegisterComponent implements OnInit {
     this.user = {...form};
     this.dataService.post('/register', this.user).subscribe(data => {
       if (data.success) { // success
-        this.router.navigate(['login']); // success
+        this.router.navigate(['login']);
         this.form.reset();
       } else { // fail
-        this.result = data.msg;
-        if (data.msg === 'err, user exists') {
-          this.user.username = '';
-        } else if (data.msg === 'Email taken') {
-          this.user.email = '';
-        }
+        this.result = 'Username or email taken';
       }
     });
   }
