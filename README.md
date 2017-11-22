@@ -33,7 +33,7 @@ npm install
   TMDB_KEY = <tmdb-api-key>
   DB_HOST = mongodb://localhost/
   DB_PORT = 27017
-  DB_NAME = <dbname>
+  DB_NAME = it2810-p4-movies
   PORT = 3000
 
 # Start server
