@@ -10,6 +10,8 @@ export class DataService {
   private path: string;
   result: any;
 
+  lastQuery: string;
+
   constructor(private http: Http, private cookieService: CookieService) {
     this.path = 'http://localhost:3000/api';
   }
@@ -35,15 +37,16 @@ export class DataService {
     return this.post('/genres', {}).map(data => this.result = data.result);
   }
 
-  getMovies(current: string) {
-    return this.post(current, {}).map(data => this.result = data.result);
+  getMovies(current: string, page: number = 0, query: string = '') {
+    this.lastQuery = query || this.lastQuery;
+    // console.log(current, query);
+    return this.post(current, {query: this.lastQuery || query, page: page}).map(data => {
+      return data.result;
+    });
   }
 
   isLoggedIn() {
-    if (this.cookieService.get('token')) {
-      return true;
-    }
-    return false;
+    return (this.cookieService.get('token')) ? true : false;
   }
 
 }
