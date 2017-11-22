@@ -87,6 +87,7 @@ module.exports.search = (req, res) => {
     const limit = page === 0 ? 20 : 5
     const skip = page === 0 ? 0 : (20 + (page * 5))
     const movies = await db.searchMovie(query, skip, limit) // search for movies
+    console.log('HAHAHAH', query, movies.length, skip, limit )
     if (movies.length >= limit) return movies // return if enough
     const more = await getAllPages(query) // danger uuu
     if (!more || !movies.length) return movies

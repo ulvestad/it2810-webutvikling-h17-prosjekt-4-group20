@@ -1,26 +1,14 @@
 const request = require('supertest')
 const should = require('should')
 const server = require('./../../../server.js')
-const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
-const response = require('../../response')
 
-const User = require('../../models/user')
-const Movie = require('../../models/newMovie')
-
-// Methods from modules
-const get = (agent, url, token, cb) => agent.get(url).set({ ...token, Accept: 'application/json' }).end(cb)
-const post = (agent, url, token, data, cb) => agent.post(url).set({ ...token, Accept: 'application/json' }).send(data).end(cb)
-
-// database methods
-const saveUser = (user, callback) => new User(user).save(callback)
-const saveMovie = (movie, callback) => new Movie(movie).save(callback)
-const findUsers = callback => User.find({}, callback)
+const util = require('../util')
+const db = require('../../helpers/db')
 
 /* Integration tests for servers user api */
 describe('user', () => {
   let server
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjVhMTBhODg4OGIxNDQ3MmQwMDEzZDM3OCIsInVzZXJuYW1lIjoiYW5keSIsImVtYWlsIjoiYXRAYS50IiwiaGFzaCI6IiQyYSQxMCRTLlFKc25PUlhNTHNWbnlxVC4vc09PZ3JLWWo1S1V3NGguMDRmRnlmOGFMaUlsQjhTU1I4LiIsIl9fdiI6MCwiaGlzdG9yeSI6W10sIm1vdmllbGlzdCI6W119LCJleHAiOjE1MTE2NDU5NjAsImlhdCI6MTUxMTA0MTE2MH0.fOtTNITpISqLYnPA3vncLqxvrtj88aKMa-8y3HGonhI'
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYW5keSIsImV4cCI6MTUxMTk2OTE1MywiaWF0IjoxNTExMzY0MzUzfQ.xOP2YruwynAFNeSkOjp1QPESFsXGLVevHDDA2wRmfQM'
   const decoded = { username: 'andy', iat: 1509045962 }
   const data = {
     username: 'andy', 
@@ -30,137 +18,102 @@ describe('user', () => {
     hash: '$2a$10$S.QJsnORXMLsVnyqT./sOOgrKYj5KUw4h.04fFyf8aLiIlB8SSR8.'
   }
 
-  before(done => {
+  before(async () => {
     server = require('../../../server')
-    User.remove({}, done())
+    await db.dumpUsers()
   })
 
-  afterEach(done => {
-    User.remove({}, e => {
-      Movie.remove({}, e => {
-        saveUser(data, done())
-      })
-    })
+  afterEach(async () => {
+    await db.dumpUsers()
+    await db.saveUser(data)
   })
 
-  after(done => {
+  after(async () => {
     server.close()
-    done()
+    await db.dumpUsers()
   })
 
-  it('Should connect to api', done => {
-    get(request(server), '/api', {}, (err, res) => {
-      res.status.should.equal(200) // 200 status code
-      res.type.should.equal('application/json') // json response
-      res.body.msg.should.equal('api') // correct data
-      done()
-    })
+  it('Should connect to api', async () => {
+    const a = await util.sendGet(request(server), '/api', {}, {})
+    a.body.msg.should.equal('api')
   })
 
   /* Register tests */
   describe('register', () => {
-    it('Should fail no username', done => {
-      post(request(server), '/api/register', {}, {...data, username:''}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no username', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, {...data, username:''})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail no email', done => {
-      post(request(server), '/api/register', {}, {...data, email:''}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no email', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, {...data, email:''})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail no password', done => {
-      post(request(server), '/api/register', {}, {...data, password:''}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no password', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, {...data, password:''})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail user exist', done => {
-      post(request(server), '/api/register', {}, {...data}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail user exist', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, {...data})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail email exist', done => {
-      post(request(server), '/api/register', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail email exist', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, {...data, username: 'johan'})
+      a.body.success.should.equal(false)
     })
 
-    it('Should success', done => {
-      post(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'it@a.t'}, (err, res) => {
-        res.body.success.should.equal(true)
-        done()
-      })
+    it('Should success', async () => {
+      const a = await util.sendPost(request(server), '/api/register', {}, { ...data, username: 'johan', email: 'it@a.t'})
+      a.body.success.should.equal(true)
     })
   })
 
   /* Login tests */
   describe('login', () => {
-    it('Should fail no username', done => {
-      post(request(server), '/api/login', {}, {...data, username:''}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no username', async () => {
+      const a = await util.sendPost(request(server), '/api/login', {}, {...data, username:''})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail no password', done => {
-      post(request(server), '/api/login', {}, {...data, password:''}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no password', async () => {
+      const a = await util.sendPost(request(server), '/api/login', {}, {...data, password:''})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail no user', done => {
-      post(request(server), '/api/login', {}, {...data, username: 'johan'}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no user', async () => {
+      const a = await util.sendPost(request(server), '/api/login', {}, {...data, username: 'johan'})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail wrong password', done => {
-      post(request(server), '/api/login', {}, {...data, password: 'wrong'}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail wrong password', async () => {
+      const a = await util.sendPost(request(server), '/api/login', {}, {...data, password: 'wrong'})
+      a.body.success.should.equal(false)
     })
 
-    it('Should success logged in', done => {
-      post(request(server), '/api/login', {}, {...data}, (err, res) => {
-        res.body.success.should.equal(true)
-        done()
-      })
+    it('Should success logged in', async () => {
+      const a = await util.sendPost(request(server), '/api/login', {}, {...data})
+      a.body.success.should.equal(true)
     })
   })
 
   /* Middleware tests */
   describe('middleware', () => {
-    it('Should fail no token', done => {
-      get(request(server), '/api/user', {}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail no token', async () => {
+      const a = await util.sendGet(request(server), '/api/user', {})
+      a.body.success.should.equal(false)
     })
 
-    it('Should fail wrong token', done => {
-      get(request(server), '/api/user', {token: 'wrong'}, (err, res) => {
-        res.body.success.should.equal(false)
-        done()
-      })
+    it('Should fail wrong token', async () => {
+      const a = await util.sendGet(request(server), '/api/user', {token: 'wrong'})
+      a.body.success.should.equal(false)
     })
 
-    it('Should success', done => {
-      get(request(server), '/api/user', {token: token}, (err, res) => {
-        res.body.success.should.equal(true)
-        done()
-      })
+    it('Should success', async () => {
+      const a = await util.sendGet(request(server), '/api/user', {token: token})
+      a.body.success.should.equal(true)
     })
   })
 })
