@@ -63,7 +63,15 @@ export class NavBarComponent implements OnInit {
   /* Will get results based on */
   onSubmit(form: any) {
     setTimeout(() => {
-      if(this.searchArrowSelect != ""){
+      if(form.searchString == ""){
+        this.query = form.searchString;
+        this.route.navigateByUrl('/');
+        this.eventService.current = 'popular';
+        this.eventService.publishHome(0, 'popular');
+        this.addToHistory(form.searchString);
+        this.input.nativeElement.value = ""; //update searchtext
+      }
+      else if(this.searchArrowSelect != ""){
         this.query = this.searchArrowSelect;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
@@ -82,9 +90,10 @@ export class NavBarComponent implements OnInit {
   }
 
   addToHistory(query: string) {
-    this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
-      console.log(query, 'added to history');
-    });
+    if(query != "" && this.dataService.isLoggedIn()){
+      this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => {
+      });
+    }
   }
 
 

@@ -1,7 +1,8 @@
 // wrap for db with promise
-const Movie = require('../models/newMovie')
+const Movie = require('../models/movie')
 const User = require('../models/user')
 const util = require('./util')
+
 /*
 * User
 */
@@ -11,6 +12,9 @@ module.exports.findUser = username => User.findOne({username: username}).exec()
 
 /* Save user, return user promise */
 module.exports.saveUser = user => new User(user).save()
+
+/* Returns the number of user documents */
+module.exports.getUserCount = () => User.count({})
 
 /* Add movie to list, no duplicated, returns user promise */
 module.exports.addToMovieList = (user, movie) => {
@@ -42,13 +46,16 @@ module.exports.findMovie = id => Movie.findOne({id: id}).exec()
 /* Save movie, return movie promise */
 module.exports.saveMovie = movie => new Movie(movie).save()
 
+/* Returns the number of movie docments */
+module.exports.getMoviesCount = () => Movie.count({})
+
 /* Save multiple, skip if duplicate */
 module.exports.saveMultipleMovies = array => {
 	return new Promise(async resolve => {
-		if (!array || !array.length) return resolve('no data')
+		if (!array || !array.length) return resolve([])
 		let movies = []
 		await Promise.all(array.map(async m => {
-			if(m.poster_path != null){ //does not save movies with missing poster_path
+			if(m.poster_path != null && m.vote_count > 50){ //does not save movies with missing poster_path and low vote count
 				await this.saveMovie(m).then(m => { movies.push(m) }).catch(e => {})
 			}
 		}))
@@ -57,7 +64,7 @@ module.exports.saveMultipleMovies = array => {
 }
 
 /* Suggest movies.titles by regex, returns movies.title promise*/
-// Vet ikke om lista sorteres, siden jeg henter ut bare tittelen. Må sjekkes
+// remove duplicates
 module.exports.suggestMovie = (query, n=5) => {
 	const regex = new RegExp(query, 'i')
 	return Movie.find({title: regex}, {title: 1}).sort('-popularity').limit(n).exec()
@@ -72,8 +79,9 @@ module.exports.searchMovie = (query, skip=0, limit=5) => {
 /* Get movies, returns promise */
 /* popularity :: release_date :: vote_average */
 module.exports.getMovies = (type, skip=0,  limit=5) => {
-	if (type === 'upcoming') return this.getUpcoming(skip, limit) // ugly finn en bedre løsning ? cmplx
-	else return Movie.find({}).sort(`-${type}`).skip(skip).limit(limit).exec()
+	if (type === 'upcoming') return this.getUpcoming(skip, limit)
+	// {vote_average: {$gt: 50}}
+	else return Movie.find().sort(`-${type}`).skip(skip).limit(limit).exec()
 }
 /* Get upcoming movies */
 // todo add constraint on vote_average, popularity aswell?

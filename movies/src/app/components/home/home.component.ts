@@ -74,13 +74,14 @@ export class HomeComponent implements OnInit {
       if (this.eventService.current !== 'search') {
         this.eventService.publishHome(0, this.eventService.current || 'popular');
       }
-     });
+    });
   }
 
   onScroll() {
     this.page = this.page + 1;
-    this.dataService.post('/' + this.current, {page: this.page}).subscribe(res => {
-      this.update([...this.movies, ...res.result]);
+    this.dataService.getMovies('/' + this.current, this.page).subscribe(res => {
+      console.log(res);
+      this.update([...this.movies, ...res]);
     });
   }
 
@@ -175,7 +176,7 @@ export class HomeComponent implements OnInit {
 
   update(movies: any) {
     this.movies = movies;
-
+    // console.log(movies)
     // update year filters
     const years = this.yearsFromMovies(movies);
     const current_year_filters = this.filters.year.options;

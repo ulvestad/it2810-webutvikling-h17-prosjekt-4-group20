@@ -18,4 +18,6 @@ export class AppComponent {
   @HostListener('click') onClick() {
     this.eventService.autoCompleteTrigger(false);
   }
+
+  title = 'Movies';
 }
