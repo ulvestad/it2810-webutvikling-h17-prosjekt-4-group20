@@ -19,6 +19,11 @@
 <br>
 <br>
 
+## Screenshots
+
+<img src="http://folk.ntnu.no/simenul/screen/front.png" width="48" alt="homepage">
+
+
 ## Architecture
 
 ### Functional requirements
