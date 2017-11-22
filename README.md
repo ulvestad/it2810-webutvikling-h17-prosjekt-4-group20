@@ -15,26 +15,26 @@ Required for getting started: `mongodb` running, `node` v8+ and `npm` v5+
 Create .env file inside `/movies` folder
 
 ``` bash
-# Required environment variables
-NODE_ENV = dev
-SESSION_SECRET = s3cr3t-sup3r
-TOKEN_SECRET = sup3r-s3cr3t
-TMDB_KEY = <tmdb-api-key>
-DB_HOST = mongodb://localhost/
-DB_PORT = 27017
-DB_NAME = <dbname>
-PORT = 3000
-```
-
-``` bash
 
 # Clone repo
 git clone https://github.com/IT2810/it2810-webutvikling-h17-prosjekt-4-group20.git
 
 # Navigate to folder
 cd it2810-webutvikling-h17-prosjekt-4-group20/movies
+
 # Install dependencies
 npm install
+
+# Create dot environment file called ".env" contained
+# TMDB_KEY is needed for getting movie data.
+  NODE_ENV = dev
+  SESSION_SECRET = s3cr3t-sup3r
+  TOKEN_SECRET = sup3r-s3cr3t
+  TMDB_KEY = <tmdb-api-key>
+  DB_HOST = mongodb://localhost/
+  DB_PORT = 27017
+  DB_NAME = <dbname>
+  PORT = 3000
 
 # Start server
 npm start
@@ -44,13 +44,15 @@ Open browser at localhost:3000
 ```
 
 ### Testing
-#### Backend
-* (mac/lin) NODE_ENV=test mocha server/test/unit
-* (mac/lin) NODE_ENV=test mocha server/test/integration
-* (win) SET NODE_ENV=test & mocha server/test/unit
-* (win) SET NODE_ENV=test & mocha server/test/integration
-#### Frontend
+``` bash
+# Backend
+(mac/lin) NODE_ENV=test mocha server/test/unit
+(mac/lin) NODE_ENV=test mocha server/test/integration
+(win) SET NODE_ENV=test & mocha server/test/unit
+(win) SET NODE_ENV=test & mocha server/test/integration
+# Frontend
 * npm test
+```
 
 <br>
 
