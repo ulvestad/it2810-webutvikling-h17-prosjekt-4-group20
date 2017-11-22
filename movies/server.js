@@ -31,16 +31,6 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(expressValidator());
 
 /* Routes */
-// Enable CORS from client side
-// TODO Remove this in production <3
-/*app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials")
-  res.header("Access-Control-Allow-Credentials", "true")
-  next()
-})
-*/
 app.use((req, res, next) => {
 	req.body = sanitize(req.body) // sanitize data for mongodb
 	next()
