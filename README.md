@@ -2,7 +2,7 @@
 
 ## Instructions
 
-Link to webpage: http://google.com
+Link to webpage: http://UPDATETHIS.no
 
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 2. Install node v8+ and npm v5+
