@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ScrollToModule } from 'ng2-scroll-to-el';
+import { SpinnerModule } from 'angular2-spinner';
 
 import { DataService } from './services/data.service';
 import { SearchService } from './services/search.service';
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
     HttpModule,
     FormsModule,
     InfiniteScrollModule,
+    SpinnerModule,
     ScrollToModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,

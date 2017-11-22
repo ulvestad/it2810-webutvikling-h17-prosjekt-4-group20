@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^5.0.2",
     "@angular/platform-browser-dynamic": "^5.0.2",
     "@angular/router": "^5.0.2",
+    "angular2-spinner": "^1.0.10",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "bootstrap4": "0.0.1-security",
