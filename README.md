@@ -1,8 +1,11 @@
 # it2810-webutvikling-h17-prosjekt-4-group20
 
-## Instructions
+## Webpage
 
 Link to webpage: http://UPDATETHIS.no
+
+
+## Instructions
 
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 2. Install node v8+ and npm v5+
