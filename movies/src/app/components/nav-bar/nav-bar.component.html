@@ -16,7 +16,7 @@
       <div class="form-inline mx-auto flex-nowrap flex-row element">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
           <input class="form-control mr-2" type="text" placeholder="Search..." name="searchString"
-          [(ngModel)]="searchString" autocomplete=off (ngModelChange)="onChange($event)">
+          [(ngModel)]="searchString" autocomplete=off (ngModelChange)="onChange($event)" #searchText>
           <button routerLink="/" class="btn btn-outline-success mr-2 searchBtn" type="submit">Search</button>
           <app-autocomplete (onSuggest)='changeInputValue($event)'></app-autocomplete>
         </form>
