@@ -1,6 +1,9 @@
 # it2810-webutvikling-h17-prosjekt-4-group20
 
 ## Instructions
+
+Link to webpage: http://UPDATETHIS.no
+
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 2. Install node v8+ and npm v5+
 3. Start mongodb: `mongod`
@@ -17,7 +20,15 @@
 * Dropping database: `mongo` -> `use dev` -> `db.dropDatabase()`
 
 <br>
+
+## Screenshots
+
+Homepage            |  Search result          |  Userpage
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="http://folk.ntnu.no/simenul/screen/front.png" width="400" alt="homepage">  |  <img src="http://folk.ntnu.no/simenul/screen/search.png" width="400" alt="search"> | <img src="http://folk.ntnu.no/simenul/screen/userpage.png" width="400" alt="userpage">
+
 <br>
+
 
 ## Architecture
 
