@@ -69,4 +69,17 @@ describe('DataService', () => {
   it('should be created', inject([DataService], (service: DataService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('DataService: getGenreList', inject([DataService], (service: DataService) => {
+    service.getGenreList().subscribe(res => {
+      expect(res).toBeTruthy();
+
+      expect(res['genres'][0]['name']).toEqual('Action');
+      expect(res['genres'][0]['id']).toEqual(28);
+    });
+  }));
+
+  it('DataService: is not logged in', inject([DataService], (service: DataService) => {
+    expect(service.isLoggedIn()).toBeFalsy();
+  }));
 });
