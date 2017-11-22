@@ -1,26 +1,31 @@
+.btn-outline-success{
+  width: 158px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+a:hover{
+  text-decoration: none;
+}
 #sidebar h3 {
   margin-top: 1em;
 }
-
 .container {
   margin-top: 20px;
 }
-
 .card {
   margin-top: .3em;
 }
-
 .fixed {
   width: 200px;
   position: fixed;
 }
-
 .movies {
   margin-left: 200px;
   position: relative;
   overflow: auto;
 }
-
 @media screen and (max-width: 720px) {
   .fixed {
     position: static;
@@ -30,20 +35,16 @@
     position: static;
   }
 }
-
 select {
   color: #0275d8;
   padding: .3em;
 }
-
 .buttons {
   margin-bottom: 10px;
 }
-
 .buttons:hover {
   cursor: pointer;
 }
-
 .small-img {
   width: 190px;
   height: 260px;
@@ -52,7 +53,6 @@ select {
   margin-right: 25px;
   margin-left: 5px;
 }
-
 .wrap-small {
   display: -webkit-flex; /* Safari */
   -webkit-justify-content: flex-start; /* Safari 6.1+ */
@@ -65,7 +65,6 @@ select {
 .small-img {
   transition: all .2s ease-in-out;
 }
-
 .small-img:hover {
   transform: scale(1.1); cursor: pointer;
 }
