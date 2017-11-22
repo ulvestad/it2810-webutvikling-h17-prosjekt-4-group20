@@ -22,6 +22,7 @@ interface SelectedMovie {
 })
 
 export class HomeComponent implements OnInit {
+
   page: number;
   current: string;
   movies: Array<any>;
