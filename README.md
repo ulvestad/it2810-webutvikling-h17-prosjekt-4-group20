@@ -2,7 +2,7 @@
 
 ## Webpage
 
-Link: http://UPDATETHIS.no
+Link: http://it2810-20.idi.ntnu.no:8084
 
 
 ## Instructions
