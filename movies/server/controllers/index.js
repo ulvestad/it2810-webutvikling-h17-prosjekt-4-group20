@@ -4,12 +4,13 @@ const user = require('./user')
 const movie = require('./movie')
 const auth = require('./auth')
 
-//movie.init()
+movie.init()
 
 router.get('/', (req, res) => res.json({msg: 'api'}))
 
 router.post('/login', auth.login)
 router.post('/register', auth.register)
+
 
 router.post('/movie', movie.get)
 router.post('/genres', movie.getGenres)

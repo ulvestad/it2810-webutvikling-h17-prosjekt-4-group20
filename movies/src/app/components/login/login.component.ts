@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   private cookieValue: string; // cookie
 
   constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
-
     document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")'; // custom background image on login page
     document.body.style.backgroundSize = 'auto';
   }
