@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit {
   }
 
   resetFilters = {'year': {name: 'Year', options: []}, 'genre': {name: 'Genre', options: []}};
-  
 
   ngOnInit() {
     this.filters = this.resetFilters;
@@ -93,8 +92,6 @@ export class HomeComponent implements OnInit {
   }
 
   onScroll() {
-    console.log('more movies:', this.moreMoviesLeft);
-
     if (!this.moreMoviesLeft) {
       return;
     }
