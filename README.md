@@ -41,17 +41,9 @@ npm start
 
 # Open website
 Open browser at localhost:3000
-```
 
-### Testing
-``` bash
-# Backend
-(mac/lin) NODE_ENV=test mocha server/test/unit
-(mac/lin) NODE_ENV=test mocha server/test/integration
-(win) SET NODE_ENV=test & mocha server/test/unit
-(win) SET NODE_ENV=test & mocha server/test/integration
-# Frontend
-* npm test
+# For testing
+npm test
 ```
 
 <br>
