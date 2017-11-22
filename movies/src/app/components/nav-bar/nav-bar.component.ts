@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,8 @@ export class NavBarComponent implements OnInit {
   private query: string;
   private options: Array<any>;
   private searchString: string;
+  private searchArrowSelect: string = "";
+  @ViewChild('searchText') input;
 
   constructor(
     private searchService: SearchService,
@@ -25,6 +27,10 @@ export class NavBarComponent implements OnInit {
     private route: Router,
     private dataService: DataService,
     private cookieService: CookieService) {
+
+    eventService.eventSelectArrow.subscribe(data => {
+      this.searchArrowSelect = data;
+    });
   }
 
   ngOnInit() {
@@ -50,16 +56,29 @@ export class NavBarComponent implements OnInit {
   onChange(event: any) {
     if (event) {
       this.searchService.suggest(event);
+      this.eventService.publishArrow(true)
     }
   }
 
   /* Will get results based on */
   onSubmit(form: any) {
-    this.query = form.searchString;
-    this.route.navigateByUrl('/');
-    this.eventService.current = 'search';
-    this.searchService.search(form.searchString, 0);
-    this.addToHistory(form.searchString);
+    setTimeout(() => {
+      if(this.searchArrowSelect != ""){
+        this.query = this.searchArrowSelect;
+        this.route.navigateByUrl('/');
+        this.eventService.current = 'search';
+        this.searchService.search(this.searchArrowSelect, 0);
+        this.addToHistory(this.searchArrowSelect);
+        this.input.nativeElement.value = this.searchArrowSelect; //update searchtext
+        this.searchArrowSelect = ""; //reset value
+      }else{
+        this.query = this.input.nativeElement.value;
+        this.route.navigateByUrl('/');
+        this.eventService.current = 'search';
+        this.searchService.search(this.input.nativeElement.value, 0);
+        this.addToHistory(this.input.nativeElement.value);
+      }
+    }, 400); //this should probably be change to promise or something
   }
 
   addToHistory(query: string) {
@@ -67,4 +86,6 @@ export class NavBarComponent implements OnInit {
       console.log(query, 'added to history');
     });
   }
+
+
 }

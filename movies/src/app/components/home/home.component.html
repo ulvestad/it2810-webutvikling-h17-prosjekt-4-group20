@@ -1,16 +1,17 @@
 <div class="container">
   <div *ngIf="this.current === 'search'" class="row">
-    <div class="col-md-3" id="sidebar">
-      <h3>Filters</h3>
-      <div id="filters" role="tablist" aria-multiselectable="true">
-        <div class="card" *ngFor="let filter of this.filterArray">
-          <div class="card-header" id="{{ filter.name }}" role="tab">
-            <a data-toggle="collapse" data-parent="#filters" href="{{ '#collapse_' + filter.name }}">
-              {{ filter.name }}
+    <div class="col-md-2 col-sm-12 fixed" id="sidebar">
+      <div>
+        <h3>Filters </h3>
+        <div id="filters" role="tablist" aria-multiselectable="true">
+          <div *ngFor="let filter of this.filterArray">
+            <a id="{{ filter.name }}" role="tab" data-toggle="collapse" data-parent="#filters" href="{{ '#collapse_' + filter.name }}">
+              <button class="btn btn-outline-success buttons">
+                {{ filter.name }}
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+              </button>
             </a>
-          </div>
-          <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
-            <div class="card-block">
+            <div id="{{'collapse_' + filter.name }}" class="collapse" role="tabpanel">
               <div class="form-check" *ngFor="let option of filter.options">
                 <label class="form-check-label">
                   <input type="checkbox"
@@ -26,25 +27,33 @@
           </div>
         </div>
       </div>
-      <h3>Sort</h3>
-      <div>
-        <button
-          type="button"
-          [ngClass]="{'active': (activeButton === 'popular')}"
-          class="btn btn-outline-success buttons"
-          (click)="sort($event.target.value)"
-          value="popular"
-        >Most popular</button>
-        <button
-          type="button"
-          [ngClass]="{'active': (activeButton === 'top')}"
-          class="btn btn-outline-success buttons"
-          (click)="sort($event.target.value)"
-          value="top"
-        >Top rated</button>
+      <div class="sortBox">
+        <h3>Sort</h3>
+        <div>
+          <button
+            type="button"
+            [ngClass]="{'active': (activeButton === 'popular')}"
+            class="btn btn-outline-success buttons"
+            (click)="sort($event.target.value)"
+            value="popular"
+            [scrollTo]="'#content'"
+          >
+            Most popular
+          </button>
+          <button
+            type="button"
+            [ngClass]="{'active': (activeButton === 'top')}"
+            class="btn btn-outline-success buttons"
+            (click)="sort($event.target.value)"
+            value="top"
+            [scrollTo]="'#content'"
+          >
+            Top rated
+          </button>
+        </div>
       </div>
     </div>
-    <div class="col-md-9" id="content">
+    <div class="col-md-10 movies" id="content">
       <div class="wrap-small" infiniteScroll (scrolled)="onScroll()">
         <img *ngFor="let movie of filteredMovies" class="small-img" src="{{IMAGE_URL + movie.poster_path}}"
         (click)="setMovie(movie)"
@@ -64,6 +73,9 @@
         href=""/>
       </div>
     </div>
+  </div>
+  <div class="spinner">
+    <spinner [tickness]="2" [size]="50" [color]="'#5cb85c'"></spinner>
   </div>
 </div>
 

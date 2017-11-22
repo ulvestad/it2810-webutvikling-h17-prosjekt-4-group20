@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
   private cookieValue: string;
 
   constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
-    // TODO: find a better way to change <body> background-color
-    // body{ ... } in the css file does not work
+    
     document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
     document.body.style.backgroundSize = 'auto';
   }

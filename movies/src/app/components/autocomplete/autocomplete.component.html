@@ -1,5 +1,5 @@
-<div *ngIf="options.length" id="autocomplete">
-	<li *ngFor="let option of options" (click)="updateInputValue(option)">
-    {{option.title }}
+<div *ngIf="options.length" id="autocomplete" #suggestion>
+	<li class="searchOptions" *ngFor="let option of options; let i = index" [id]= "i" (click)="updateInputValue(option)">
+    {{option.title}}
   </li>
 </div>
