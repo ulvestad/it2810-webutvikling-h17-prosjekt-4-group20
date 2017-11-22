@@ -66,12 +66,14 @@ export class HomeComponent implements OnInit {
     this.searchService.changeSearch.subscribe(movies => {
       this.filters = this.resetFilters;
       this.activeButton = 'popular';
+      
+      this.moreMoviesLeft = true;
+      if (movies) {
+        this.moreMoviesLeft = movies.length < 20 ? false : true;
+      }
+
       this.update(movies);
       this.current = 'search';
-      this.moreMoviesLeft = true;
-      if (this.movies) {
-        this.moreMoviesLeft = this.movies.length < 20 ? false : true;
-      }
     });
   }
 
@@ -91,6 +93,8 @@ export class HomeComponent implements OnInit {
   }
 
   onScroll() {
+    console.log('more movies:', this.moreMoviesLeft);
+
     if (!this.moreMoviesLeft) {
       return;
     }
@@ -233,7 +237,8 @@ export class HomeComponent implements OnInit {
 
   onFilterChange(event) {
     this.filteredMovies = this.filterList(this.movies);
-    this.moreMoviesLeft = !this.moreMoviesLeft;
+    this.moreMoviesLeft = true;
+    this.onScroll();
   }
 
   /* Set the selected movie to be used by the movie-modal component */ 
