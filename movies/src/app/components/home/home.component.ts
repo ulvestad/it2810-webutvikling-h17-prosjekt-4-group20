@@ -163,6 +163,10 @@ export class HomeComponent implements OnInit {
     return Array.from(new Set(list));
   }
 
+  sortOnProp(prop: string, list: Array<object>) {
+    return list.sort((a, b) => (a[prop] > b[prop]) ? 1 : ((b[prop] > a[prop]) ? -1 : 0) );
+  }
+
   update(movies: any) {
     this.movies = movies;
 
@@ -188,10 +192,9 @@ export class HomeComponent implements OnInit {
       name: this.idToGenre.get(genreId),
       id: genreId,
       checked: false
-    }));
+    })).filter(genre => genre.name !== undefined);
 
-    const genre_filters = [...current_genre_filters, ...new_genre_filters.filter(f => f.name !== undefined)]
-      .sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0) );
+    const genre_filters = [...current_genre_filters, ...new_genre_filters];
 
     this.filters = {
       year: {
@@ -199,12 +202,12 @@ export class HomeComponent implements OnInit {
         options: year_filters
       }, genre: {
         name: 'Genre',
-        options: genre_filters
+        options: this.sortOnProp('name', genre_filters)
       }
     };
 
     this.filterArray = [this.filters['genre'], this.filters['year']]
-      .filter(el => el !== undefined && el.name !== undefined)
+      .filter(el => el !== undefined)
       .filter(filter => filter.options.length > 1);
 
     this.filteredMovies = this.filterList(movies);
