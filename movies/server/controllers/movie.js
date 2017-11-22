@@ -46,7 +46,7 @@ const getMovies = async (dbType, tmdbType, page = 0) => {
   const movies = await db.getMovies(dbType, skip, limit) // get movies
   if (movies.length >= limit) return movies // return if enough
   const more = await getAllPages(query) // danger uuu
-  return [...movies, ...more].splice(0, 5)// 
+  return [...movies, ...more].splice(0, 5)//
 }
 
 /* Get popular movies */
@@ -88,7 +88,7 @@ module.exports.search = (req, res) => {
     if (movies.length >= limit) return movies // return if enough
     const more = await getAllPages(query) // danger uuu
     if (!more || !movies.length) return movies
-    else return [...movies, ...more].splice(0, 5)// 
+    else return [...movies, ...more].splice(0, 5)//
   }).then(result => res.json(result))
 }
 
