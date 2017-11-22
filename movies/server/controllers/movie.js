@@ -8,6 +8,8 @@ module.exports.init = async () => {
   console.log('Init pre load - tmdb')
   operate.solve(async () => {
     for (let i = 0; i < 15; i++) {
+      const n = await db.getMoviesCount()
+      if (n > 1000) return {}
       const a = await tmdb.getMovies('popular', i)
       const b = await tmdb.getMovies('upcoming', i)
       const c = await tmdb.getMovies('top_rated', i)
