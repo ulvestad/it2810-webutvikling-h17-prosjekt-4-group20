@@ -62,7 +62,7 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-  // Will get results based on search by submit
+  // Fetch search results based on text
   onSubmit(form: any) {
     setTimeout(() => {
       if(form.searchString == ""){ // search is empty -> redirects to popular page
@@ -91,7 +91,7 @@ export class NavBarComponent implements OnInit {
     }, 400); //callback to check is arrow is used in search
   }
 
-  // add search to history
+  // Add search to history
   addToHistory(query: string) {
     if(query != "" && this.dataService.isLoggedIn()){ // searchtext must not be empty an user is logged in
         this.dataService.post('/user/add/history', {searchQuery: query}).subscribe(res => { // add

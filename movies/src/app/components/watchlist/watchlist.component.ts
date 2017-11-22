@@ -24,6 +24,7 @@ export class WatchlistComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Remove movie form watchlist and gives feedback
   remove(movie: any) { // remove movie from watchlist
     this.dataService.post('/user/remove', {id: movie.id}).subscribe(data => {
       this.moviesList = data.result;

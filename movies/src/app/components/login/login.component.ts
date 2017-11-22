@@ -20,14 +20,15 @@ export class LoginComponent implements OnInit {
   private result: any; // result from server
   private user: User; // input data
   @ViewChild('f') form: any; // the form
-  private cookieValue: string;
+  private cookieValue: string; // cookie
 
   constructor(private dataService: DataService, private router: Router, private cookieService: CookieService) {
-    
-    document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")';
+
+    document.body.style.backgroundImage = 'url("../../assets/img/poster3.png")'; // custom background image on login page
     document.body.style.backgroundSize = 'auto';
   }
 
+  // Initilizes default values to user interface
   ngOnInit() {
     this.user = {
       username: '',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
     };
   }
 
-  onSubmit(form: any): void {
+  // Signs in the user with data from the form
+  onSubmit(form: any): void { // submit log in
     this.user = {...form};
     this.dataService.post('/login', this.user).subscribe(data => {
       console.log(data);

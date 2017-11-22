@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
 
   constructor(private eventService: EventService,
     private dataService: DataService, private router: Router, private cookieService: CookieService) {
-    this.isLoggedIn = this.dataService.isLoggedIn();
+    this.isLoggedIn = this.dataService.isLoggedIn(); // is user logged in
     if (!this.isLoggedIn) { // user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
     } else {
@@ -39,6 +39,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Fetches user which is logged in
   getUser() { // get user and set values to interface
     return this.dataService.get('/user').subscribe(data => {
       if (data.success) {
@@ -47,6 +48,7 @@ export class UserComponent implements OnInit {
     });
   }
 
+  // Signs out user
   signOut() { // sign user out of session, deletes token
     this.cookieService.delete('token');
     this.router.navigate(['/']); // redicret to homepage
