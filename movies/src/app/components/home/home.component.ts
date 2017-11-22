@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SlicePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { SearchService } from '../../services/search.service';
@@ -66,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.searchService.changeSearch.subscribe(movies => {
       this.filters = this.resetFilters;
       this.activeButton = 'popular';
-      
+
       this.moreMoviesLeft = true;
       if (movies) {
         this.moreMoviesLeft = movies.length < 20 ? false : true;
@@ -91,6 +90,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /*Function for infinite scroll*/
   onScroll() {
     if (!this.moreMoviesLeft) {
       return;
@@ -104,6 +104,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /*Function for sorting movies shown*/
   sort(option: string) {
     this.activeButton = option;
     if (option === 'popular') {
@@ -194,7 +195,7 @@ export class HomeComponent implements OnInit {
 
     const current_year_filters = this.filters.year.options;
     const currenet_years = current_year_filters.map(filter => filter.name);
-    
+
     const new_years = years.filter(year => !currenet_years.includes(year));
     const new_year_filters = new_years.map(year => ({
       name: year,
@@ -238,7 +239,7 @@ export class HomeComponent implements OnInit {
     this.onScroll();
   }
 
-  /* Set the selected movie to be used by the movie-modal component */ 
+  /* Set the selected movie to be used by the movie-modal component */
   setMovie(movie: any) {
     this.selectedMovie = {
       id: movie.id,
@@ -251,6 +252,6 @@ export class HomeComponent implements OnInit {
     };
 
     // publish selectedMovie to movie-modal
-    this.eventService.publishSelectedMovie(this.selectedMovie); 
+    this.eventService.publishSelectedMovie(this.selectedMovie);
   }
 }

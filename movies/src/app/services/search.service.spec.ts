@@ -68,4 +68,25 @@ describe('SearchService', () => {
   it('should be created', inject([SearchService], (service: SearchService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should give suggestions', inject([SearchService], (service: SearchService) => {
+    service.suggest('Harry Potter');
+    
+    service.changeSuggestions.subscribe(res => {
+      expect(res[0]['title']).toEqual('Harry Potter and the Philosopher\'s Stone');
+      expect(res[1]['title']).toEqual('Harry Potter and the Deathly Hallows: Part 2');
+    });
+  }));
+
+  it('should give search results', inject([SearchService], (service: SearchService) => {
+    service.search('Harry Potter', 0);
+    
+    service.changeSearch.subscribe(res => {
+      const first = res[0];
+      expect(first).toBeTruthy()
+
+      expect(first['id']).toEqual(671);
+      expect(first['title']).toEqual('Harry Potter and the Philosopher\'s Stone')
+    });
+  }));
 });
