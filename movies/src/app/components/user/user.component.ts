@@ -28,7 +28,7 @@ export class UserComponent implements OnInit {
     if (!this.isLoggedIn) { // user is not logged in -> redirect to /login
       this.router.navigate(['/login']);
     } else {
-      this.user = {username: '', email: '', searches: 0, watchlists: 0};
+      this.user = {username: '', email: '', searches: 0, watchlists: 0}; // set default values for user
       this.getUser();
     }
     eventService.event.subscribe((data) => {
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
   }
 
-  getUser() {
+  getUser() { // get user and set values to interface
     return this.dataService.get('/user').subscribe(data => {
       if (data.success) {
         this.user = {...data.result, searches: data.result.history.length, watchlists: data.result.movielist.length};
@@ -47,9 +47,9 @@ export class UserComponent implements OnInit {
     });
   }
 
-  signOut() {
+  signOut() { // sign user out of session, deletes token
     this.cookieService.delete('token');
-    this.router.navigate(['/']);
+    this.router.navigate(['/']); // redicret to homepage
   }
 
 }

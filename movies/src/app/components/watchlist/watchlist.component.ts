@@ -24,15 +24,14 @@ export class WatchlistComponent implements OnInit {
   ngOnInit() {
   }
 
-  remove(movie: any) {
+  remove(movie: any) { // remove movie from watchlist
     this.dataService.post('/user/remove', {id: movie.id}).subscribe(data => {
-      console.log(movie.title, 'removed', data);
       this.moviesList = data.result;
-      this.dataService.get('/user').subscribe(res => { //fetch updated movielsit
+      this.dataService.get('/user').subscribe(res => { // fetch updated movielsit
        this.moviesList = res.result.movielist;
-       this.eventService.publish(res.result.movielist.length) //publish changes (movielist length)
+       this.eventService.publish(res.result.movielist.length) // publish changes (movielist length)
       })
-      // snackbar
+      // snackbar notification, confirming removal
       var x = document.getElementById("snackbar")
       x.className = "show";
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
