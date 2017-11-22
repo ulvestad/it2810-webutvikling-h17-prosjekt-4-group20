@@ -55,7 +55,7 @@ module.exports.saveMultipleMovies = array => {
 		if (!array || !array.length) return resolve([])
 		let movies = []
 		await Promise.all(array.map(async m => {
-			if(m.poster_path != null && m.vote_count > 50){ //does not save movies with missing poster_path and low vote count
+			if(m.poster_path != null){ //does not save movies with missing poster_path and low vote count
 				await this.saveMovie(m).then(m => { movies.push(m) }).catch(e => {})
 			}
 		}))
@@ -64,7 +64,6 @@ module.exports.saveMultipleMovies = array => {
 }
 
 /* Suggest movies.titles by regex, returns movies.title promise*/
-// remove duplicates
 module.exports.suggestMovie = (query, n=5) => {
 	const regex = new RegExp(query, 'i')
 	return Movie.find({title: regex}, {title: 1}).sort('-popularity').limit(n).exec()
@@ -80,14 +79,22 @@ module.exports.searchMovie = (query, skip=0, limit=5) => {
 /* popularity :: release_date :: vote_average */
 module.exports.getMovies = (type, skip=0,  limit=5) => {
 	if (type === 'upcoming') return this.getUpcoming(skip, limit)
-	// {vote_average: {$gt: 50}}
-	else return Movie.find().sort(`-${type}`).skip(skip).limit(limit).exec()
+	else return Movie.find({vote_count: {$gt: 10}}).sort(`-${type}`).skip(skip).limit(limit).exec()
 }
+
 /* Get upcoming movies */
-// todo add constraint on vote_average, popularity aswell?
 module.exports.getUpcoming = (skip=0, limit=5) => {
-	const max = util.formatFutureDate(10)
-	// finds movies with release date below max, then sort by release date
-	// can add more eg. {popularity: {$gt: 300}}
-	return Movie.find({release_date: {$gt: max}}).sort('-release_date').skip(skip).limit(limit).exec()
+	const maxDate = util.formatFutureDate(0)
+	return Movie.find({
+		release_date: { $gt: maxDate }, 
+		vote_count: { $gt: 10 }
+	}).sort('-release_date').skip(skip).limit(limit).exec()
 }
+
+/*
+* Admin uuu <3
+*/
+
+module.exports.dumpUsers = () => User.remove({}).exec()
+
+module.exports.dumpMovies = () => Movie.remove({}).exec()
