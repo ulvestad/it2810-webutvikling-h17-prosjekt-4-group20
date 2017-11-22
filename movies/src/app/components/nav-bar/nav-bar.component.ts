@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
