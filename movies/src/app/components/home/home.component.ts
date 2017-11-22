@@ -61,14 +61,18 @@ export class HomeComponent implements OnInit {
 
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => {
+      this.filters = this.resetFilters;
       this.activeButton = 'popular';
       this.update(movies);
       this.current = 'search';
     });
   }
 
+  resetFilters = {'year': {name: 'Year', options: []}, 'genre': {name: 'Genre', options: []}};
+  
+
   ngOnInit() {
-    this.filters = {'year': {name: 'Year', options: []}, 'genre': {name: 'Genre', options: []}};
+    this.filters = this.resetFilters;
     this.filterArray = [];
 
     this.dataService.getGenreList().subscribe(res => {
@@ -174,8 +178,10 @@ export class HomeComponent implements OnInit {
   /* Update the filter values for years when new movies are loaded */
   updateYearFilters(movies) {
     const years = this.yearsFromMovies(movies);
+
     const current_year_filters = this.filters.year.options;
     const currenet_years = current_year_filters.map(filter => filter.name);
+    
     const new_years = years.filter(year => !currenet_years.includes(year));
     const new_year_filters = new_years.map(year => ({
       name: year,
