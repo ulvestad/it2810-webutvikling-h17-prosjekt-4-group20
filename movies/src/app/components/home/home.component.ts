@@ -169,7 +169,7 @@ export class HomeComponent implements OnInit {
 
   update(movies: any) {
     this.movies = movies;
-    console.log(movies)
+    // console.log(movies)
     // update year filters
     const years = this.yearsFromMovies(movies);
     const current_year_filters = this.filters.year.options;
