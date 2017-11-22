@@ -72,11 +72,11 @@ export class NavBarComponent implements OnInit {
         this.input.nativeElement.value = this.searchArrowSelect; //update searchtext
         this.searchArrowSelect = ""; //reset value
       }else{
-        this.query = form.searchString;
+        this.query = this.input.nativeElement.value;
         this.route.navigateByUrl('/');
         this.eventService.current = 'search';
-        this.searchService.search(form.searchString, 0);
-        this.addToHistory(form.searchString);
+        this.searchService.search(this.input.nativeElement.value, 0);
+        this.addToHistory(this.input.nativeElement.value);
       }
     }, 400); //this should probably be change to promise or something
   }
