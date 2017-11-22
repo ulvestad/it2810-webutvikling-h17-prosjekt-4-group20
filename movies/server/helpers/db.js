@@ -13,6 +13,9 @@ module.exports.findUser = username => User.findOne({username: username}).exec()
 /* Save user, return user promise */
 module.exports.saveUser = user => new User(user).save()
 
+/* Returns the number of user documents */
+module.exports.getUserCount = () => User.count({})
+
 /* Add movie to list, no duplicated, returns user promise */
 module.exports.addToMovieList = (user, movie) => {
 	if (user.movielist.find(m => m.id === movie.id)) return user
@@ -42,6 +45,9 @@ module.exports.findMovie = id => Movie.findOne({id: id}).exec()
 
 /* Save movie, return movie promise */
 module.exports.saveMovie = movie => new Movie(movie).save()
+
+/* Returns the number of movie docments */
+module.exports.getMoviesCount = () => Movie.count({})
 
 /* Save multiple, skip if duplicate */
 module.exports.saveMultipleMovies = array => {

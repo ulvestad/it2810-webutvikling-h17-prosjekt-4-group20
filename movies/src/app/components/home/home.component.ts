@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     private router: Router) {
 
     this.page = 0;
-    
+
     // Overrides the background from login/register
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#fff';
@@ -60,8 +60,6 @@ export class HomeComponent implements OnInit {
     /* Listens to changes in changeSearch, triggered after a search */
     this.searchService.changeSearch.subscribe(movies => {
       this.activeButton = 'popular';
-      console.log('MOVIES');
-      console.log(movies);
       this.update(movies);
       this.current = 'search';
     });

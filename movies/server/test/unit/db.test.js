@@ -3,7 +3,7 @@ require('dotenv').config()
 require('./../../../server.js')
 
 const User = require('../../models/user')
-const Movie = require('../../models/newMovie')
+const Movie = require('../../models/movie')
 
 const mock = {
   popular: JSON.parse(require('../mock/popular')).results,
