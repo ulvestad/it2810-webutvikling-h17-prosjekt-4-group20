@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   filterArray: Array<any>;
   isLoggedIn = false; // assume worst
   activeButton: string;
+  moreMoviesLeft: boolean;
 
   constructor(
     private eventService: EventService,
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit {
     private router: Router) {
 
     this.page = 0;
+    this.moreMoviesLeft = true;
 
     // Overrides the background from login/register
     document.body.style.backgroundImage = 'none';
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit {
 
     /* Listens for changes in eventHome */
     eventService.eventHome.subscribe(data => {
+      this.moreMoviesLeft = true;
       this.page = data.page;
       this.current = data.current;
       this.router.navigate(['/']);
@@ -65,6 +68,10 @@ export class HomeComponent implements OnInit {
       this.activeButton = 'popular';
       this.update(movies);
       this.current = 'search';
+      this.moreMoviesLeft = true;
+      if (this.movies) {
+        this.moreMoviesLeft = this.movies.length < 20 ? false : true;
+      }
     });
   }
 
@@ -84,9 +91,14 @@ export class HomeComponent implements OnInit {
   }
 
   onScroll() {
+    if (!this.moreMoviesLeft) {
+      return;
+    }
     this.page = this.page + 1;
     this.dataService.getMovies('/' + this.current, this.page).subscribe(res => {
-      console.log(res);
+      if (res.length === 0) {
+        return this.moreMoviesLeft = false;
+      }
       this.update([...this.movies, ...res]);
     });
   }
@@ -221,6 +233,7 @@ export class HomeComponent implements OnInit {
 
   onFilterChange(event) {
     this.filteredMovies = this.filterList(this.movies);
+    this.moreMoviesLeft = !this.moreMoviesLeft;
   }
 
   /* Set the selected movie to be used by the movie-modal component */ 
