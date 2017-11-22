@@ -1,6 +1,9 @@
 # it2810-webutvikling-h17-prosjekt-4-group20
 
 ## Instructions
+
+Link to webpage: `http://google.com`
+
 1. Install mongodb [mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) [win](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 2. Install node v8+ and npm v5+
 3. Start mongodb: `mongod`
