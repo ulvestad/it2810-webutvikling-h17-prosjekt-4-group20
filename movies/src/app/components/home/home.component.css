@@ -14,21 +14,11 @@ a:hover{
 .container {
   margin-top: 20px;
 }
-.card {
-  margin-top: .3em;
-}
-.fixed {
-  width: 200px;
+.sortBox {
   position: fixed;
 }
-.movies {
-  margin-left: 200px;
-  position: relative;
-  /*overflow: auto;*/
-}
-@media screen and (max-width: 720px) {
-  .fixed {
-    position: static;
+@media screen and (max-width: 770px) {
+  #sidebar {
     display: -webkit-flex; /* Safari */
     -webkit-flex-direction: row; /* Safari 6.1+ */
     display: flex;
@@ -36,18 +26,10 @@ a:hover{
     justify-content: center;
     margin: auto;
   }
-  .movies {
-    margin-left: 0;
-    position: static;
-  }
   .sortBox {
+    position: static;
     margin-left: 50px;
   }
-}
-
-select {
-  color: #0275d8;
-  padding: .3em;
 }
 .buttons {
   margin-bottom: 10px;
