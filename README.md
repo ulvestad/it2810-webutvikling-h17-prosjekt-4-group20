@@ -5,6 +5,8 @@
 We had some issues with the sudo user rights on our virtual machine, and therefore had to 
 put up a heroku app as a temporary fix. The performance might not be as optimal.
 
+Please note that it is running a node backend to serve the angular app - it's just running from a different virtual machine :) 
+
 Please use the following link:
 
 # https://agile-mesa-48209.herokuapp.com/
