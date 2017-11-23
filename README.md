@@ -2,7 +2,7 @@
 
 ## Webpage
 
-Link: http://it2810-20.idi.ntnu.no:8084
+Link: https://agile-mesa-48209.herokuapp.com/
 
 ## Documentation
 
