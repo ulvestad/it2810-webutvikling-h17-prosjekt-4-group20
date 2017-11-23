@@ -3,11 +3,11 @@
 ## Webpage
 
 We had some issues with the sudo user rights on our virtual machine, and therefore had to 
-put up a heroku app as a temporary fix. 
+put up a heroku app as a temporary fix. The performance might not be as optimal.
 
 Please use the following link:
 
-# Link to app: https://agile-mesa-48209.herokuapp.com/
+# https://agile-mesa-48209.herokuapp.com/
 
 ## Documentation
 
