@@ -2,7 +2,12 @@
 
 ## Webpage
 
-Link: https://agile-mesa-48209.herokuapp.com/
+We had some issues with the sudo user rights on our virtual machine, and therefore had to 
+put up a heroku app as a temporary fix. 
+
+Please use the following link:
+
+# Link to app: https://agile-mesa-48209.herokuapp.com/
 
 ## Documentation
 
